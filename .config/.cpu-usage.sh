@@ -1,4 +1,3 @@
 #!/bin/sh
 
-#Requires sysstat
-mpstat | awk 'END{print $4"%"}'
+top -b -n 10 -d.2 | grep 'Cpu' |  awk 'NR==3{ print($2)" % " }'
