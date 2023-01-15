@@ -10,6 +10,7 @@ Personal collection of dotfiles and theme configs
 - `.config/alacritty/*` -- theme config for [alacritty](https://github.com/alacritty/alacritty) terminal. 
 - `.config/rofi/*` -- theme config for [rofi](https://github.com/davatorium/rofi) menu.
 - `.config/gtk-3.0/*` -- gui style overrides.
+- `.config/xfce/**/*` -- xfce config files.
 
 ---
 ### Requirements
