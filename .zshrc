@@ -1,9 +1,31 @@
+neofetch | lolcat
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# git repository greeter
+last_repository = check_directory_for_new_repository() {
+	current_repository=$(git rev-parse --show-toplevel 2> /dev/null)
+
+	if [ "$current_repository" ] && \
+	   [ "$current_repository" != "$last_repository" ]; then
+		onefetch
+  fi
+	last_repository=$current_repository
+}
+
+cd() {
+	builtin cd "$@"
+  	check_directory_for_new_repository
+}
+
+# Alsoy Wy when opening shell directly in repository directory
+# adds time to startup
+check_directory_for_new_repository
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -17,6 +39,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="nerdfont-complete"
+POWERLEVEL9K_INSTANT_PROMPT="off"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -126,3 +149,10 @@ export PATH=$PATH:/home/iivanovw7/.git-semantic-commits:$PATH
 
 export FZF_DEFAULT_COMMAND='fdfind --type f'
 export FZF_DEFAULT_OPTS="--layout=reverse --inline-info --height=80%"
+
+# pnpm
+export PNPM_HOME="/home/iivanovw7/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+export NODE_OPTIONS="--max-old-space-size=8192"

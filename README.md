@@ -9,9 +9,11 @@ Personal collection of dotfiles and theme configs
 - `.fonts/*` -- contains custom fonts for terminal and etc.
 - `.config/alacritty/*` -- theme config for [alacritty](https://github.com/alacritty/alacritty) terminal. 
 - `.config/rofi/*` -- theme config for [rofi](https://github.com/davatorium/rofi) menu.
+- `.config/gtk-2.0/*` -- gui style overrides.
 - `.config/gtk-3.0/*` -- gui style overrides.
 - `.config/xfce/**/*` -- xfce config files.
-
+- `.config/i3/*` -- window manager config.
+- `.config/polybar/*` -- polybar config.
 ---
 ### Requirements
 Some packages should be installed in the system previously:
