@@ -11,7 +11,7 @@
 set $mod Mod4
 
 # Hide titlebar
-new_window pixel
+# new_window pixel
 
 # Font for window titles.
 font pango: SauceCodePro Nerd Font 10
@@ -70,13 +70,20 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Ctrl+f floating toggle
 
 # Change focus between tiling / floating windows
-bindsym $mod+Alt+s focus mode_toggle
+bindsym $mod+Ctrl+s focus mode_toggle
 
 # Focus the parent container
 bindsym $mod+a focus parent
 
 # Stick window on all workspaces
 bindsym $mod+Ctrl+t sticky toggle
+
+# window styles
+# new_window none
+
+# next previous workspace
+bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+Tab workspace next
 
 # Name the workspaces
 set $workspace1 1
@@ -115,12 +122,16 @@ bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace0
 
 # Always open some programs on specified workspace
-#assign [class="^Slack"] $workspace1
-#assign [class="^Telegram"] $workspace1
-#assign [class="^Webstorm"] $workspace2
-#assign [class="^Firefox Developer Edition"] $workspace7
-#assign [class="^Chromium"] $workspace6
-#assign [class="^Thunderbird"] $workspace9
+assign [class="^Slack"] $workspace1
+assign [class="^Telegram"] $workspace1
+assign [class="^Webstorm"] $workspace2
+assign [class="^Firefox Developer Edition"] $workspace7
+assign [class="^Chromium"] $workspace6
+assign [class="^Thunderbird"] $workspace1
+assign [class="^Emacs"] $workspace2
+assign [class="^Firefox"] $workspace9
+assign [class="^Alacritty"] $workspace4
+
 
 # Enable float for some windows
 for_window [class="^Pavucontrol$"]  floating enable
@@ -190,16 +201,17 @@ mode "$mode_system"
 bindsym $mod+BackSpace mode "$mode_system"
 
 # class                 border  bground text    indicator child_border
-client.focused          #9A76B0 #9A76B0 #F8F8F2 #6272A4   #9A76B0
-client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #282A36
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 
 for_window [class="Arandr"] floating enable
+focus_follows_mouse yes
 
-set $mode_display Displays (s) primary only, (d) primary + secondary
+SET $mode_display Displays (s) primary only, (d) primary + secondary
 
 mode "$mode_display"
 {
