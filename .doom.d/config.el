@@ -1,60 +1,88 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Igor Ivanov"
       user-mail-address "9iiiuk@gmail@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-dracula)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
-(setq doom-theme 'doom-dracula)
+(beacon-mode 1)
 
 (map! :leader
-      :desc "Load new theme" "h t" #'counsel-load-theme)
+      (:prefix ("b". "buffer")
+       :desc "List bookmarks" "L" #'list-bookmarks
+       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
 
-;; MOUSE SUPPORT
-(xterm-mouse-mode 1)
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
 
-;; EMOJIFY
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
+(evil-define-key 'normal ibuffer-mode-map
+  (kbd "f c") 'ibuffer-filter-by-content
+  (kbd "f d") 'ibuffer-filter-by-directory
+  (kbd "f f") 'ibuffer-filter-by-filename
+  (kbd "f m") 'ibuffer-filter-by-mode
+  (kbd "f n") 'ibuffer-filter-by-name
+  (kbd "f x") 'ibuffer-filter-disable
+  (kbd "g h") 'ibuffer-do-kill-lines
+  (kbd "g H") 'ibuffer-update)
 
-;; CENTAUR TABS
+;; https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
+(defun dt/year-calendar (&optional year)
+  (interactive)
+  (require 'calendar)
+  (let* (
+      (current-year (number-to-string (nth 5 (decode-time (current-time)))))
+      (month 0)
+      (year (if year year (string-to-number (format-time-string "%Y" (current-time))))))
+    (switch-to-buffer (get-buffer-create calendar-buffer))
+    (when (not (eq major-mode 'calendar-mode))
+      (calendar-mode))
+    (setq displayed-month month)
+    (setq displayed-year year)
+    (setq buffer-read-only nil)
+    (erase-buffer)
+    ;; horizontal rows
+    (dotimes (j 4)
+      ;; vertical columns
+      (dotimes (i 3)
+        (calendar-generate-month
+          (setq month (+ month 1))
+          year
+          ;; indentation / spacing between months
+          (+ 5 (* 25 i))))
+      (goto-char (point-max))
+      (insert (make-string (- 10 (count-lines (point-min) (point-max))) ?\n))
+      (widen)
+      (goto-char (point-max))
+      (narrow-to-region (point-max) (point-max)))
+    (widen)
+    (goto-char (point-min))
+    (setq buffer-read-only t)))
+
+(defun dt/scroll-year-calendar-forward (&optional arg event)
+  "Scroll the yearly calendar by year in a forward direction."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+                     last-nonmenu-event))
+  (unless arg (setq arg 0))
+  (save-selected-window
+    (if (setq event (event-start event)) (select-window (posn-window event)))
+    (unless (zerop arg)
+      (let* (
+              (year (+ displayed-year arg)))
+        (dt/year-calendar year)))
+    (goto-char (point-min))
+    (run-hooks 'calendar-move-hook)))
+
+(defun dt/scroll-year-calendar-backward (&optional arg event)
+  "Scroll the yearly calendar by year in a backward direction."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+                     last-nonmenu-event))
+  (dt/scroll-year-calendar-forward (- (or arg 1)) event))
+
+(map! :leader
+      :desc "Scroll year calendar backward" "<left>" #'dt/scroll-year-calendar-backward
+      :desc "Scroll year calendar forward" "<right>" #'dt/scroll-year-calendar-forward)
+
+(defalias 'year-calendar 'dt/year-calendar)
+
+(use-package! calfw)
+(use-package! calfw-org)
+
 (setq centaur-tabs-set-bar 'over
       centaur-tabs-set-icons t
       centaur-tabs-gray-out-icons 'buffer
@@ -69,13 +97,12 @@
                                                (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
                                                (kbd "g <down>")  'centaur-tabs-forward-group
                                                (kbd "g <up>")    'centaur-tabs-backward-group)
-;; CLIPPY
+
 (map! :leader
       (:prefix ("c h" . "Help info from Clippy")
        :desc "Clippy describes function under point" "f" #'clippy-describe-function
        :desc "Clippy describes variable under point" "v" #'clippy-describe-variable))
 
-;;DASHBOARD
 (use-package dashboard
   :init      ;; tweak dashboard config before loading it
   (setq dashboard-set-heading-icons t)
@@ -102,7 +129,6 @@ List of keybindings (SPC h b b)")
 
 (setq doom-fallback-buffer-name "*dashboard*")
 
-;; DIRED
 (map! :leader
       (:prefix ("d" . "dired")
        :desc "Open dired" "d" #'dired
@@ -115,7 +141,6 @@ List of keybindings (SPC h b b)")
 (evil-define-key 'normal dired-mode-map
   (kbd "M-RET") 'dired-display-file
   (kbd "h") 'dired-up-directory
-  (kbd "Backspace") 'dired-up-directory
   (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
   (kbd "m") 'dired-mark
   (kbd "t") 'dired-toggle-marks
@@ -145,11 +170,23 @@ List of keybindings (SPC h b b)")
                               ("mkv" . "mpv")
                               ("mp4" . "mpv")))
 
-;; TRASH
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "<down>") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file
+  (kbd "<up>") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+
 (setq delete-by-moving-to-trash t
       trash-directory "~/.local/share/Trash/files/")
 
-;; NOTREE
+(setq doom-theme 'doom-dracula)
+(map! :leader
+      :desc "Load new theme" "h t" #'counsel-load-theme)
+
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
+
 (after! neotree
   (setq neo-smart-open t
         neo-window-fixed-size nil))
@@ -158,35 +195,3 @@ List of keybindings (SPC h b b)")
 (map! :leader
       :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
       :desc "Open directory in neotree" "d n" #'neotree-dir)
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.

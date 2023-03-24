@@ -66,8 +66,13 @@ bindsym $mod+Ctrl+s focus mode_toggle
 # Focus the parent container
 bindsym $mod+a focus parent
 
+# Focus child container
+bindsym $mod+z focus child
+
 # Stick window on all workspaces
 bindsym $mod+Ctrl+t sticky toggle
+
+bindsym $mod+b workspace back_and_forth
 
 # window styles
 # new_window none
@@ -119,9 +124,11 @@ assign [class="^Webstorm"] $workspace2
 assign [class="^Firefox Developer Edition"] $workspace7
 assign [class="^Chromium"] $workspace6
 assign [class="^Thunderbird"] $workspace1
-assign [class="^Emacs"] $workspace2
+# assign [class="^Emacs"] $workspace2
 assign [class="^Firefox"] $workspace9
+assign [class="^Brave"] $workspace9
 assign [class="^Alacritty"] $workspace4
+assign [class="^Discord"] $workspace0
 
 
 # Enable float for some windows
@@ -177,10 +184,10 @@ set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) re
 
 mode "$mode_system"
 {
-    bindsym l exec --no-startup-id $i3lockwall, mode "default"
+    bindsym l exec --no-startup-id xflock4, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $i3lockwall && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $i3lockwall && systemctl hibernate, mode "default"
+    bindsym s exec --no-startup-id xflock4 && systemctl suspend, mode "default"
+    # bindsym h exec --no-startup-id light-locker-command --lock && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
@@ -192,9 +199,9 @@ mode "$mode_system"
 bindsym $mod+BackSpace mode "$mode_system"
 
 # class                 border  bground text    indicator child_border
-client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused          #9A76B3 #9A76B3 #F8F8F2 #9A76B3   #9A76B3
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
-client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.unfocused        #44475A #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
@@ -222,8 +229,11 @@ bindsym $mod+x mode "$mode_display"
 # exec --no-startup-id betterlockscreen -w dim
 # exec --no-startup-id picom --config ~/.config/picom/picom.conf
 
-#Polybar
+# Polybar
 exec_always --no-startup-id sh $HOME/.config/polybar/launch.sh
+
+# Conky
+exec_always --no-startup-id sh $HOME/.conky/widgets-startup.sh
 
 # Restore GNOME's settings
 exec_always --no-startup-id /usr/libexec/gnome-settings-daemon-localeexec
@@ -232,9 +242,11 @@ exec_always --no-startup-id /usr/libexec/gnome-settings-daemon-localeexec
 exec_always --no-startup-id dconf write /org/gnome/settings-daemon/plugins/cursor/active false
 
 #Keyboard Layout
-exec_always --no-startup-id setxkbmap -layout us,ru
-exec_always --no-startup-id setxkbmap -option "grp:win_space_toggle"
+# exec_always --no-startup-id setxkbmap -option "grp:win_space_toggle"
 
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id xfce4-power-manager
 exec_always --no-startup-id flameshot
+exec_always --no-startup-id light-locker
+
+exec_always --no-startup-id setxkbmap -layout us,ru -option "grp:win_space_toggle"

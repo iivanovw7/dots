@@ -1,0 +1,382 @@
+(setq debug-on-error t)
+
+* USER
+#+begin_src emacs-lisp
+(setq user-full-name "Igor Ivanov"
+      user-mail-address "9iiiuk@gmail@gmail.com")
+#+end_src
+
+* BEACON
+Never lose your cursor.  When you scroll, your cursor will shine!  This is a global minor-mode. Turn it on everywhere with:
+
+#+begin_src emacs-lisp
+(beacon-mode 1)
+#+end_src
+
+* BOOKMARKS AND BUFFERS
+Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.
+
+** Bookmarks
+Bookmarks are somewhat like registers in that they record positions you can jump to.  Unlike registers, they have long names, and they persist automatically from one Emacs session to the next. The prototypical use of bookmarks is to record where you were reading in various files.
+
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      (:prefix ("b". "buffer")
+       :desc "List bookmarks" "L" #'list-bookmarks
+       :desc "Save current bookmarks to bookmark file" "w" #'bookmark-save))
+#+END_SRC
+
+** Buffers
+Regarding /buffers/, the text you are editing in Emacs resides in an object called a /buffer/. Each time you visit a file, a buffer is used to hold the file’s text. Each time you invoke Dired, a buffer is used to hold the directory listing.  /Ibuffer/ is a program that lists all of your Emacs /buffers/, allowing you to navigate between them and filter them.
+
+| COMMAND         | DESCRIPTION          | KEYBINDING |
+|-----------------+----------------------+------------|
+| ibuffer         | Launch ibuffer       | SPC b i    |
+| kill-buffer     | Kill current buffer  | SPC b k    |
+| next-buffer     | Goto next buffer     | SPC b n    |
+| previous-buffer | Goto previous buffer | SPC b p    |
+| save-buffer     | Save current buffer  | SPC b s    |
+
+** Global Auto Revert
+A buffer can get out of sync with respect to its visited file on disk if that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with 'global-auto-revert-mode'.  I have also turned on Global Auto Revert on non-file buffers, which is especially useful for 'dired' buffers.
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+#+end_src
+
+** Keybindings within ibuffer mode
+| COMMAND                           | DESCRIPTION                            | KEYBINDING |
+|-----------------------------------+----------------------------------------+------------|
+| ibuffer-mark-forward              | Mark the buffer                        | m          |
+| ibuffer-unmark-forward            | Unmark the buffer                      | u          |
+| ibuffer-do-kill-on-deletion-marks | Kill the marked buffers                | x          |
+| ibuffer-filter-by-content         | Ibuffer filter by content              | f c        |
+| ibuffer-filter-by-directory       | Ibuffer filter by directory            | f d        |
+| ibuffer-filter-by-filename        | Ibuffer filter by filename (full path) | f f        |
+| ibuffer-filter-by-mode            | Ibuffer filter by mode                 | f m        |
+| ibuffer-filter-by-name            | Ibuffer filter by name                 | f n        |
+| ibuffer-filter-disable            | Disable ibuffer filter                 | f x        |
+| ibuffer-do-kill-lines             | Hide marked buffers                    | g h        |
+| ibuffer-update                    | Restore hidden buffers                 | g H        |
+
+#+begin_src emacs-lisp
+(evil-define-key 'normal ibuffer-mode-map
+  (kbd "f c") 'ibuffer-filter-by-content
+  (kbd "f d") 'ibuffer-filter-by-directory
+  (kbd "f f") 'ibuffer-filter-by-filename
+  (kbd "f m") 'ibuffer-filter-by-mode
+  (kbd "f n") 'ibuffer-filter-by-name
+  (kbd "f x") 'ibuffer-filter-disable
+  (kbd "g h") 'ibuffer-do-kill-lines
+  (kbd "g H") 'ibuffer-update)
+#+end_src
+
+* CALENDAR
+Let's make a 12-month calendar available so we can have a calendar app that, when we click on time/date in xmobar, we get a nice 12-month calendar to view.
+
+This is a modification of: http://homepage3.nifty.com/oatu/emacs/calendar.html
+See also: https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
+
+#+begin_src emacs-lisp
+;; https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
+(defun dt/year-calendar (&optional year)
+  (interactive)
+  (require 'calendar)
+  (let* (
+      (current-year (number-to-string (nth 5 (decode-time (current-time)))))
+      (month 0)
+      (year (if year year (string-to-number (format-time-string "%Y" (current-time))))))
+    (switch-to-buffer (get-buffer-create calendar-buffer))
+    (when (not (eq major-mode 'calendar-mode))
+      (calendar-mode))
+    (setq displayed-month month)
+    (setq displayed-year year)
+    (setq buffer-read-only nil)
+    (erase-buffer)
+    ;; horizontal rows
+    (dotimes (j 4)
+      ;; vertical columns
+      (dotimes (i 3)
+        (calendar-generate-month
+          (setq month (+ month 1))
+          year
+          ;; indentation / spacing between months
+          (+ 5 (* 25 i))))
+      (goto-char (point-max))
+      (insert (make-string (- 10 (count-lines (point-min) (point-max))) ?\n))
+      (widen)
+      (goto-char (point-max))
+      (narrow-to-region (point-max) (point-max)))
+    (widen)
+    (goto-char (point-min))
+    (setq buffer-read-only t)))
+
+(defun dt/scroll-year-calendar-forward (&optional arg event)
+  "Scroll the yearly calendar by year in a forward direction."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+                     last-nonmenu-event))
+  (unless arg (setq arg 0))
+  (save-selected-window
+    (if (setq event (event-start event)) (select-window (posn-window event)))
+    (unless (zerop arg)
+      (let* (
+              (year (+ displayed-year arg)))
+        (dt/year-calendar year)))
+    (goto-char (point-min))
+    (run-hooks 'calendar-move-hook)))
+
+(defun dt/scroll-year-calendar-backward (&optional arg event)
+  "Scroll the yearly calendar by year in a backward direction."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+                     last-nonmenu-event))
+  (dt/scroll-year-calendar-forward (- (or arg 1)) event))
+
+(map! :leader
+      :desc "Scroll year calendar backward" "<left>" #'dt/scroll-year-calendar-backward
+      :desc "Scroll year calendar forward" "<right>" #'dt/scroll-year-calendar-forward)
+
+(defalias 'year-calendar 'dt/year-calendar)
+#+end_src
+
+Let's also play around with calfw.
+#+begin_src emacs-lisp
+(use-package! calfw)
+(use-package! calfw-org)
+#+end_src
+
+* CENTAUR-TABS
+To use tabs in Doom Emacs, be sure to uncomment "tabs" in Doom's init.el.  Displays tabs at the top of the window similar to tabbed web browsers such as Firefox.  I don't actually use tabs in Emacs.  I placed this in my config to help others who may want tabs.  In the default configuration of Doom Emacs, 'SPC t' is used for "toggle" keybindings, so I choose 'SPC t c' to toggle centaur-tabs.  The "g" prefix for keybindings is used for a bunch of evil keybindings in Doom, but "g" plus the arrow keys were not used, so I thought I would bind those for tab navigation.  But I did leave the default "g t" and "g T" intact if you prefer to use those for centaur-tabs-forward/backward.
+
+| COMMAND                     | DESCRIPTION               | KEYBINDING       |
+|-----------------------------+---------------------------+------------------|
+| centaur-tabs-mode           | /Toggle tabs globally/      | SPC t c          |
+| centaur-tabs-local-mode     | /Toggle tabs local display/ | SPC t C          |
+| centaur-tabs-forward        | /Next tab/                  | g <right> or g t |
+| centaur-tabs-backward       | /Previous tab/              | g <left> or g T  |
+| centaur-tabs-forward-group  | /Next tab group/            | g <down>         |
+| centaur-tabs-backward-group | /Previous tab group/        | g <up>           |
+
+#+BEGIN_SRC emacs-lisp
+(setq centaur-tabs-set-bar 'over
+      centaur-tabs-set-icons t
+      centaur-tabs-gray-out-icons 'buffer
+      centaur-tabs-height 24
+      centaur-tabs-set-modified-marker t
+      centaur-tabs-style "bar"
+      centaur-tabs-modified-marker "•")
+(map! :leader
+      :desc "Toggle tabs globally" "t c" #'centaur-tabs-mode
+      :desc "Toggle tabs local display" "t C" #'centaur-tabs-local-mode)
+(evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
+                                               (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
+                                               (kbd "g <down>")  'centaur-tabs-forward-group
+                                               (kbd "g <up>")    'centaur-tabs-backward-group)
+#+END_SRC
+
+* CLIPPY
+Gives us a popup box with "Clippy, the paper clip". You can make him say various things by calling 'clippy-say' function.  But the more useful functions of clippy are the two describe functions provided: 'clippy-describe-function' and 'clippy-describe-variable'.  Hit the appropriate keybinding while the point is over a function/variable to call it.  A popup with helpful clippy will appear, telling you about the function/variable (using describe-function and describe-variable respectively).
+
+| COMMAND                  | DESCRIPTION                           | KEYBINDING |
+|--------------------------+---------------------------------------+------------|
+| clippy-describe-function | /Clippy describes function under point/ | SPC c h f  |
+| clippy-describe-variable | /Clippy describes variable under point/ | SPC c h v  |
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("c h" . "Help info from Clippy")
+       :desc "Clippy describes function under point" "f" #'clippy-describe-function
+       :desc "Clippy describes variable under point" "v" #'clippy-describe-variable))
+
+#+end_src
+
+* DASHBOARD
+Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
+
+** Configuring Dashboard
+#+begin_src emacs-lisp
+(use-package dashboard
+  :init      ;; tweak dashboard config before loading it
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-banner-logo-title "\nKEYBINDINGS:\
+\nFind file               (SPC .)     \
+Open buffer list    (SPC b i)\
+\nFind recent files       (SPC f r)   \
+Open the eshell     (SPC e s)\
+\nOpen dired file manager (SPC d d)   \
+List of keybindings (SPC h b b)")
+  ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+  (setq dashboard-startup-banner "~/.config/doom/doom-emacs-dash.png")  ;; use custom image as banner
+  (setq dashboard-center-content nil) ;; set to 't' for centered content
+  (setq dashboard-items '((recents . 5)
+                          (agenda . 5 )
+                          (bookmarks . 5)
+                          (projects . 5)
+                          (registers . 5)))
+  :config
+  (dashboard-setup-startup-hook)
+  (dashboard-modify-heading-icons '((recents . "file-text")
+                                    (bookmarks . "book"))))
+#+end_src
+
+** Dashboard in Emacsclient
+This setting ensures that emacsclient always opens on *dashboard* rather than *scratch*.
+#+begin_src emacs-lisp
+(setq doom-fallback-buffer-name "*dashboard*")
+#+end_src
+
+* DIRED
+Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).  Doom Emacs does not use 'SPC d' for any of its keybindings, so I've chosen the format of 'SPC d' plus 'key'.
+
+** Keybindings To Open Dired
+
+| COMMAND    | DESCRIPTION                        | KEYBINDING |
+|------------+------------------------------------+------------|
+| dired      | /Open dired file manager/            | SPC d d    |
+| dired-jump | /Jump to current directory in dired/ | SPC d j    |
+
+** Keybindings Within Dired
+*** Basic dired commands
+
+| COMMAND                 | DESCRIPTION                                 | KEYBINDING |
+|-------------------------+---------------------------------------------+------------|
+| dired-view-file         | /View file in dired/                          | SPC d v    |
+| dired-up-directory      | /Go up in directory tree/                     | h          |
+| dired-find-file         | /Go down in directory tree (or open if file)/ | l          |
+| dired-next-line         | Move down to next line                      | j          |
+| dired-previous-line     | Move up to previous line                    | k          |
+| dired-mark              | Mark file at point                          | m          |
+| dired-unmark            | Unmark file at point                        | u          |
+| dired-do-copy           | Copy current file or marked files           | C          |
+| dired-do-rename         | Rename current file or marked files         | R          |
+| dired-hide-details      | Toggle detailed listings on/off             | (          |
+| dired-git-info-mode     | Toggle git information on/off               | )          |
+| dired-create-directory  | Create new empty directory                  | +          |
+| dired-diff              | Compare file at point with another          | =          |
+| dired-subtree-toggle    | Toggle viewing subtree at point             | TAB        |
+
+*** Dired commands using regex
+
+| COMMAND                 | DESCRIPTION                | KEYBINDING |
+|-------------------------+----------------------------+------------|
+| dired-mark-files-regexp | Mark files using regex     | % m        |
+| dired-do-copy-regexp    | Copy files using regex     | % C        |
+| dired-do-rename-regexp  | Rename files using regex   | % R        |
+| dired-mark-files-regexp | Mark all files using regex | * %        |
+
+*** File permissions and ownership
+
+| COMMAND         | DESCRIPTION                      | KEYBINDING |
+|-----------------+----------------------------------+------------|
+| dired-do-chgrp  | Change the group of marked files | g G        |
+| dired-do-chmod  | Change the mode of marked files  | M          |
+| dired-do-chown  | Change the owner of marked files | O          |
+| dired-do-rename | Rename file or all marked files  | R          |
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+      (:after dired
+       (:map dired-mode-map
+        :desc "Peep-dired image previews" "d p" #'peep-dired
+        :desc "Dired view file" "d v" #'dired-view-file)))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-up-directory
+  (kbd "% l") 'dired-downcase
+  (kbd "% u") 'dired-upcase
+  (kbd "; d") 'epa-dired-do-decrypt
+  (kbd "; e") 'epa-dired-do-encrypt)
+;; Get file icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; With dired-open plugin, you can launch external programs for certain extensions
+;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
+(setq dired-open-extensions '(("gif" . "sxiv")
+                              ("jpg" . "sxiv")
+                              ("png" . "sxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
+#+end_src
+
+** Keybindings Within Dired With Peep-Dired-Mode Enabled
+If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
+
+| COMMAND              | DESCRIPTION                              | KEYBINDING |
+|----------------------+------------------------------------------+------------|
+| peep-dired           | /Toggle previews within dired/             | SPC d p    |
+| peep-dired-next-file | /Move to next file in peep-dired-mode/     | j          |
+| peep-dired-prev-file | /Move to previous file in peep-dired-mode/ | k          |
+
+#+BEGIN_SRC emacs-lisp
+(evil-define-key 'normal peep-dired-mode-map
+  (kbd "j") 'peep-dired-next-file
+  (kbd "<down>") 'peep-dired-next-file
+  (kbd "k") 'peep-dired-prev-file
+  (kbd "<up>") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+#+END_SRC
+
+** Making deleted files go to trash can
+#+begin_src emacs-lisp
+(setq delete-by-moving-to-trash t
+      trash-directory "~/.local/share/Trash/files/")
+#+end_src
+
+* DOOM THEME
+Setting the theme to doom-one.  To try out new themes, I set a keybinding for counsel-load-theme with 'SPC h t'.
+
+#+BEGIN_SRC emacs-lisp
+(setq doom-theme 'doom-dracula)
+(map! :leader
+      :desc "Load new theme" "h t" #'counsel-load-theme)
+#+END_SRC
+
+
+* EMOJIS
+Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
+
+#+begin_src emacs-lisp
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
+#+end_src
+
+#+RESULTS:
+| doom-init-fonts-h | doom-init-theme-h | global-emojify-mode | #[0 \300 \207 [dashboard-insert-startupify-lists] 1] | org-persist-load-all | x-wm-set-size-hint | doom-init-local-var-hooks-h | doom--reset-inhibited-vars-h | tramp-register-archive-file-name-handler | magit-maybe-define-global-key-bindings | table--make-cell-map |
+
+* NEOTREE
+Neotree is a file tree viewer.  When you open neotree, it jumps to the current file thanks to neo-smart-open.  The neo-window-fixed-size setting makes the neotree width be adjustable.  Doom Emacs had no keybindings set for neotree.  Since Doom Emacs uses 'SPC t' for 'toggle' keybindings, I used 'SPC t n' for toggle-neotree.
+
+| COMMAND        | DESCRIPTION               | KEYBINDING |
+|----------------+---------------------------+------------|
+| neotree-toggle | /Toggle neotree/            | SPC t n    |
+| neotree- dir   | /Open directory in neotree/ | SPC d n    |
+
+#+BEGIN_SRC emacs-lisp
+(after! neotree
+  (setq neo-smart-open t
+        neo-window-fixed-size nil))
+(after! doom-themes
+  (setq doom-neotree-enable-variable-pitch t))
+(map! :leader
+      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
+      :desc "Open directory in neotree" "d n" #'neotree-dir)
+#+END_SRC
