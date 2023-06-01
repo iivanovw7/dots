@@ -6,29 +6,32 @@ killall -q polybar & sleep 1;
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-xrandr --output eDP1 --primary & sleep 1;
+xrandr --output eDP-1 --primary & sleep 1;
 
 desktop=$(echo $DESKTOP_SESSION)
 
 case $desktop in
-  i3)
+  xmonad)
   if type "xrandr" > /dev/null; then
     outputs=$(xrandr --query | grep " connected" | cut -d" " -f1)
 
     if wc -w <<< $output == 1
     then
-      MONIddTOR=$m polybar --reload primary -c ~/.config/polybar/bar-primary.ini &
+      #MONITOR=$m polybar --reload mainbar-xmonad -c ~/.config/polybar/config.ini &
+      MONITOR=$m polybar --reload primary -c ~/.config/polybar/bar-primary.ini &
       MONITOR=$m polybar --reload primary-bottom -c ~/.config/polybar/bar-primary-bottom.ini &
     else
       xrandr --output DP2-1 --auto --right-of eDP1 &
 
       for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-        if [ $m == "eDP1" ]
+        if [ $m == "eDP-1" ]
         then
+          #MONITOR=$m polybar --reload mainbar-xmonad -c ~/.config/polybar/config.ini &
           MONITOR=$m polybar --reload primary -c ~/.config/polybar/bar-primary.ini &
           MONITOR=$m polybar --reload primary-bottom -c ~/.config/polybar/bar-primary-bottom.ini &
-        elif [ $m == "DP2-1" ]
+        elif [ $m == "DP-2-1" ]
         then
+          #MONITOR=$m polybar --reload mainbar-xmonad -c ~/.config/polybar/config.ini &
           MONITOR=$m polybar --reload secondary -c ~/.config/polybar/bar-secondary.ini &
         fi
       done

@@ -7,6 +7,15 @@
 # Template
 # https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 
+# Font config:
+Font:
+    # Normal (roman):
+    normal:
+        family: MesloLGS NF
+
+env:
+  WINIT_X11_SCALE_FACTOR: "1.1"
+
 colors:
   primary:
     background: '#282a36'

@@ -14,25 +14,34 @@ Personal collection of dotfiles and theme configs
 - `.config/xfce/**/*` -- xfce config files.
 - `.config/i3/*` -- window manager config.
 - `.config/polybar/*` -- polybar config.
+- 
 ---
 ### Requirements
-Some packages should be installed in the system previously:
+Some optional packages maybe be installed in the system previously:
 - nvm
 - zsh
 - git
 - alacritty
 - rofi
 - emacs
+- i3
+- polybar
+- xmonad
 
 ---
 ### Some useful commands
 
+##### ISO
+[Arch Linux Calamares Installer](https://alci.online/downloads/)
+
 ##### Install `git`, `nvm` and `yay` helper.
 ```bash
-sudo pacman -Syyu git --needed base-devel
-sudo pacman -Syyu yay
-yay -Syyu --devel --timeupdate
-sudo pacman -Syyu nvm
+sudo pacman -Syyu
+sudo pacman -S git --needed base-devel
+# https://github.com/Jguer/yay
+sudo pacman -S yay
+yay -S --devel --timeupdate
+sudo pacman -S nvm
 ```
 
 ##### Install [git-semantic-commits](https://github.com/fteem/git-semantic-commits)

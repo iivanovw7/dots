@@ -1,6 +1,6 @@
 #!/bin/bash
 pac=$(checkupdates | wc -l 2> /dev/null)
-aur=$(yay -u | wc -l 2> /dev/null)
+aur=$(yay -S | wc -l 2> /dev/null)
 
 check=$((pac + aur))
 

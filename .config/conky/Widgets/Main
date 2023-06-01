@@ -14,24 +14,24 @@ conky.config = {
 
 	-- Placement (Conky on MIDDLE of THREE monitors at 1920x1080)
 	--alignment = 'top_left',		                -- top_left,top_middle,top_right,bottom_left,bottom_middle,bottom_right,
-	--gap_x = 3900,                               -- pixels between right or left border
+	--gap_x = 3540,                               -- pixels between right or left border
 	--gap_y = 70,									-- pixels between bottom or left border
 
     -- Placement (For SINGLE monitor users!)
 	alignment = 'top_right',		            -- top_left,top_middle,top_right,bottom_left,bottom_middle,bottom_right,
-	gap_x = 400,								-- pixels between right or left border
+	gap_x = 50,								-- pixels between right or left border
 	gap_y = 80,								-- pixels between bottom or left border
 
     -- Size
     minimum_height = 200,						-- minimum height of window
-	minimum_width = 330,						-- minimum width of window
-	maximum_width = 330,						-- maximum width of window
+	minimum_width = 300,						-- minimum width of window
+	maximum_width = 300,						-- maximum width of window
 
 	--Graphical
 	border_inner_margin = 5, 					-- margin between border and text
 	border_outer_margin = 5, 					-- margin between border and edge of window
 	border_width = 0, 							-- border width in pixels
-	default_bar_width = 330,					-- default is 0 - full width
+	default_bar_width = 300,					-- default is 0 - full width
 	default_bar_height = 10,					-- default is 6
 	default_gauge_height = 25,					-- default is 25
 	default_gauge_width = 40,					-- default is 40
@@ -82,40 +82,50 @@ conky.config = {
 };
 
 conky.text = [[
-${voffset 5}${color0}${font4}EMACS${font}${color}
+${voffset 2}${color2}${font3}MSK ${color}${color1}${tztime Europe/Moscow %l:%M %p}${color}${alignr}${color2}TH ${color}${color1}${tztime Asia/Bangkok %l:%M %p}${font}${color}
+${voffset 4}${font2}${alignc}${color0}${time %l:%M %p}${font}
+${alignc}${voffset 6}${color0}${font3}${time %b %d, %Y}${font}${color}
+${font}${voffset 4}${color1}${hr}
+${alignr}${voffset 18}${goto 12}${color3}CPU${goto 50}$cpu%
+${color2}${goto 12}${cpubar 8,298}
+${voffset 5}${goto 12}$font${color1}${top name 1}$alignr$color${top cpu 1}%
+${goto 12}${color1}${top name 2}$alignr$color${top cpu 2}%
+${goto 12}${color1}${top name 3}$alignr$color${top cpu 3}%
+${goto 12}${color1}${top name 4}$alignr$color${top cpu 4}%
+${goto 12}${color1}${top name 5}$alignr$color${top cpu 5}%
+${goto 12}${color1}${top name 6}$alignr$color${top cpu 6}%
+${goto 12}${color1}${top name 7}$alignr$color${top cpu 7}%
+${voffset 14}${goto 12}${color3}RAM${goto 50}$mem/$memmax
+${color2}${goto 12}${membar 8,298}${color}
+${goto 12}${voffset 5}${color1}${top_mem name 1}$alignr$color${top_mem mem_res 1}
+${goto 12}${color1}${top_mem name 2}$alignr$color${top_mem mem_res 2}
+${goto 12}${color1}${top_mem name 3}$alignr$color${top_mem mem_res 3}
+${goto 12}${color1}${top_mem name 4}$alignr$color${top_mem mem_res 4}
+${goto 12}${color1}${top_mem name 5}$alignr$color${top_mem mem_res 5}
+${voffset 18}${color0}${font4}XMONAD${font}${color}
 ${color1}${hr}${color}
-${color1}C-<key> ${alignr}${color2}Control, and press ${color0}<key> ${color}
-${color1}M-<key> ${alignr}${color2}Esc once, and press ${color0}<key> ${color}
-${voffset 8}${color0}${font4}YANK${font}${color}
-${color1}${hr}${color}
-${color1}SPC h r r ${alignr}${color2}Reload config${color}
-${color1}Ctrl+SPC ${alignr}${color2}Select region mode${color}
-${color1}M-w ${alignr}${color2}Copy region${color}
-${color1}M-y ${alignr}${color2}Cycle throgh kill-ring${color}
-${color1}C-k ${alignr}${color2}Kill line${color}
-${color1}C-w ${alignr}${color2}Kill region${color}
-${voffset 8}${color0}${font4}BUFFERS${font}${color}
-${color1}${hr}${color}
-${color1}C-x b${alignr}${color2}Create new buffer${color}
-${color1}C-x h${alignr}${color2}Select the entire buffer${color}
-${color1}SPC b i ${alignr}${color2}Start i buffer${color}
-${color1}SPC b k ${alignr}${color2}Kill buffer${color}
-${color1}SPC b n ${alignr}${color2}Goto next buffer${color}
-${color1}SPC b p ${alignr}${color2}Goto prev buffer${color}
-${color1}SPC b s ${alignr}${color2}Save current buffer${color}
-${voffset 8}${color0}${font4}DIRED${font}${color}
-${color1}${hr}${color}
-${color1}SPC d v ${alignr}${color2}View file in dired${color}
-${color1}m ${alignr}${color2}Mark file${color}
-${color1}m ${alignr}${color2}Mark file${color}
-${color1}u ${alignr}${color2}Unmark file${color}
-${color1}C ${alignr}${color2}Copy${color}
-${color1}t ${alignr}${color2}Toggle marks${color}
-${color1}R ${alignr}${color2}Rename${color}
-${color1}M-x sudo ${alignr}${color2}Edit with sudo${color}
-${color1}TAB ${alignr}${color2}Dired subtree${color}
-${color1}g G ${alignr}${color2}Change group${color}
-${color1}M ${alignr}${color2}Change mode${color}
-${color1}SPC d p ${alignr}${color2}Toggle peep preview mode${color}
-${color1}U ${alignr}${color2}Undo${color}
-]]
+${color1}M-C-r${alignr}${color2}Recompile XMonad${color}
+${color1}M-S-r${alignr}${color2}Restart XMonad${color}
+${color1}M-S-a${alignr}${color2}Kill all windows on ${color0}WS${color}
+${color1}M-S-l${alignr}${color2}Brigness controller${color}
+${color1}M-S-/${alignr}${color2}Quick links${color}
+${color1}M-S-b${alignr}${color2}Toggle bar show/hide${color}
+${color1}M-p p${alignr}${color2}Screenshot${color}
+${color1}M-p t${alignr}${color2}Thunar${color}
+${color1}M-p v${alignr}${color2}Peek${color}
+${color1}M-.${alignr}${color2}Switch focus to next ${color0}monitor${color}
+${color1}M-,${alignr}${color2}Switch focus to prev ${color0}monitor${color}
+${color1}M-<Tab>${alignr}${color2}Switch to next ${color0}layout${color}
+${color1}M-S-<Space>${alignr}${color2}Toggle ${color0}noborders/full${color}
+${color1}M-f${alignr}${color2}Toggle float ${color0}layout${color}
+${color1}M-t${alignr}${color2}Sink a floating window${color}
+${color1}M-S-t${alignr}${color2}Sink all floated windows${color}
+${color1}M-e e${alignr}${color2}Emacsclient${color}
+${color1}M-e d${alignr}${color2}Emacsclient ${color0}Dired${color}
+${color1}M-M1-t${alignr}${color2}Goto selected ${color0}window${color}
+${color1}M-M1-b${alignr}${color2}Bring selected ${color0}window${color}
+${color1}M-M1-1${alignr}${color2}Menu of ${color0}work${color}
+${color1}M-u a${alignr}${color2}Copy to all ${color0}worspaces${color}
+${color1}M-u c${alignr}${color2}Kill all ${color0}copies${color}
+${color1}M-u k${alignr}${color2}Kill window ${color0}instances${color}
+]];
