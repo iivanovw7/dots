@@ -9,9 +9,9 @@
 
 # Font config:
 Font:
-    # Normal (roman):
-    normal:
-        family: MesloLGS NF
+  # Normal (roman):
+  normal:
+    family: MesloLGS NF
 
 env:
   WINIT_X11_SCALE_FACTOR: "1.1"

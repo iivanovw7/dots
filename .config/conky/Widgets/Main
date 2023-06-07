@@ -51,7 +51,8 @@ conky.config = {
 	font2 = 'Raleway:bold:size=30',         	-- font for the time
 	font3 = 'Ubuntu:size=14',               	-- font for the date
 	font4 = 'Raleway:bold:size=9',              -- font for the keybindings heading
-	max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
+    font5 = 'JetBrains Mono:size=10',
+    max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
 	max_user_text = 16384,						-- max text in conky default 16384
 	override_utf8_locale = true,				-- force UTF8 requires xft
 	short_units = true,							-- shorten units from KiB to k
@@ -83,18 +84,24 @@ conky.config = {
 
 conky.text = [[
 ${voffset 2}${color2}${font3}MSK ${color}${color1}${tztime Europe/Moscow %l:%M %p}${color}${alignr}${color2}TH ${color}${color1}${tztime Asia/Bangkok %l:%M %p}${font}${color}
-${voffset 4}${font2}${alignc}${color0}${time %l:%M %p}${font}
+${alignc}${voffset 4}${font2}${color0}${time %l:%M %p}${font}
 ${alignc}${voffset 6}${color0}${font3}${time %b %d, %Y}${font}${color}
-${font}${voffset 4}${color1}${hr}
-${alignr}${voffset 18}${goto 12}${color3}CPU${goto 50}$cpu%
+${font}${voffset 3}${color1}
+${goto 12}${color1}IP ${alignr}${color2} ${addr wlan0}
+${goto 12}${color1}HOST ${alignr}${color2} ${nodename local}
+${goto 12}${color1}UPTIME ${alignr}${color2} ${uptime_short}
+${alignr}${voffset 8}${goto 12}${color3}STORAGE${goto 50}
+${goto 12}${color1}Root $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_free_perc /}%
+${color2}${goto 12}${fs_bar /}
+${goto 12}${color1}Home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_free_perc /home}%
+${color2}${goto 12}${fs_bar /home}
+${alignr}${voffset 8}${goto 12}${color3}CPU${goto 50}$cpu%
 ${color2}${goto 12}${cpubar 8,298}
 ${voffset 5}${goto 12}$font${color1}${top name 1}$alignr$color${top cpu 1}%
 ${goto 12}${color1}${top name 2}$alignr$color${top cpu 2}%
 ${goto 12}${color1}${top name 3}$alignr$color${top cpu 3}%
 ${goto 12}${color1}${top name 4}$alignr$color${top cpu 4}%
 ${goto 12}${color1}${top name 5}$alignr$color${top cpu 5}%
-${goto 12}${color1}${top name 6}$alignr$color${top cpu 6}%
-${goto 12}${color1}${top name 7}$alignr$color${top cpu 7}%
 ${voffset 14}${goto 12}${color3}RAM${goto 50}$mem/$memmax
 ${color2}${goto 12}${membar 8,298}${color}
 ${goto 12}${voffset 5}${color1}${top_mem name 1}$alignr$color${top_mem mem_res 1}
@@ -102,30 +109,8 @@ ${goto 12}${color1}${top_mem name 2}$alignr$color${top_mem mem_res 2}
 ${goto 12}${color1}${top_mem name 3}$alignr$color${top_mem mem_res 3}
 ${goto 12}${color1}${top_mem name 4}$alignr$color${top_mem mem_res 4}
 ${goto 12}${color1}${top_mem name 5}$alignr$color${top_mem mem_res 5}
-${voffset 18}${color0}${font4}XMONAD${font}${color}
-${color1}${hr}${color}
-${color1}M-C-r${alignr}${color2}Recompile XMonad${color}
-${color1}M-S-r${alignr}${color2}Restart XMonad${color}
-${color1}M-S-a${alignr}${color2}Kill all windows on ${color0}WS${color}
-${color1}M-S-l${alignr}${color2}Brigness controller${color}
-${color1}M-S-/${alignr}${color2}Quick links${color}
-${color1}M-S-b${alignr}${color2}Toggle bar show/hide${color}
-${color1}M-p p${alignr}${color2}Screenshot${color}
-${color1}M-p t${alignr}${color2}Thunar${color}
-${color1}M-p v${alignr}${color2}Peek${color}
-${color1}M-.${alignr}${color2}Switch focus to next ${color0}monitor${color}
-${color1}M-,${alignr}${color2}Switch focus to prev ${color0}monitor${color}
-${color1}M-<Tab>${alignr}${color2}Switch to next ${color0}layout${color}
-${color1}M-S-<Space>${alignr}${color2}Toggle ${color0}noborders/full${color}
-${color1}M-f${alignr}${color2}Toggle float ${color0}layout${color}
-${color1}M-t${alignr}${color2}Sink a floating window${color}
-${color1}M-S-t${alignr}${color2}Sink all floated windows${color}
-${color1}M-e e${alignr}${color2}Emacsclient${color}
-${color1}M-e d${alignr}${color2}Emacsclient ${color0}Dired${color}
-${color1}M-M1-t${alignr}${color2}Goto selected ${color0}window${color}
-${color1}M-M1-b${alignr}${color2}Bring selected ${color0}window${color}
-${color1}M-M1-1${alignr}${color2}Menu of ${color0}work${color}
-${color1}M-u a${alignr}${color2}Copy to all ${color0}worspaces${color}
-${color1}M-u c${alignr}${color2}Kill all ${color0}copies${color}
-${color1}M-u k${alignr}${color2}Kill window ${color0}instances${color}
+${goto 12}${color1}${top_mem name 6}$alignr$color${top_mem mem_res 6}
+${goto 12}${color1}${top_mem name 7}$alignr$color${top_mem mem_res 7}
+${goto 12}${color1}${top_mem name 8}$alignr$color${top_mem mem_res 8}
+${voffset 2}
 ]];
