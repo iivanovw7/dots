@@ -95,7 +95,7 @@ ${goto 12}${color1}KERNEL ${alignr}${color2} ${kernel}
 ${alignr}${voffset 8}${goto 12}${color3}WLAN${goto 50}
 ${goto 12}${color1}Today ${goto 85}Yesterday${goto 170}Week${goto 240}Month${color}
 # vnstatd updates database every five minutes
-${goto 12}${color2}${execi 300 vnstat -i wlan0 | grep "today" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 85}${execi 300 vnstat -i wlan0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 170}${execi 300 vnstat -i wlan0 -d --begin $(date --date="next Monday -1 week" +"%Y-%m-%d") --end $(date +"%Y-%m-%d") | grep "sum of" | awk '{print $10" "substr ($11, 1, 1)}'} ${goto 240}${execi 300 vnstat -i wlan0 -m | grep "`date +"%Y-%M"`" | awk '{print $2" "substr ($3, 1, 1)}'}
+${goto 12}${color2}${execi 300 vnstat -i wlan0 | grep "today" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 85}${execi 300 vnstat -i wlan0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 170}${execi 300 vnstat -i wlan0 -d --begin $(date --date="next Monday -1 week" +"%Y-%m-%d") --end $(date +"%Y-%m-%d") | grep "sum of" | awk '{print $10" "substr ($11, 1, 1)}'} ${goto 240}${execi 300 vnstat -i wlan0 -m | grep "`date +"%Y-%m"`" | awk '{print $2" "substr ($3, 1, 1)}'}
 ${color1}${hr}${color}
 ${goto 12}${color}Down: ${color2}${downspeed wlan0}/s ${color}${goto 170}Up: ${color2}${upspeed wlan0}/s
 ${color2}${downspeedgraph wlan0 25,140} ${alignr}${upspeedgraph wlan0 25,140}${color}
