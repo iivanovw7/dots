@@ -97,6 +97,10 @@ ${color1}M-.${alignr}${color2}Switch focus to next ${color0}monitor${color}
 ${color1}M-,${alignr}${color2}Switch focus to prev ${color0}monitor${color}
 ${color1}M-<Tab>${alignr}${color2}Switch to next ${color0}layout${color}
 ${color1}M-S-<Space>${alignr}${color2}Toggle ${color0}noborders/full${color}
+${color1}M-h ${alignr}${color2}Shrink window${color}
+${color1}M-l ${alignr}${color2}Expand window${color}
+${color1}M-M1-j ${alignr}${color2}Shrink window vertically${color}
+${color1}M-M1-k ${alignr}${color2}Expand window vertically${color}
 ${color1}M-f${alignr}${color2}Toggle float ${color0}layout${color}
 ${color1}M-t${alignr}${color2}Sink a floating window${color}
 ${color1}M-S-t${alignr}${color2}Sink all floated windows${color}
