@@ -1,7 +1,9 @@
 (setq user-full-name "Igor Ivanov"
-      user-mail-address "9iiiuk@gmail@gmail.com")
+      user-mail-address "9iiiuk@gmail.com")
 
 (beacon-mode 1)
+
+(menu-bar-mode 1)
 
 (map! :leader
       (:prefix ("b". "buffer")
@@ -83,7 +85,7 @@
 (use-package! calfw)
 (use-package! calfw-org)
 
-(setq centaur-tabs-set-bar 'over
+(setq centaur-tabs-set-bar 'bar
       centaur-tabs-set-icons t
       centaur-tabs-gray-out-icons 'buffer
       centaur-tabs-height 24
@@ -187,6 +189,8 @@ List of keybindings (SPC h b b)")
 (use-package emojify
   :hook (after-init . global-emojify-mode))
 
+(xterm-mouse-mode 1)
+
 (after! neotree
   (setq neo-smart-open t
         neo-window-fixed-size nil))
@@ -195,3 +199,20 @@ List of keybindings (SPC h b b)")
 (map! :leader
       :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
       :desc "Open directory in neotree" "d n" #'neotree-dir)
+
+(defun oleh-term-exec-hook ()
+  (let* ((buff (current-buffer))
+         (proc (get-buffer-process buff)))
+    (set-process-sentinel
+     proc
+     `(lambda (process event)
+        (if (string= event "finished\n")
+            (kill-buffer ,buff))))))
+
+(add-hook 'term-exec-hook 'oleh-term-exec-hook)
+
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
+
+;;(set-frame-font "SourceCodePro-13" nil t)
+(setq doom-font (font-spec :family "Source Code Pro" :size 13))

@@ -1,29 +1,21 @@
 # neofetch | lolcat
-
-### RANDOM COLOR SCRIPT ###
-# Get this script from my GitLab: gitlab.com/dwt1/shell-color-scripts
-# Or install it from the Arch User Repository: shell-color-scripts
-
 colorscript random
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# git repository greeter
-
 last_repository = check_directory_for_new_repository() {
-	current_repository=$(git rev-parse --show-toplevel 2> /dev/null)
+  current_repository=$(git rev-parse --show-toplevel 2> /dev/null)
 
-	if [ "$current_repository" ] && \
+  if [ "$current_repository" ] && \
 	   [ "$current_repository" != "$last_repository" ]; then
 		onefetch
   fi
-	last_repository=$current_repository
+     last_repository=$current_repository
 }
 
 cd() {
@@ -37,10 +29,11 @@ check_directory_for_new_repository
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-# Path to your oh-my-zsh installation.
 
+# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export PATH=/usr/local/bin:/usr/bin:/bin
+export ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -105,8 +98,6 @@ POWERLEVEL9K_INSTANT_PROMPT="off"
 
 # Would you like to use another custom folder than $ZSH/custom?
 
-# ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -114,14 +105,19 @@ POWERLEVEL9K_INSTANT_PROMPT="off"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
-  fzf
+  fzf-zsh-plugin
   git
-  z
   history-substring-search
   zsh-syntax-highlighting
   zsh-autocomplete	
   zsh-autosuggestions
+  z
 )
+
+source $ZSH/oh-my-zsh.sh
+source $ZSH_CUSTOM/scripts/zsh-syntax-highlighting.sh
+source $ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme
+source $ZSH_CUSTOM/.p10k.zsh
 
 # User configuration
 
@@ -149,14 +145,6 @@ plugins=(
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# source ~/.zsh-addons/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-# source ~/.zsh-addons/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-source $ZSH/oh-my-zsh.sh
-source $ZSH_CUSTOM/scripts/zsh-syntax-highlighting.sh
-source $ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme
-source $ZSH_CUSTOM/.p10k.zsh
-
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
 
 ### ALIASES ###
@@ -183,11 +171,14 @@ alias ll='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
+# pacman-mirrors
+alias mirrors="sudo sudo pacman-mirrors --fasttrack 30"
+
 # get fastest mirrors
-alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
-alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
-alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
-alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
+# alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+# alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+# alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+# alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
 
 # Colorize grep output (good for log files)
 alias grep='grep --color=auto'
@@ -208,21 +199,3 @@ alias toolbox="$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 source /usr/share/nvm/init-nvm.sh
-export PATH=$PATH:/home/iivanovw7/.oh-my-zsh/custom/scripts/git-semantic-commits:$PATH
-
-export FZF_DEFAULT_COMMAND='fdfind --type f'
-export FZF_DEFAULT_OPTS="--layout=reverse --inline-info --height=80%"
-
-# pnpm
-export PNPM_HOME="/home/iivanovw7/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
-
-# Added by Toolbox App
-export PATH="$PATH:/home/iivanovw7/.local/share/JetBrains/Toolbox/scripts"
-export NODE_OPTIONS="--max-old-space-size=8192"
-
-# To customize prompt, run `p10k configure` or edit ~/.oh-my-zsh/custom/.p10k.zsh.
-[[ ! -f ~/.oh-my-zsh/custom/.p10k.zsh ]] || source ~/.oh-my-zsh/custom/.p10k.zsh
-
-[ -f "/home/iivanovw7/.ghcup/env" ] && source "/home/iivanovw7/.ghcup/env" # ghcup-env

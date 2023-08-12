@@ -15,8 +15,8 @@
 
 import requests
 
-CITY = "2267057"
-API_KEY = "XXXX"
+CITY = "2262544"
+API_KEY = "b0db9d3e3017bb311c96a8aca1ba2851"
 UNITS = "Metric"
 UNIT_KEY = "C"
 #UNIT_KEY = "F"
@@ -28,9 +28,11 @@ REQ = requests.get("http://api.openweathermap.org/data/2.5/weather?id={}&lang={}
 try:
     # HTTP CODE = OK
     if REQ.status_code == 200:
+        ICON = REQ.json()["weather"][0]["icon"]
+        NAME = REQ.json()["name"]
         CURRENT = REQ.json()["weather"][0]["description"].capitalize()
         TEMP = int(float(REQ.json()["main"]["temp"]))
-        print("{}, {} °{}".format(CURRENT, TEMP, UNIT_KEY))
+        print("{}: {}, {} °{}".format(NAME, CURRENT, TEMP, UNIT_KEY))
     else:
         print("Error: BAD HTTP STATUS CODE " + str(REQ.status_code))
 except (ValueError, IOError):

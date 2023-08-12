@@ -3,7 +3,7 @@
 * USER
 #+begin_src emacs-lisp
 (setq user-full-name "Igor Ivanov"
-      user-mail-address "9iiiuk@gmail@gmail.com")
+      user-mail-address "9iiiuk@gmail.com")
 #+end_src
 
 * BEACON
@@ -11,6 +11,13 @@ Never lose your cursor.  When you scroll, your cursor will shine!  This is a glo
 
 #+begin_src emacs-lisp
 (beacon-mode 1)
+#+end_src
+
+* MENU BAR
+Menu bar
+
+#+begin_src emacs-lisp
+(menu-bar-mode 1)
 #+end_src
 
 * BOOKMARKS AND BUFFERS
@@ -158,7 +165,7 @@ To use tabs in Doom Emacs, be sure to uncomment "tabs" in Doom's init.el.  Displ
 | centaur-tabs-backward-group | /Previous tab group/        | g <up>           |
 
 #+BEGIN_SRC emacs-lisp
-(setq centaur-tabs-set-bar 'over
+(setq centaur-tabs-set-bar 'bar
       centaur-tabs-set-icons t
       centaur-tabs-gray-out-icons 'buffer
       centaur-tabs-height 24
@@ -350,6 +357,9 @@ Setting the theme to doom-one.  To try out new themes, I set a keybinding for co
       :desc "Load new theme" "h t" #'counsel-load-theme)
 #+END_SRC
 
+#+RESULTS:
+: counsel-load-theme
+
 
 * EMOJIS
 Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
@@ -379,4 +389,59 @@ Neotree is a file tree viewer.  When you open neotree, it jumps to the current f
 (map! :leader
       :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
       :desc "Open directory in neotree" "d n" #'neotree-dir)
+#+END_SRC\
+
+* MOUSE SUPPORT
+Adding mouse support in the terminal version of Emacs.
+
+#+begin_src emacs-lisp
+(xterm-mouse-mode 1)
+#+end_src
+
+* NEOTREE
+Neotree is a file tree viewer.  When you open neotree, it jumps to the current file thanks to neo-smart-open.  The neo-window-fixed-size setting makes the neotree width be adjustable.  Doom Emacs had no keybindings set for neotree.  Since Doom Emacs uses 'SPC t' for 'toggle' keybindings, I used 'SPC t n' for toggle-neotree.
+
+| COMMAND        | DESCRIPTION               | KEYBINDING |
+|----------------+---------------------------+------------|
+| neotree-toggle | /Toggle neotree/            | SPC t n    |
+| neotree- dir   | /Open directory in neotree/ | SPC d n    |
+
+#+BEGIN_SRC emacs-lisp
+(after! neotree
+  (setq neo-smart-open t
+        neo-window-fixed-size nil))
+(after! doom-themes
+  (setq doom-neotree-enable-variable-pitch t))
+(map! :leader
+      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
+      :desc "Open directory in neotree" "d n" #'neotree-dir)
 #+END_SRC
+
+* ANSI-TERM
+Adds ansi-term shell related modifications.
+
+#+begin_src emacs-lisp
+
+(defun oleh-term-exec-hook ()
+  (let* ((buff (current-buffer))
+         (proc (get-buffer-process buff)))
+    (set-process-sentinel
+     proc
+     `(lambda (process event)
+        (if (string= event "finished\n")
+            (kill-buffer ,buff))))))
+
+(add-hook 'term-exec-hook 'oleh-term-exec-hook)
+
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
+
+#+END_src
+
+* FONTS
+#+begin_src emacs-lisp
+
+;;(set-frame-font "SourceCodePro-13" nil t)
+(setq doom-font (font-spec :family "Source Code Pro" :size 13))
+
+#+END_src
