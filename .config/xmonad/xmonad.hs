@@ -132,16 +132,21 @@ myStartupHook = do
   spawnOnce "volumeicon"
   spawnOnce "flameshot"
   spawnOnce "blueman-applet"
-  spawnOnce "xfce4-screensaver"
-  spawnOnce "xfce4-power-manager"
+  spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+  -- spawnOnce "/usr/lib/slack/slack"
+  -- spawnOnce "xfce4-pulseaudio-plugin"
 
+  spawnOnce "light-locker"
   spawn "setxkbmap -layout us,ru -option 'grp:win_space_toggle'"	
   spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
   -- spawn "polybar-xmonad"
   spawn "$HOME/.config/polybar/launch.sh"
-  spawnOnce "sleep 2 && xmonad --restart"
   spawn ("sleep 3 && $HOME/.config/conky/widgets-startup.sh")
 
+  spawnOnce "xfce4-power-manager"
+  spawnOnce "xfce4-clipman"
+
+  -- spawnOnce "sleep 2 && xmonad --restart"
   -- spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
   -- spawnOnce "~/.fehbg &"  -- set last saved feh wallpaper
   spawn "feh --bg-fill $HOME/Backgrounds/colorful_mountains_by_rmradev_dep7u6t.png"  -- feh set random wallpaper
@@ -223,8 +228,8 @@ runSelectedAction' conf actions = do
 
 gsCategories =
   [ ("Work",      "xdotool key super+alt+1")
-  , ("Education",  "xdotool key super+alt+2")
-  , ("Internet",   "xdotool key super+alt+3")
+  , ("Internet",   "xdotool key super+alt+2")
+  , ("Education",  "xdotool key super+alt+3")
   , ("Multimedia", "xdotool key super+alt+4")
   , ("Office",     "xdotool key super+alt+5")
   , ("Settings",   "xdotool key super+alt+6")
@@ -240,20 +245,16 @@ gsWork =
   , ("Postman", "postman")
   , ("Discord", "discord")
   , ("Webstorm", "webstorm")
+  , ("Idea", "idea")
   , ("Bitwarden", "bitwarden-desktop")
   , ("Epiphany", "epiphany")
-  ]
-
-gsEducation =
-  [ ("GCompris", "gcompris-qt")
-  , ("Kstars", "kstars")
-  , ("Minuet", "minuet")
-  , ("Scratch", "scratch")
+  , ("Thunar", "thunar")
   ]
 
 gsInternet =
   [ ("Brave", "brave")
   , ("Discord", "discord")
+  , ("Telegram", "telegram-desktop")
   , ("Element", "element-desktop")
   , ("Firefox", "firefox")
   , ("LBRY App", "lbry")
@@ -262,6 +263,14 @@ gsInternet =
   , ("Qutebrowser", "qutebrowser")
   , ("Transmission", "transmission-gtk")
   , ("Zoom", "zoom")
+  , ("Steam", "steam")
+  ]
+
+gsEducation =
+  [ ("GCompris", "gcompris-qt")
+  , ("Kstars", "kstars")
+  , ("Minuet", "minuet")
+  , ("Scratch", "scratch")
   ]
 
 gsMultimedia =
@@ -665,8 +674,8 @@ myKeys c =
   , ("M-M1-t", addName "Goto selected window"    $ goToSelected $ mygridConfig myColorizer)
   , ("M-M1-b", addName "Bring selected window"   $ bringSelected $ mygridConfig myColorizer)
   , ("M-M1-1", addName "Menu of work"            $ spawnSelected' gsWork)
-  , ("M-M1-2", addName "Menu of education apps"  $ spawnSelected' gsEducation)
-  , ("M-M1-3", addName "Menu of Internet apps"   $ spawnSelected' gsInternet)
+  , ("M-M1-2", addName "Menu of Internet apps"   $ spawnSelected' gsInternet)
+  , ("M-M1-3", addName "Menu of education apps"  $ spawnSelected' gsEducation)
   , ("M-M1-4", addName "Menu of multimedia apps" $ spawnSelected' gsMultimedia)
   , ("M-M1-5", addName "Menu of office apps"     $ spawnSelected' gsOffice)
   , ("M-M1-6", addName "Menu of settings apps"   $ spawnSelected' gsSettings)
