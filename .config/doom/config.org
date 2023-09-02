@@ -20,6 +20,15 @@ Menu bar
 (menu-bar-mode 1)
 #+end_src
 
+
+* VTERM POPUP
+Vterm popup
+
+#+begin_src emacs-lisp
+(after! vterm
+  (set-popup-rule! "*doom:vterm-popup:*" :size 0.5 :vslot -4 :select t :quit nil :ttl 0 :side 'right))
+#+end_src
+
 * BOOKMARKS AND BUFFERS
 Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.
 
