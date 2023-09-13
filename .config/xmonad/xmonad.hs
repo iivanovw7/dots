@@ -132,16 +132,17 @@ myStartupHook = do
   spawnOnce "volumeicon"
   spawnOnce "flameshot"
   spawnOnce "blueman-applet"
+  spawnOnce "dropbox"
   spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
   -- spawnOnce "/usr/lib/slack/slack"
   -- spawnOnce "xfce4-pulseaudio-plugin"
-
   spawnOnce "light-locker"
-  spawn "setxkbmap -layout us,ru -option 'grp:win_space_toggle'"	
+
+  spawn "setxkbmap -layout us,ru -option 'grp:win_space_toggle'"
   spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
   -- spawn "polybar-xmonad"
   spawn "$HOME/.config/polybar/launch.sh"
-  spawn ("sleep 3 && $HOME/.config/conky/widgets-startup.sh")
+  spawn "$HOME/.config/conky/widgets-startup.sh"
 
   spawnOnce "xfce4-power-manager"
   spawnOnce "xfce4-clipman"
@@ -176,6 +177,7 @@ myNavigation = makeXEventhandler $ shadowWithKeymap navKeyMap navDefaultHandler
          ,((0,xK_space) , setPos (0,0) >> myNavigation)
          ]
        navDefaultHandler = const myNavigation
+
 
 myColorizer :: Window -> Bool -> X (String, String)
 myColorizer = colorRangeFromClassName
@@ -239,6 +241,7 @@ gsCategories =
 
 gsWork =
   [ ("FF developer edition", "firefox-developer-edition")
+  , ("Brave Nightly", "brave-browser-nightly")
   , ("Chromium", "chromium")
   , ("Slack", "slack")
   , ("Thunderbird", "thunderbird")
