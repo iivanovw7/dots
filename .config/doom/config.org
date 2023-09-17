@@ -1,9 +1,15 @@
 (setq debug-on-error t)
 
+* AUTO-REFRESH HOOK
+Auto-refresh dired on file change
+#+begin_src emacs-lisp
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+#+end_src
+
 * USER
 #+begin_src emacs-lisp
 (setq user-full-name "Igor Ivanov"
-      user-mail-address "9iiiuk@gmail.com")
+      user-mail-address "9iiiuk2@gmail.com")
 #+end_src
 
 * BEACON
@@ -13,6 +19,12 @@ Never lose your cursor.  When you scroll, your cursor will shine!  This is a glo
 (beacon-mode 1)
 #+end_src
 
+* DEFAULT BROWSER
+#+begin_src emacs-lisp
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "brave-browser-nightly")
+#+end_src
+
 * MENU BAR
 Menu bar
 
@@ -20,6 +32,202 @@ Menu bar
 (menu-bar-mode 1)
 #+end_src
 
+* MU4E
+** SYNC
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+
+;;HTML Emails
+(require 'mu4e-contrib)
+
+(require 'smtpmail)
+
+(use-package mu4e
+  :ensure nil
+  :config
+
+  (setq mu4e-html2text-command 'mu4e-shr2text)
+  ;;(setq mu4e-html2text-command "iconv -c -t utf-8 | pandoc -f html -t plain")
+  (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+  ;; Disable colors for HTML mails.
+  (setq shr-use-colors t)
+  (setq mu4e-view-html-plaintext-ratio-heuristic  most-positive-fixnum)
+
+  ;; Spellchecking
+  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+
+  ;; Set a sane ISO 8601 date format.
+  (setq mu4e-headers-date-format "%+4Y-%m-%d")
+
+  (add-hook 'mu4e-compose-mode-hook 'visual-line-mode)
+
+  ;;(add-hook 'message-send-hook 'mml-secure-message-sign-pgpmime)
+
+  ;; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  ;; Refresh mail using isync every 10 minutes
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/Emails")
+
+  ;; Only ask if a context hasn't been previously picked
+  (setq mu4e-compose-context-policy 'ask)
+
+  ;; Make sure plain text mails flow correctly for recipients
+  (setq mu4e-compose-format-flowed t)
+
+  ;; Configure the function to use for sending mail
+  (setq message-send-mail-function 'smtpmail-send-it)
+
+  (setq mu4e-contexts
+        (list
+         (make-mu4e-context
+          :name "9iiiuk2"
+          :match-func
+            (lambda (msg)
+              (when msg
+                (string-prefix-p "/9iiiuk2" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address . "9iiiuk2@gmail.com")
+                  (user-full-name    . "Igor Ivanov")
+                  (smtpmail-smtp-server  . "smtp.gmail.com")
+                  (smtpmail-smtp-service . 465)
+                  (smtpmail-stream-type  . ssl)
+                  (smtpmail-smtp-user . "9iiiuk2@gmail.com")
+                  (mu4e-compose-signature . (concat
+                                             "Best regards\n"
+                                             "Igor Ivanov"))
+                  (mu4e-drafts-folder  . "/9iiiuk2/[Gmail]/Drafts")
+                  (mu4e-sent-folder  . "/9iiiuk2/[Gmail]/Sent Mail")
+                  (mu4e-refile-folder  . "/9iiiuk2/[Gmail]/All Mail")
+                  (mu4e-trash-folder  . "/9iiiuk2/[Gmail]/Trash")))
+
+    (setq mu4e-maildir-shortcuts
+      '(("/iivanovw7/Inbox"             . ?i)
+        ("/iivanovw7/[Gmail]/Sent Mail" . ?s)
+        ("/iivanovw7/[Gmail]/Trash"     . ?t)
+        ("/iivanovw7/[Gmail]/Drafts"    . ?d)
+        ("/iivanovw7/[Gmail]/All Mail"  . ?a))))
+
+
+#+end_src
+* ORG MODE
+** ORG
+#+begin_src emacs-lisp
+(after! org
+  (setq org-directory "~/Dropbox/org"))
+#+end_src
+
+
+** ORG MODULES
+#+begin_src emacs-lisp
+
+(require 'org-habit)
+(add-to-list 'org-modules 'org-habit)
+(org-load-modules-maybe t)
+
+#+end_src
+
+
+** ORG HABITS
+#+begin_src emacs-lisp
+(setq org-habit-graph-column 40)
+
+(defun org-make-habit ()
+  (interactive)
+  (org-set-property "STYLE" "habit"))
+#+end_src
+
+** ORG AGENDA
+#+begin_src emacs-lisp
+
+(add-hook 'org-agenda-mode-hook 'org-fancy-priorities-mode)
+
+(after! org
+  (setq org-agenda-files '("~/Dropbox/org/Agenda")))
+
+(after! org-fancy-priorities
+  (setq
+   org-fancy-priorities-list '("[A]" "[B]" "[C]")
+   ;;org-fancy-priorities-list '("❗" "[B]" "[C]")
+   ;;org-fancy-priorities-list '("🟥" "🟧" "🟨")
+   org-priority-faces
+   '((?A :foreground "#ff6c6b" :weight bold)
+     (?B :foreground "#98be65" :weight bold)
+     (?C :foreground "#c678dd" :weight bold))
+   org-agenda-block-separator 8411))
+
+(after! org
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-treat-insert-todo-heading-as-state-change t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t))
+
+(setq org-todo-keywords
+      '((sequence "TODO(t!)" "IN-PROGRESS(p)" "|" "DONE(d!)" "CANCELLED(c!)")))
+
+(setq org-agenda-custom-commands
+      '(("v" "A better agenda view"
+         ((agenda "")
+          (tags "PRIORITY=\"A\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "High-priority unfinished tasks:")))
+          (tags "PRIORITY=\"B\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Medium-priority unfinished tasks:")))
+          (tags "PRIORITY=\"C\""
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Low-priority unfinished tasks:")))
+          (tags "customtag"
+                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                 (org-agenda-overriding-header "Tasks marked with customtag:")))
+          (alltodo "")))))
+
+#+end_src
+** ORG GCAL
+#+begin_src emacs-lisp
+(require 'org-gcal)
+(setq plstore-cache-passphrase-for-symmetric-encryption t)
+(setq org-gcal-client-id ""
+      org-gcal-client-secret ""
+      org-gcal-fetch-file-alist '(("9iiiuk2@gmail.com" . "~/Dropbox/org/Agenda/calendar.org")
+                                  ("igor.i_ivanov@mytona.com" . "~/Dropbox/org/Agenda/mytona.org")))
+#+end_src
+** ORG NOTER
+#+begin_src emacs-lisp
+(use-package org-noter
+  :after (:any org pdf-view)
+  :config
+  (setq
+   org-noter-notes-window-location 'other-frame
+   org-noter-always-create-frame nil))
+
+#+end_src
+** ORG ROAM
+#+begin_src emacs-lisp
+
+(setq org-roam-ui-open-on-start nil)
+
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t
+        org-roam-graph-viewer "usr/bin/brave")
+  :custom
+  (org-roam-directory "~/Dropbox/org/Notes")
+  (org-roam-completion-everywhere t)
+  (org-roam-capture-templates
+   '(("d" "default" plain "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: %U\n")
+      :unnarrowed t)))
+      :bind (("C-c n l" . org-roam-buffer-toggle)
+             ("C-c n f" . org-roam-node-find)
+             ("C-c n i" . org-roam-node-insert)
+      :map org-mode-map ("C-M-i" . completion-at-point))
+      :config (org-roam-setup))
+#+end_src
 
 * VTERM POPUP
 Vterm popup

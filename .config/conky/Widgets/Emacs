@@ -105,6 +105,8 @@ ${color1}SPC b p ${alignr}${color2}Goto prev buffer${color}
 ${color1}SPC b s ${alignr}${color2}Save current buffer${color}
 ${voffset 8}${color0}${font4}Dired${font}${color}
 ${color1}${hr}${color}
+${color1}C-x C-f /sudo::${alignr}${color2}Open as root${color}
+${color1}!vlc${alignr}${color2}Run marked with app (e.g. vlc)${color}
 ${color1}SPC d v ${alignr}${color2}View file in dired${color}
 ${color1}m ${alignr}${color2}Mark file${color}
 ${color1}m ${alignr}${color2}Mark file${color}
@@ -119,5 +121,5 @@ ${color1}g G ${alignr}${color2}Change group${color}
 ${color1}M ${alignr}${color2}Change mode${color}
 ${color1}SPC d p ${alignr}${color2}Toggle peep preview mode${color}
 ${color1}U ${alignr}${color2}Undo${color}
-${voffset 2}
+${color1}C-x C-f ${alignr}${color2}Create empty file${color}
 ]]
