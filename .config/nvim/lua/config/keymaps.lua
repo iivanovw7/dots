@@ -17,7 +17,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 -- greatest remap ever
 vim.keymap.set("x", "<C-p>", [["_dP]])
-vim.keymap.set("x", "<C-p>", [["_dP]])
+
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
@@ -48,3 +48,7 @@ end)
 vim.keymap.set("n", "<leader>4", function()
     ui.nav_file(4)
 end)
+
+vim.keymap.set("n", "<leader>5", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+vim.keymap.set("n", "<leader>4", "<cmd>Telescope undo<cr>")

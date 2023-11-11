@@ -10,6 +10,19 @@ return {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-emoji",
+      {
+        "tzachar/cmp-tabnine",
+        build = "./install.sh",
+        dependencies = "hrsh7th/nvim-cmp",
+        opts = {
+          max_lines = 1000,
+          max_num_results = 3,
+          sort = true,
+        },
+        config = function(_, opts)
+          require("cmp_tabnine.config"):setup(opts)
+        end,
+      },
     },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
@@ -22,7 +35,14 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
+      table.insert(opts.sources, 1, {
+                     name = "cmp_tabnine",
+                     group_index = 1,
+                     priority = 100,
+      })
+
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
+        ["<Tab>"] = nil,
         ["<C-j>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
