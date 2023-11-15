@@ -51,4 +51,43 @@ end)
 
 vim.keymap.set("n", "<leader>5", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
-vim.keymap.set("n", "<leader>4", "<cmd>Telescope undo<cr>")
+vim.keymap.set("n", "<leader>6", "<cmd>Telescope undo<cr>")
+
+-- Delete a word backwards
+vim.keymap.set("n", "dw", "vb_d")
+
+-- Select all
+vim.keymap.set("n", "<C-a>", "gg<S-v>G")
+
+-- Jumplist
+vim.keymap.set("n", "<C-m>", "<C-i>", opts)
+
+-- New tab
+vim.keymap.set("n", "te", "tabedit", opts)
+vim.keymap.set("n", "<tab>", ":tabnext<Return>", opts)
+vim.keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
+
+-- Split window
+vim.keymap.set("n", "ss", ":split<Return>", opts)
+vim.keymap.set("n", "sv", ":vsplit<Return>", opts)
+
+-- Move window
+vim.keymap.set("n", "sh", "<C-w>h")
+vim.keymap.set("n", "sk", "<C-w>k")
+vim.keymap.set("n", "sj", "<C-w>j")
+vim.keymap.set("n", "sl", "<C-w>l")
+
+-- Resize window
+vim.keymap.set("n", "<C-w><left>", "<C-w><")
+vim.keymap.set("n", "<C-w><right>", "<C-w>>")
+vim.keymap.set("n", "<C-w><up>", "<C-w>+")
+vim.keymap.set("n", "<C-w><down>", "<C-w>-")
+
+-- Diagnostics
+vim.keymap.set("n", "<C-j>", function()
+	vim.diagnostic.goto_next()
+end, opts)
+
+vim.keymap.set("n", "<leader>r", function()
+	require("craftzdog.utils").replaceHexWithHSL()
+end)

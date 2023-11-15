@@ -11,7 +11,13 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
     spec = {
         -- add LazyVim and import its plugins
-        { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+        {
+          "LazyVim/LazyVim",
+          import = "lazyvim.plugins",
+          --opts = {
+          --  colorscheme = "solarized-osaka",
+          --}
+        },
         -- import any extras modules here
         { import = "lazyvim.plugins.extras.lang.typescript" },
         { import = "lazyvim.plugins.extras.lang.json" },
@@ -38,7 +44,8 @@ require("lazy").setup({
         "habamax",
         "dracula",
         "catppuccin",
-        "monokai-pro"
+        "monokai-pro",
+        "solarized-osaka"
       }
     },
     checker = { enabled = true }, -- automatically check for plugin updates
