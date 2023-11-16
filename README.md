@@ -1,10 +1,9 @@
 ## Dotfiles
-Personal collection of dotfiles and theme configs
+Personal collection of dotfiles and theme config.
 
 ---
 ### Files
 - `.zshrc` -- [Z shell](https://github.com/zsh-users/zsh) config with plugins, uses powerlevel10k, nerdfont, oh-my-zsh.
-- `.doom.d/*` -- [doomemacs](https://github.com/doomemacs/doomemacs) theme config.
 - `.gitconfig` -- contains config file with semantic commits shortcuts. 
 - `.fonts/*` -- contains custom fonts for terminal and etc.
 - `.config/alacritty/*` -- theme config for [alacritty](https://github.com/alacritty/alacritty) terminal. 
@@ -12,9 +11,13 @@ Personal collection of dotfiles and theme configs
 - `.config/gtk-2.0/*` -- gui style overrides.
 - `.config/gtk-3.0/*` -- gui style overrides.
 - `.config/xfce/**/*` -- xfce config files.
-- `.config/i3/*` -- window manager config.
+- `.config/i3/*` -- window manager config files (backup).
+- `.config/xmonad/*` -- window manager config files (main).
 - `.config/polybar/*` -- polybar config.
-- 
+- `.config/nvim/*` -- [lazyvim](https://github.com/LazyVim/LazyVim) config.
+- `.config/tmux/*` -- [tmux](https://github.com/tmux/tmux) config.
+- `.config/doom/*` -- [doomemacs](https://github.com/doomemacs/doomemacs) config files.
+
 ---
 ### Requirements
 Some optional packages maybe be installed in the system previously:
@@ -27,6 +30,7 @@ Some optional packages maybe be installed in the system previously:
 - i3
 - polybar
 - xmonad
+- neovim
 
 ---
 ### Some useful commands
@@ -38,15 +42,11 @@ Some optional packages maybe be installed in the system previously:
 ```bash
 sudo pacman -Syyu
 sudo pacman -S git --needed base-devel
+
 # https://github.com/Jguer/yay
 sudo pacman -S yay
 yay -S --devel --timeupdate
 sudo pacman -S nvm
-```
-
-##### Install [git-semantic-commits](https://github.com/fteem/git-semantic-commits)
-```bash
-git clone https://github.com/fteem/git-semantic-commits ~/.git-semantic-commits
 ```
 
 ##### Install [OhMyZsh](https://ohmyz.sh/)
