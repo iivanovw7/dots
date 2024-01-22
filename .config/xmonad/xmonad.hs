@@ -267,6 +267,7 @@ gsInternet =
   , ("Transmission", "transmission-gtk")
   , ("Zoom", "zoom")
   , ("Steam", "steam")
+  , ("Deluge", "deluge")
   ]
 
 gsEducation =
@@ -278,6 +279,7 @@ gsEducation =
 
 gsMultimedia =
   [ ("Audacity", "audacity")
+  , ("Audacious", "audacious")
   , ("Blender", "blender")
   , ("Deadbeef", "deadbeef")
   , ("Kdenlive", "kdenlive")
@@ -497,12 +499,20 @@ myManageHook = composeAll
   , title      =? "Order Chain - Market Snapshots"      --> doFloat
   , className  =? "Slack Desktop"                       --> doShift ( myWorkspaces !! 0 )
   , className  =? "Chromium"                            --> doShift ( myWorkspaces !! 5 )
+  , className  =? "steam"                               --> doShift ( myWorkspaces !! 4 )
+  , title      =? "steam"                               --> doShift ( myWorkspaces !! 4 )
+  , title      =? "discord"                             --> doShift ( myWorkspaces !! 9 )
+  , className  =? "Discord"                             --> doShift ( myWorkspaces !! 9 )
+  , className  =? "Audacious"                           --> doShift ( myWorkspaces !! 8 )
+  , title      =? "audacious"                           --> doShift ( myWorkspaces !! 8 )
+  , className  =? "Slack"                               --> doShift ( myWorkspaces !! 0 )
   , title      =? "Mozilla Firefox Developer Edition"   --> doShift ( myWorkspaces !! 6 )
   , title      =? "Mozilla Firefox"                     --> doShift ( myWorkspaces !! 8 )
-  , className  =? "Brave-browser"                       --> doShift ( myWorkspaces !! 1 )
+  , className  =? "Emacs"                               --> doShift ( myWorkspaces !! 1 )
+  , className  =? "Brave-browser-nightly"               --> doShift ( myWorkspaces !! 5 )
   , className  =? "mpv"                                 --> doShift ( myWorkspaces !! 7 )
   , className  =? "Gimp"                                --> doShift ( myWorkspaces !! 8 )
-  , className  =? "VirtualBox Manager"                  --> doShift  ( myWorkspaces !! 4 )
+  , className  =? "VirtualBox Manager"                  --> doShift ( myWorkspaces !! 4 )
   , (className =? "firefox" <&&> resource =? "Dialog")  --> doFloat  -- Float Firefox Dialog
   , (className =? "firefox" <&&> resource =? "Toolkit") --> doFloat -- firefox pip
   , isFullscreen                                        --> doFullFloat
