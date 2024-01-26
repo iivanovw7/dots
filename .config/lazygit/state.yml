@@ -1,0 +1,16 @@
+lastupdatecheck: 0
+recentrepos:
+- /home/iivanovw7/MYTONA/myboard-v3
+- /home/iivanovw7/MYTONA/MyBoard
+- /home/iivanovw7/WEB/test-app
+startuppopupversion: 5
+customcommandshistory:
+- git add .
+- stash apply
+- cz
+- git cz
+- 'flow feature start test '
+- git flow feature start test
+- git stash apply
+hidecommandlog: true
+ignorewhitespaceindiffview: false
