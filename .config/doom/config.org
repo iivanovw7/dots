@@ -1,4 +1,7 @@
+#+begin_src emacs-lisp
 (setq debug-on-error t)
+#+end_src
+
 
 * AUTO-REFRESH HOOK
 Auto-refresh dired on file change
@@ -27,11 +30,31 @@ Never lose your cursor.  When you scroll, your cursor will shine!  This is a glo
 
 * MENU BAR
 Menu bar
-
 #+begin_src emacs-lisp
 (menu-bar-mode 1)
 #+end_src
 
+* TABNINE
+#+begin_src emacs-lisp
+(add-to-list 'company-backends #'company-tabnine)
+
+;; Trigger completion immediately.
+(setq company-idle-delay 0)
+
+;; Number the candidates (use M-1, M-2 etc to select completions).
+(setq company-show-numbers t)
+#+end_src
+* FORMAT ONSAVE
+#+begin_src emacs-lisp
+(setq +format-on-save-enabled-modes
+      '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+            sql-mode         ; sqlformat is currently broken
+            tex-mode         ; latexindent is broken
+            latex-mode))
+
+(add-hook 'typescript-mode-hook #'format-all-mode)
+(add-hook 'js2-mode-hook #'format-all-mode)
+#+end_src
 * MU4E
 ** SYNC
 #+begin_src emacs-lisp
@@ -82,44 +105,20 @@ Menu bar
   ;; Configure the function to use for sending mail
   (setq message-send-mail-function 'smtpmail-send-it)
 
-  (setq mu4e-contexts
-        (list
-         (make-mu4e-context
-          :name "9iiiuk2"
-          :match-func
-            (lambda (msg)
-              (when msg
-                (string-prefix-p "/9iiiuk2" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address . "9iiiuk2@gmail.com")
-                  (user-full-name    . "Igor Ivanov")
-                  (smtpmail-smtp-server  . "smtp.gmail.com")
-                  (smtpmail-smtp-service . 465)
-                  (smtpmail-stream-type  . ssl)
-                  (smtpmail-smtp-user . "9iiiuk2@gmail.com")
-                  (mu4e-compose-signature . (concat
-                                             "Best regards\n"
-                                             "Igor Ivanov"))
-                  (mu4e-drafts-folder  . "/9iiiuk2/[Gmail]/Drafts")
-                  (mu4e-sent-folder  . "/9iiiuk2/[Gmail]/Sent Mail")
-                  (mu4e-refile-folder  . "/9iiiuk2/[Gmail]/All Mail")
-                  (mu4e-trash-folder  . "/9iiiuk2/[Gmail]/Trash")))
-
-    (setq mu4e-maildir-shortcuts
+  (setq mu4e-maildir-shortcuts
       '(("/iivanovw7/Inbox"             . ?i)
         ("/iivanovw7/[Gmail]/Sent Mail" . ?s)
         ("/iivanovw7/[Gmail]/Trash"     . ?t)
         ("/iivanovw7/[Gmail]/Drafts"    . ?d)
         ("/iivanovw7/[Gmail]/All Mail"  . ?a))))
 
-
 #+end_src
 * ORG MODE
 ** ORG
 #+begin_src emacs-lisp
 (after! org
-  (setq org-directory "~/Dropbox/org"))
+  (setq org-directory "~/Documents/org"))
 #+end_src
-
 
 ** ORG MODULES
 #+begin_src emacs-lisp
@@ -146,7 +145,7 @@ Menu bar
 (add-hook 'org-agenda-mode-hook 'org-fancy-priorities-mode)
 
 (after! org
-  (setq org-agenda-files '("~/Dropbox/org/Agenda")))
+  (setq org-agenda-files '("~/Documents/org/Agenda")))
 
 (after! org-fancy-priorities
   (setq
@@ -186,15 +185,7 @@ Menu bar
           (alltodo "")))))
 
 #+end_src
-** ORG GCAL
-#+begin_src emacs-lisp
-(require 'org-gcal)
-(setq plstore-cache-passphrase-for-symmetric-encryption t)
-(setq org-gcal-client-id ""
-      org-gcal-client-secret ""
-      org-gcal-fetch-file-alist '(("9iiiuk2@gmail.com" . "~/Dropbox/org/Agenda/calendar.org")
-                                  ("igor.i_ivanov@mytona.com" . "~/Dropbox/org/Agenda/mytona.org")))
-#+end_src
+
 ** ORG NOTER
 #+begin_src emacs-lisp
 (use-package org-noter
@@ -216,7 +207,7 @@ Menu bar
   (setq org-roam-v2-ack t
         org-roam-graph-viewer "usr/bin/brave")
   :custom
-  (org-roam-directory "~/Dropbox/org/Notes")
+  (org-roam-directory "~/Documents/org/Notes")
   (org-roam-completion-everywhere t)
   (org-roam-capture-templates
    '(("d" "default" plain "%?"
@@ -230,12 +221,12 @@ Menu bar
 #+end_src
 
 * VTERM POPUP
-Vterm popup
-
 #+begin_src emacs-lisp
 (after! vterm
-  (set-popup-rule! "*doom:vterm-popup:*" :size 0.5 :vslot -4 :select t :quit nil :ttl 0 :side 'right))
+  (set-popup-rule! "*doom:vterm-popup:*" :size 0.3 :vslot -4 :select t :quit nil :ttl 0))
 #+end_src
+
+#+RESULTS:
 
 * BOOKMARKS AND BUFFERS
 Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.
@@ -396,6 +387,29 @@ To use tabs in Doom Emacs, be sure to uncomment "tabs" in Doom's init.el.  Displ
                                                (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
                                                (kbd "g <down>")  'centaur-tabs-forward-group
                                                (kbd "g <up>")    'centaur-tabs-backward-group)
+
+;;(after! centaur-tabs
+;;(centaur-tabs-group-by-projectile-project))
+#+END_SRC
+
+* RSS (ELFEED)
+#+BEGIN_SRC emacs-lisp
+(require 'elfeed-goodies)
+(require 'elfeed-org)
+
+(elfeed-org)
+(global-set-key (kbd "C-x w") 'elfeed)
+(elfeed-goodies/setup)
+
+(evil-define-key 'normal elfeed-show-mode-map
+  (kbd "J") 'elfeed-goodies/split-show-next
+  (kbd "K") 'elfeed-goodies/split-show-prev)
+(evil-define-key 'normal elfeed-search-mode-map
+  (kbd "J") 'elfeed-goodies/split-show-next
+  (kbd "K") 'elfeed-goodies/split-show-prev)
+
+(setq rmh-elfeed-org-files (list "~/Documents/rss/config.org"))
+(setq elfeed-goodies/entry-pane-size 0.5)
 #+END_SRC
 
 * CLIPPY
@@ -530,11 +544,11 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
   (kbd "% u") 'dired-upcase
   (kbd "; d") 'epa-dired-do-decrypt
   (kbd "; e") 'epa-dired-do-encrypt)
-;; Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-;; With dired-open plugin, you can launch external programs for certain extensions
-;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
-(setq dired-open-extensions '(("gif" . "sxiv")
+  ;; Get file icons in dired
+  ;;(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  ;; With dired-open plugin, you can launch external programs for certain extensions
+  ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
+  (setq dired-open-extensions '(("gif" . "sxiv")
                               ("jpg" . "sxiv")
                               ("png" . "sxiv")
                               ("mkv" . "mpv")
@@ -577,6 +591,15 @@ Setting the theme to doom-one.  To try out new themes, I set a keybinding for co
 #+RESULTS:
 : counsel-load-theme
 
+* TREEMACS
+#+begin_src emacs-lisp
+(setq doom-themes-treemacs-theme "dracula")
+
+(after! (:and treemacs ace-window)
+  (setq aw-ignored-buffers (delq 'treemacs-mode aw-ignored-buffers)))
+
+(add-hook 'format-all-mode-hook 'format-all-ensure-formatter)
+#+end_src
 
 * EMOJIS
 Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
@@ -606,7 +629,10 @@ Neotree is a file tree viewer.  When you open neotree, it jumps to the current f
 (map! :leader
       :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
       :desc "Open directory in neotree" "d n" #'neotree-dir)
-#+END_SRC\
+#+END_SRC
+
+#+RESULTS:
+: neotree-dir
 
 * MOUSE SUPPORT
 Adding mouse support in the terminal version of Emacs.
@@ -614,25 +640,6 @@ Adding mouse support in the terminal version of Emacs.
 #+begin_src emacs-lisp
 (xterm-mouse-mode 1)
 #+end_src
-
-* NEOTREE
-Neotree is a file tree viewer.  When you open neotree, it jumps to the current file thanks to neo-smart-open.  The neo-window-fixed-size setting makes the neotree width be adjustable.  Doom Emacs had no keybindings set for neotree.  Since Doom Emacs uses 'SPC t' for 'toggle' keybindings, I used 'SPC t n' for toggle-neotree.
-
-| COMMAND        | DESCRIPTION               | KEYBINDING |
-|----------------+---------------------------+------------|
-| neotree-toggle | /Toggle neotree/            | SPC t n    |
-| neotree- dir   | /Open directory in neotree/ | SPC d n    |
-
-#+BEGIN_SRC emacs-lisp
-(after! neotree
-  (setq neo-smart-open t
-        neo-window-fixed-size nil))
-(after! doom-themes
-  (setq doom-neotree-enable-variable-pitch t))
-(map! :leader
-      :desc "Toggle neotree file viewer" "t n" #'neotree-toggle
-      :desc "Open directory in neotree" "d n" #'neotree-dir)
-#+END_SRC
 
 * ANSI-TERM
 Adds ansi-term shell related modifications.
@@ -659,6 +666,6 @@ Adds ansi-term shell related modifications.
 #+begin_src emacs-lisp
 
 ;;(set-frame-font "SourceCodePro-13" nil t)
-(setq doom-font (font-spec :family "Source Code Pro" :size 13))
+(setq doom-font (font-spec :family "Source Code Pro" :size 16))
 
 #+END_src
