@@ -7,12 +7,12 @@ return {
     },
     config = function()
       require("telescope").setup({
-          extensions = {
-            undo = {
-              -- telescope-undo.nvim config, see below
-            },
+        extensions = {
+          undo = {
+            -- telescope-undo.nvim config, see below
           },
-                                })
+        },
+      })
       require("telescope").load_extension("undo")
       -- optional: vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
     end,

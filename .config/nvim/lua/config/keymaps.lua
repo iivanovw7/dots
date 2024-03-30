@@ -15,10 +15,8 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- greatest remap ever
 vim.keymap.set("x", "<C-p>", [["_dP]])
 
--- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
@@ -34,27 +32,39 @@ vim.keymap.set("n", "<leader>a", mark.add_file)
 vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
 
 vim.keymap.set("n", "<leader>1", function()
-    ui.nav_file(1)
+  ui.nav_file(1)
 end)
 
 vim.keymap.set("n", "<leader>2", function()
-    ui.nav_file(2)
+  ui.nav_file(2)
 end)
 
 vim.keymap.set("n", "<leader>3", function()
-    ui.nav_file(3)
+  ui.nav_file(3)
 end)
 
 vim.keymap.set("n", "<leader>4", function()
-    ui.nav_file(4)
+  ui.nav_file(4)
+end)
+
+vim.keymap.set("n", "<leader>5", function()
+  ui.nav_file(5)
+end)
+
+vim.keymap.set("n", "<leader>6", function()
+  ui.nav_file(6)
 end)
 
 vim.keymap.set("n", "<leader>5", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("n", "<leader>6", "<cmd>Telescope undo<cr>")
 
+local discipline = require("tool.discipline")
+
+discipline.cowboy()
+
 -- Delete a word backwards
-vim.keymap.set("n", "dw", "vb_d")
+-- vim.keymap.set("n", "dw", "vb_d")
 
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G")
@@ -63,7 +73,7 @@ vim.keymap.set("n", "<C-a>", "gg<S-v>G")
 vim.keymap.set("n", "<C-m>", "<C-i>", opts)
 
 -- New tab
-vim.keymap.set("n", "te", "tabedit", opts)
+vim.keymap.set("n", "te", ":tabedit<Return>", opts)
 vim.keymap.set("n", "<tab>", ":tabnext<Return>", opts)
 vim.keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
 
@@ -85,9 +95,20 @@ vim.keymap.set("n", "<C-w><down>", "<C-w>-")
 
 -- Diagnostics
 vim.keymap.set("n", "<C-j>", function()
-	vim.diagnostic.goto_next()
+  vim.diagnostic.goto_next()
 end, opts)
 
 vim.keymap.set("n", "<leader>r", function()
-	require("craftzdog.utils").replaceHexWithHSL()
+  require("tool.utils").replaceHexWithHSL()
 end)
+
+-- show documentation for what is under cursor
+vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+-- mapping to restart lsp if necessary
+vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+
+-- neogen generate
+vim.keymap.set("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", { noremap = true, silent = true })
+
+vim.keymap.set("n", "<leader>nq", "", { noremap = true, callback = require("tabnine.chat").open })

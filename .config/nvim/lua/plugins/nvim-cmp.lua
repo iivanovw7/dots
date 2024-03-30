@@ -1,22 +1,31 @@
 return {
   {
     "L3MON4D3/LuaSnip",
-    keys = function()
-      return {}
-    end,
+    dependencies = { "rafamadriz/friendly-snippets" },
+    requires = {
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-omni",
+    },
+    build = "make install_jsregexp",
   },
-  -- then: setup supertab in cmp
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-emoji",
       {
         "tzachar/cmp-tabnine",
-        build = "./install.sh",
+        build = {
+          LazyVim.is_win() and "pwsh -noni .\\install.ps1" or "./install.sh",
+          ":CmpTabnineHub",
+        },
         dependencies = "hrsh7th/nvim-cmp",
         opts = {
           max_lines = 1000,
-          max_num_results = 3,
+          max_num_results = 8,
           sort = true,
         },
         config = function(_, opts)
@@ -36,12 +45,13 @@ return {
       local cmp = require("cmp")
 
       table.insert(opts.sources, 1, {
-                     name = "cmp_tabnine",
-                     group_index = 1,
-                     priority = 100,
+        name = "cmp_tabnine",
+        group_index = 1,
+        priority = 100,
       })
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
+        [";"] = nil,
         ["<Tab>"] = nil,
         ["<C-j>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
