@@ -44,10 +44,33 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
-      table.insert(opts.sources, 1, {
-        name = "cmp_tabnine",
-        group_index = 1,
-        priority = 100,
+      -- table.insert(opts.sources, {
+      --   name = "cmp_tabnine",
+      --   group_index = 1,
+      --   priority = 100,
+      -- })
+      --
+      -- table.insert(opts.sources, {
+      --   name = "nvim_px_to_rem",
+      --   group_index = 1,
+      --   priority = 100,
+      -- })
+
+      opts.sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "path" },
+        {
+          name = "cmp_tabnine",
+          group_index = 1,
+          priority = 100,
+        },
+        {
+          name = "nvim_px_to_rem",
+          group_index = 1,
+          priority = 100,
+        },
+      }, {
+        { name = "buffer" },
       })
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {

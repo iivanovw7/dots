@@ -55,7 +55,7 @@ vim.keymap.set("n", "<leader>6", function()
   ui.nav_file(6)
 end)
 
-vim.keymap.set("n", "<leader>5", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>5", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left>]])
 
 vim.keymap.set("n", "<leader>6", "<cmd>Telescope undo<cr>")
 
@@ -112,3 +112,10 @@ vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
 vim.keymap.set("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>nq", "", { noremap = true, callback = require("tabnine.chat").open })
+
+-- Those are the default keymaps, you can change them to whatever you want
+vim.api.nvim_set_keymap("n", "<leader>px", ":PxToRemCursor<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>pxl", ":PxToRemLine<CR>", { noremap = true })
+
+vim.api.nvim_set_keymap("n", "<leader>gd", ":DiffviewOpen", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>gD", ":DiffviewClose", { noremap = true })
