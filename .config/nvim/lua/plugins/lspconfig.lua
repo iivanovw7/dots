@@ -11,6 +11,7 @@ return {
         "tailwindcss-language-server",
         "typescript-language-server",
         "css-lsp",
+        "flake8",
       })
     end,
   },

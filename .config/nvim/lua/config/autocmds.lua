@@ -79,3 +79,5 @@ require("guess-indent").setup({
     "prompt",
   },
 })
+
+require("luasnip.loaders.from_vscode").lazy_load()

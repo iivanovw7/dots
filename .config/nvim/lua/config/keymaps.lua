@@ -109,13 +109,25 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
 
 -- neogen generate
-vim.keymap.set("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", { noremap = true, silent = true })
+vim.keymap.set(
+  "n",
+  "<Leader>nf",
+  ":lua require('neogen').generate()<CR>",
+  { noremap = true, silent = true, desc = "Neogen generate" }
+)
 
-vim.keymap.set("n", "<leader>nq", "", { noremap = true, callback = require("tabnine.chat").open })
+vim.keymap.set(
+  "n",
+  "<leader>nq",
+  "",
+  { noremap = true, callback = require("tabnine.chat").open, desc = "Tabnine chat" }
+)
 
 -- Those are the default keymaps, you can change them to whatever you want
-vim.api.nvim_set_keymap("n", "<leader>px", ":PxToRemCursor<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>pxl", ":PxToRemLine<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>px", ":PxToRemCursor<CR>", { noremap = true, desc = "PxToRemCursor" })
+vim.api.nvim_set_keymap("n", "<leader>pxl", ":PxToRemLine<CR>", { noremap = true, desc = "PxToRemLine" })
 
-vim.api.nvim_set_keymap("n", "<leader>gd", ":DiffviewOpen", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>gD", ":DiffviewClose", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>gd", ":DiffviewOpen", { noremap = true, desc = "Didffview open" })
+vim.api.nvim_set_keymap("n", "<leader>gD", ":DiffviewClose", { noremap = true, desc = "Didffview close" })
+
+vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
