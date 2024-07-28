@@ -94,7 +94,7 @@ vim.keymap.set("n", "<C-w><up>", "<C-w>+")
 vim.keymap.set("n", "<C-w><down>", "<C-w>-")
 
 -- Diagnostics
-vim.keymap.set("n", "<C-j>", function()
+vim.keymap.set("n", "<C-n>", function()
   vim.diagnostic.goto_next()
 end, opts)
 
@@ -123,11 +123,13 @@ vim.keymap.set(
   { noremap = true, callback = require("tabnine.chat").open, desc = "Tabnine chat" }
 )
 
+vim.keymap.set("n", "<leader>nc", ":lua require('color-converter').cycle()<CR>", { desc = "ColorConvertCycle" })
+
+vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
+
 -- Those are the default keymaps, you can change them to whatever you want
 vim.api.nvim_set_keymap("n", "<leader>px", ":PxToRemCursor<CR>", { noremap = true, desc = "PxToRemCursor" })
 vim.api.nvim_set_keymap("n", "<leader>pxl", ":PxToRemLine<CR>", { noremap = true, desc = "PxToRemLine" })
 
-vim.api.nvim_set_keymap("n", "<leader>gd", ":DiffviewOpen", { noremap = true, desc = "Didffview open" })
-vim.api.nvim_set_keymap("n", "<leader>gD", ":DiffviewClose", { noremap = true, desc = "Didffview close" })
-
-vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
+vim.api.nvim_set_keymap("n", "<leader>gd", ":DiffviewOpen", { noremap = true, desc = "DiffView open" })
+vim.api.nvim_set_keymap("n", "<leader>gD", ":DiffviewClose", { noremap = true, desc = "DiffView close" })
