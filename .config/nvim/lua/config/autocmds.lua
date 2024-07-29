@@ -81,3 +81,12 @@ require("guess-indent").setup({
 })
 
 require("luasnip.loaders.from_vscode").lazy_load()
+
+require("convert").setup({
+  keymaps = {
+    focus_next = { "j", "<Down>", "<Tab>" },
+    focus_prev = { "k", "<Up>", "<S-Tab>" },
+    close = { "<Esc>", "<C-c>", "qq" },
+    submit = { "<CR>", "<Space>" },
+  },
+})

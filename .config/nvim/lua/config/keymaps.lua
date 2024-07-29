@@ -123,13 +123,18 @@ vim.keymap.set(
   { noremap = true, callback = require("tabnine.chat").open, desc = "Tabnine chat" }
 )
 
-vim.keymap.set("n", "<leader>nc", ":lua require('color-converter').cycle()<CR>", { desc = "ColorConvertCycle" })
+vim.keymap.set("n", "<leader>ncn", ":ConvertFindNext<CR>", { noremap = true, desc = "Find next convertable unit" })
+
+vim.keymap.set(
+  "n",
+  "<leader>ncc",
+  ":ConvertFindCurrent<CR>",
+  { noremap = true, desc = "Find convertable unit in current line" }
+)
+
+vim.keymap.set("n", "<leader>nca", ":ConvertAll<CR>", { noremap = true, desc = "Convert all of a specific unit" })
 
 vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
 
--- Those are the default keymaps, you can change them to whatever you want
-vim.api.nvim_set_keymap("n", "<leader>px", ":PxToRemCursor<CR>", { noremap = true, desc = "PxToRemCursor" })
-vim.api.nvim_set_keymap("n", "<leader>pxl", ":PxToRemLine<CR>", { noremap = true, desc = "PxToRemLine" })
-
-vim.api.nvim_set_keymap("n", "<leader>gd", ":DiffviewOpen", { noremap = true, desc = "DiffView open" })
-vim.api.nvim_set_keymap("n", "<leader>gD", ":DiffviewClose", { noremap = true, desc = "DiffView close" })
+vim.keymap.set("n", "<leader>ngd", ":DiffviewOpen", { noremap = true, desc = "DiffView open" })
+vim.keymap.set("n", "<leader>ngD", ":DiffviewClose", { noremap = true, desc = "DiffView close" })
