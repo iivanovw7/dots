@@ -109,10 +109,14 @@ function __check_rvm --on-variable PWD --description 'Do nvm stuff'
 
     if test -f .nvmrc; and test -r .nvmrc
         nvm use
+    else if test -f package.json; and test -r package.json
+        set -l NODE $(jq -r '.engines.node | select(.!=null)' package.json )
+        set -l VER (string match -r '[0-9]+(.[0-9]+)+(.[0-9]+)+' $NODE)
+
+        nvm install $VER
     else
     end
 end
-
 
 set LOCAL_CONFIG (dirname (status --current-filename))/config-local.fish
 if test -f $LOCAL_CONFIG
@@ -122,3 +126,5 @@ end
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
+
+fish_vi_key_bindings

@@ -67,7 +67,7 @@ discipline.cowboy()
 -- vim.keymap.set("n", "dw", "vb_d")
 
 -- Select all
-vim.keymap.set("n", "<C-a>", "gg<S-v>G")
+vim.keymap.set("n", "<C-A>", "gg<S-v>G")
 
 -- Jumplist
 vim.keymap.set("n", "<C-m>", "<C-i>", opts)
