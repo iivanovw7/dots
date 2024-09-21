@@ -1,5 +1,6 @@
   -- Base
 import XMonad
+import XMonad.Hooks.FadeInactive
 import System.Directory
 import System.IO (hClose, hPutStr, hPutStrLn)
 import System.Exit (exitSuccess)
@@ -22,6 +23,7 @@ import Data.Maybe (fromJust)
 import Data.Monoid
 import Data.Maybe (isJust)
 import Data.Tree
+import Data.Word
 import Data.Ratio ((%)) -- for video
 import qualified Data.Map as M
 
@@ -85,7 +87,9 @@ import XMonad.Util.Cursor
       -- SolarizedDark
       -- SolarizedLight
       -- TomorrowNight
-import Colors.Dracula
+import Colors.MonokaiPro
+import Graphics.X11.Xlib
+import Graphics.X11.Xlib.Extras
 
 myFont :: String
 myFont = "xft:Jetbrains Mono:regular:size=9:antialias=true:hinting=true"
@@ -127,30 +131,34 @@ myStartupHook = do
   spawn "killall trayer" -- adding this in case of switching between xmobar and polybar.
 
   spawnOnce "lxsession"
-  spawnOnce "picom"
+  -- spawnOnce "picom"
   spawnOnce "nm-applet"
   spawnOnce "volumeicon"
   spawnOnce "flameshot"
   spawnOnce "blueman-applet"
-  spawnOnce "dropbox"
+  spawnOnce "xcompmgr -c"
+  spawn "sxhkd"
+  spawnOnce "insync start"
   spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
   -- spawnOnce "/usr/lib/slack/slack"
   -- spawnOnce "xfce4-pulseaudio-plugin"
-  spawnOnce "light-locker"
+  -- spawnOnce "light-locker"
 
   spawn "setxkbmap -layout us,ru -option 'grp:win_space_toggle'"
-  spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
+  -- spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
   -- spawn "polybar-xmonad"
   spawn "$HOME/.config/polybar/launch.sh"
   spawn "$HOME/.config/conky/widgets-startup.sh"
 
   spawnOnce "xfce4-power-manager"
   spawnOnce "xfce4-clipman"
+  spawnOnce "xsetroot -cursor_name Capitaine Cursors - White"
+  spawnOnce "input-remapper-control --command autoload"
 
   -- spawnOnce "sleep 2 && xmonad --restart"
   -- spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
   -- spawnOnce "~/.fehbg &"  -- set last saved feh wallpaper
-  spawn "feh --bg-fill $HOME/Backgrounds/colorful_mountains_by_rmradev_dep7u6t.png"  -- feh set random wallpaper
+  spawnOnce "feh --bg-fill $HOME/Backgrounds/colorful_mountains_by_rmradev_dep7u6t.png"  -- feh set random wallpaper
   -- spawnOnce "nitrogen --restore &"   -- if you prefer nitrogen to feh
   
   setDefaultCursor xC_left_ptr -- Fix cursor theme
@@ -617,6 +625,7 @@ myKeys c =
   -- Switch layouts
   ^++^ subKeys "Switch layouts"
   [ ("M-<Tab>", addName "Switch to next layout"   $ sendMessage NextLayout)
+  , ("M-<Space>", addName "Do nothing"   $ spawn "test")
   , ("M-S-<Space>", addName "Toggle noborders/full" $ sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)]
 
   -- Window resizing
@@ -727,6 +736,10 @@ myKeys c =
     where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
           nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
 
+myLogHook :: X ()
+myLogHook = fadeInactiveLogHook fadeAmount
+    where fadeAmount = 0.9
+
 main :: IO ()
 main = do
 
@@ -735,6 +748,7 @@ main = do
     { manageHook         = myManageHook <+> manageDocks
     , handleEventHook    = windowedFullscreenFixEventHook <> swallowEventHook (className =? "Alacritty"  <||> className =? "st-256color" <||> className =? "XTerm") (return True) <> trayerPaddingXmobarEventHook
     , modMask            = myModMask
+    , logHook            = myLogHook
     , terminal           = myTerminal
     , startupHook        = myStartupHook
     , layoutHook         = showWName' myShowWNameTheme $ myLayoutHook
