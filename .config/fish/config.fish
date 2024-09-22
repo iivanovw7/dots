@@ -29,7 +29,7 @@ alias tt "gio trash"
 alias history "history | nl"
 alias htop bpytop
 alias cat bat
-alias neofetch "neofetch | lolcat"
+alias neofetch "fastfetch | lolcat"
 
 # Colorize grep output (good for log files)
 alias grep "grep --color=auto"
@@ -127,4 +127,12 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+set -q fish_most_recent_dir && [ -d "$fish_most_recent_dir" ] && cd "$fish_most_recent_dir"
+
+function save_dir --on-variable PWD
+    set -U fish_most_recent_dir $PWD
+end
+
 fish_vi_key_bindings
+
+starship init fish | source
