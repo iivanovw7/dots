@@ -136,7 +136,8 @@ myStartupHook = do
   spawnOnce "volumeicon"
   spawnOnce "flameshot"
   spawnOnce "blueman-applet"
-  spawnOnce "xcompmgr -c"
+  spawnOnce "xcompmgr"
+  spawnOnce "mpd"
   spawn "sxhkd"
   spawnOnce "insync start"
   spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
@@ -158,7 +159,7 @@ myStartupHook = do
   -- spawnOnce "sleep 2 && xmonad --restart"
   -- spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
   -- spawnOnce "~/.fehbg &"  -- set last saved feh wallpaper
-  spawnOnce "feh --bg-fill $HOME/Backgrounds/colorful_mountains_by_rmradev_dep7u6t.png"  -- feh set random wallpaper
+  spawnOnce "feh --bg-fill $HOME/Backgrounds/desktop.png"  -- feh set random wallpaper
   -- spawnOnce "nitrogen --restore &"   -- if you prefer nitrogen to feh
   
   setDefaultCursor xC_left_ptr -- Fix cursor theme
@@ -329,6 +330,12 @@ gsUtilities =
   , ("Emacsclient", "emacsclient -c -a 'emacs'")
   , ("Nitrogen", "nitrogen")
   , ("Vim", (myTerminal ++ " -e vim"))
+  ]
+
+gsReload = 
+  [ ("T480", "$HOME/.config/polybar/launch-t480.sh")
+  , ("T480 single monitor", "$HOME/.config/polybar/launch-t480-single-monitor.sh")
+  , ("T480 dual monitor", "$HOME/.config/polybar/launch-t480-dual-monitor.sh")
   ]
 
 myScratchPads :: [NamedScratchpad]
@@ -547,6 +554,7 @@ myKeys c =
   subKeys "Xmonad Essentials"
   [ ("M-C-r",        addName "Recompile XMonad"       $ spawn "xmonad --recompile")
   , ("M-S-r",        addName "Restart XMonad"         $ spawn "xmonad --restart")
+  , ("M-C-x",        addName "Xrandr reload"          $ spawnSelected' gsReload)
   , ("M-S-q",        addName "Quit XMonad"            $ spawn "~/.config/rofi/powermenu/style-3/powermenu.sh")
   , ("M-S-c",        addName "Kill focused window"    $ kill1)
   , ("M-S-a",        addName "Kill all windows on WS" $ killAll)
