@@ -15,10 +15,12 @@ alias lst "eza -la --icons --color=always --group-directories-first --tree"
 alias la "eza -A --icons --color=always --group-directories-first"
 alias lt "eza -aT --color=always --group-directories-first"
 alias ll="eza -l --color=always --group-directories-first"
+alias ll "eza -l --color=always --group-directories-first"
 alias l. "eza -a | egrep '^\.'"
 
 # Shortcuts
 alias g git
+alias lg lazygit
 alias h navi
 alias rr ranger
 alias df duf
@@ -59,6 +61,14 @@ alias jctl "journalctl -p 5 -xb"
 alias killws "kill -9 $(pgrep -f storm)"
 alias killidea "kill -9 $(ps aux | grep intellij | awk '{print $2}')"
 alias toolbox "~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
+alias cat="bat"
+alias v="vim ."
+alias dir="_fzf_search_directory"
+alias var="_fzf_search_variables"
+alias gl="_fzf_search_git_log"
+alias gs="_fzf_search_git_status"
+alias proc="_fzf_search_processes"
+alias hist="_fzf_search_git_history"
 
 command -qv nvim && alias vim nvim
 
@@ -111,9 +121,39 @@ function __check_rvm --on-variable PWD --description 'Do nvm stuff'
         nvm use
     else if test -f package.json; and test -r package.json
         set -l NODE $(jq -r '.engines.node | select(.!=null)' package.json )
-        set -l VER (string match -r '[0-9]+(.[0-9]+)+(.[0-9]+)+' $NODE)
 
-        nvm install $VER
+        set -l OPERATOR (string match -r "^[><=]*" $NODE)
+        set -l VERSION (string match -r "[0-9]+(\.[0-9]+)*(\.[0-9]+)*" $NODE)
+
+        # Check if we have a valid version number
+        if test -n "$VERSION"
+            # Install the matching Node.js version based on the operator
+            switch $OPERATOR
+                case ">="
+                    # Install the latest version that meets or exceeds the specified version
+                    nvm install $VERSION --lts
+                case ">"
+                    # Find and install the next highest version available after $VERSION
+                    set -l NEXT_VERSION (nvm list-remote | grep -E '^v' | grep -A 1 $VERSION | tail -n 1)
+                    nvm install $NEXT_VERSION
+                case "<="
+                    # Install the latest available version less than or equal to $VERSION
+                    set -l LATEST_VERSION (nvm list-remote | grep -E '^v' | grep -B 1 $VERSION | head -n 1)
+                    nvm install $LATEST_VERSION
+                case "<"
+                    # Install the highest version less than $VERSION
+                    set -l MAX_VERSION (nvm list-remote | grep -E '^v' | grep -B 1 $VERSION | head -n 1)
+                    nvm install $MAX_VERSION
+                case "="
+                    # Install the exact specified version
+                    nvm install $VERSION
+                case ""
+                    # No operator, install the exact version
+                    nvm install $VERSION
+            end
+        else
+            echo "Node version is not specified in package.json engines / .nvmrc or is in an invalid format."
+        end
     else
     end
 end
@@ -134,5 +174,6 @@ function save_dir --on-variable PWD
 end
 
 fish_vi_key_bindings
+fzf_configure_bindings --directory=\cf
 
 starship init fish | source
