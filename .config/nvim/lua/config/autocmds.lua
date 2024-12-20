@@ -27,19 +27,19 @@ require("tabnine").setup({
   suggestion_color = { gui = "#e8e8e8", cterm = 244 },
   run_on_every_keystroke = true,
   exclude_filetypes = { "TelescopePrompt", "NvimTree" },
-  log_file_path = nil, -- absolute path to Tabnine log file
+  log_file_path = nil,
 })
 
 require("tabnine.status").status()
 
 require("diffview").setup({
-  diff_binaries = false, -- Show diffs for binaries
-  enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
-  git_cmd = { "git" }, -- The git executable followed by default args.
-  hg_cmd = { "hg" }, -- The hg executable followed by default args.
-  use_icons = true, -- Requires nvim-web-devicons
-  show_help_hints = true, -- Show hints for how to open the help panel
-  watch_index = true, -- Update views and index buffers when the git index changes.
+  diff_binaries = false,
+  enhanced_diff_hl = false,
+  git_cmd = { "git" },
+  hg_cmd = { "hg" },
+  use_icons = true,
+  show_help_hints = true,
+  watch_index = true,
 })
 
 require("neogen").setup({
@@ -50,29 +50,14 @@ require("neogen").setup({
   },
 })
 
-require("gitsigns").setup({
-  auto_attach = true,
-  attach_to_untracked = true,
-  current_line_blame = true,
-  current_line_blame_opts = {
-    virt_text = true,
-    virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-    delay = 1000,
-    ignore_whitespace = false,
-    virt_text_priority = 100,
-  },
-  current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-  signcolumn = true,
-})
-
 require("guess-indent").setup({
-  auto_cmd = true, -- Set to false to disable automatic execution
-  override_editorconfig = false, -- Set to true to override settings set by .editorconfig
-  filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
+  auto_cmd = true,
+  override_editorconfig = false,
+  filetype_exclude = {
     "netrw",
     "tutor",
   },
-  buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
+  buftype_exclude = {
     "help",
     "nofile",
     "terminal",
