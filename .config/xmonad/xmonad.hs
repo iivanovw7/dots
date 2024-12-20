@@ -75,18 +75,6 @@ import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Cursor
 
-   -- ColorScheme module (SET ONLY ONE!)
-      -- Possible choice are:
-      -- DoomOne
-      -- Dracula
-      -- GruvboxDark
-      -- MonokaiPro
-      -- Nord
-      -- OceanicNext
-      -- Palenight
-      -- SolarizedDark
-      -- SolarizedLight
-      -- TomorrowNight
 import Colors.MonokaiPro
 import Graphics.X11.Xlib
 import Graphics.X11.Xlib.Extras
@@ -95,40 +83,40 @@ myFont :: String
 myFont = "xft:Jetbrains Mono:regular:size=9:antialias=true:hinting=true"
 
 myModMask :: KeyMask
-myModMask = mod4Mask        -- Sets modkey to super/windows key
+myModMask = mod4Mask
 
 myTerminal :: String
-myTerminal = "alacritty"    -- Sets default terminal
+myTerminal = "alacritty"
 
 myBrowser :: String
-myBrowser = "firefox"  -- Sets qutebrowser as browser
+myBrowser = "firefox"
 
 myEmacs :: String
-myEmacs = "emacsclient -c -a 'emacs' "  -- Makes emacs keybindings easier to type
+myEmacs = "emacsclient -c -a 'emacs' "
 
 myEditor :: String
-myEditor = "emacsclient -c -a 'emacs' "  -- Sets emacs as editor
+myEditor = "emacsclient -c -a 'emacs' "
 
 myBorderWidth :: Dimension
-myBorderWidth = 3          -- Sets border width for windows
+myBorderWidth = 3
 
-myNormColor :: String       -- Border color of normal windows
-myNormColor   = colorBack   -- This variable is imported from Colors.THEME
+myNormColor :: String
+myNormColor   = colorBack
 
-myFocusColor :: String      -- Border color of focused windows
-myFocusColor  = color13     -- This variable is imported from Colors.THEME
+myFocusColor :: String
+myFocusColor  = color13
 
 mySoundPlayer :: String
-mySoundPlayer = "ffplay -nodisp -autoexit " -- The program that will play system sounds
+mySoundPlayer = "ffplay -nodisp -autoexit "
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "killall conky"                    -- kill current conky on each restart
-  spawn "killall xmobar" -- adding this in case of switching between xmobar and polybar.
-  spawn "killall trayer" -- adding this in case of switching between xmobar and polybar.
+  spawn "killall conky"
+  spawn "killall xmobar"
+  spawn "killall trayer"
 
   spawnOnce "lxsession"
   -- spawnOnce "picom"
@@ -138,7 +126,7 @@ myStartupHook = do
   spawnOnce "blueman-applet"
   spawnOnce "xcompmgr"
   spawnOnce "mpd"
-  spawn "sxhkd"
+  -- spawn "sxhkd"
   spawnOnce "insync start"
   spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
   -- spawnOnce "/usr/lib/slack/slack"
@@ -493,10 +481,6 @@ myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
-  -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
-  -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
-  -- I'm doing it this way because otherwise I would have to write out the full
-  -- name of my workspaces and the names would be very long if using clickable workspaces.
   [ className  =? "confirm"                             --> doFloat
   , className  =? "mpv"                                 --> doRectFloat (W.RationalRect (1 % 4) (1 % 4) (1 % 2) (1 % 2))
   , className  =? "file_progress"                       --> doFloat
@@ -557,6 +541,7 @@ myKeys c =
   , ("M-C-x",        addName "Xrandr reload"          $ spawnSelected' gsReload)
   , ("M-S-q",        addName "Quit XMonad"            $ spawn "~/.config/rofi/powermenu/style-3/powermenu.sh")
   , ("M-S-c",        addName "Kill focused window"    $ kill1)
+  , ("M-C-t",        addName "Toggle keyboard layout" $ spawn "setxkbmap -layout us,ru -option 'grp:win_space_toggle'")
   , ("M-S-a",        addName "Kill all windows on WS" $ killAll)
   , ("M-S-<Return>", addName "Run prompt"             $ spawn "rofi -show combi")
   , ("M-S-l",        addName "Run brigness selector"  $ spawn "~/.config/rofi/applets/bin/brightness.sh")
@@ -602,9 +587,6 @@ myKeys c =
   , ("M-S-,", addName "Rotate all windows except master"       $ rotSlavesDown)
   , ("M-S-.", addName "Rotate all windows current stack"       $ rotAllDown)]
 
-  -- Dmenu scripts (dmscripts)
-  -- In Xmonad and many tiling window managers, M-p is the default keybinding to
-  -- launch dmenu_run, so I've decided to use M-p plus KEY for these dmenu scripts.
   ^++^ subKeys "Dmenu scripts"
   [ ("M-p h", addName "List all dmscripts"     $ spawn "dm-hub")
   -- , ("M-p a", addName "Choose ambient sound"   $ spawn "dm-sounds")
@@ -751,7 +733,6 @@ myLogHook = fadeInactiveLogHook fadeAmount
 main :: IO ()
 main = do
 
-  -- the xmonad, ya know...what the WM is named after!
   xmonad $ addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys $ docks . ewmh $ def
     { manageHook         = myManageHook <+> manageDocks
     , handleEventHook    = windowedFullscreenFixEventHook <> swallowEventHook (className =? "Alacritty"  <||> className =? "st-256color" <||> className =? "XTerm") (return True) <> trayerPaddingXmobarEventHook
