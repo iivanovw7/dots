@@ -19,17 +19,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-require("tabnine").setup({
-  disable_auto_comment = true,
-  accept_keymap = "<Tab>",
-  dismiss_keymap = "<C-]>",
-  debounce_ms = 800,
-  suggestion_color = { gui = "#e8e8e8", cterm = 244 },
-  run_on_every_keystroke = true,
-  exclude_filetypes = { "TelescopePrompt", "NvimTree" },
-  log_file_path = nil,
-})
-
 require("tabnine.status").status()
 
 require("diffview").setup({
