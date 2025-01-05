@@ -86,7 +86,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask
 
 myTerminal :: String
-myTerminal = "alacritty"
+myTerminal = "ghostty"
 
 myBrowser :: String
 myBrowser = "firefox"
@@ -117,6 +117,7 @@ myStartupHook = do
   spawn "killall conky"
   spawn "killall xmobar"
   spawn "killall trayer"
+  spawn "killall polybar"
 
   spawnOnce "lxsession"
   -- spawnOnce "picom"
@@ -303,7 +304,7 @@ gsSettings =
   ]
 
 gsSystem =
-  [ ("Alacritty", "alacritty")
+  [ ("Ghostty", "ghostty")
   , ("Bash", (myTerminal ++ " -e bash"))
   , ("Htop", (myTerminal ++ " -e htop"))
   , ("Fish", (myTerminal ++ " -e fish"))
