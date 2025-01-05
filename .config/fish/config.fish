@@ -83,6 +83,9 @@ set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
 
+# Scripts
+set -gx PATH "$PATH":"$HOME/.local/scripts/"
+
 # NodeJS
 set -gx PATH node_modules/.bin $PATH
 
