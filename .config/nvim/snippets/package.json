@@ -1,0 +1,37 @@
+{
+  "name": "snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./solidjs-reactivity.json"
+      },
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./solidjs-context.tsx.json"
+      },
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./solidjs-component.tsx.json"
+      },
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./react.tsx.json"
+      },
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./pseudo.css.json"
+      }
+    ]
+  }
+}
