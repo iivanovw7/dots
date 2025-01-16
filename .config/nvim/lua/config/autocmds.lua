@@ -8,11 +8,8 @@ local actions = require("diffview.actions")
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
-    -- Enable completion triggered by <c-x><c-o>
     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { buffer = ev.buf }
 
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
@@ -22,13 +19,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 require("tabnine.status").status()
 
 require("diffview").setup({
-  diff_binaries = false,
-  enhanced_diff_hl = false,
-  git_cmd = { "git" },
-  hg_cmd = { "hg" },
-  use_icons = true,
-  show_help_hints = true,
-  watch_index = true,
+  diff_binaries = false, -- Show diffs for binaries
+  enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
+  git_cmd = { "git" }, -- The git executable followed by default args.
+  hg_cmd = { "hg" }, -- The hg executable followed by default args.
+  use_icons = true, -- Requires nvim-web-devicons
+  show_help_hints = true, -- Show hints for how to open the help panel
+  watch_index = true, -- Update views and index buffers when the git index changes.
 })
 
 require("neogen").setup({
@@ -53,8 +50,6 @@ require("guess-indent").setup({
     "prompt",
   },
 })
-
-require("luasnip.loaders.from_vscode").lazy_load()
 
 require("convert").setup({
   keymaps = {
