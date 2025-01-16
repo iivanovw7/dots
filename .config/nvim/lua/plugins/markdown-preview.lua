@@ -1,11 +1,7 @@
 -- NOTE: Preview Markdown
 return {
   {
-    {
-      "iamcco/markdown-preview.nvim",
-      ft = "markdown",
-      -- build = "cd app && yarn install",
-      build = ":call mkdp#util#install()",
-    },
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
   },
 }

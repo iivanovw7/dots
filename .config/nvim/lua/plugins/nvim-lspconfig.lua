@@ -1,28 +1,62 @@
 return {
   {
     "williamboman/mason.nvim",
+    opts_extend = {
+      "ensure_installed",
+    },
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
         "stylua",
         "selene",
         "luacheck",
         "shellcheck",
-        "shfmt",
-        "tailwindcss-language-server",
         "typescript-language-server",
         "css-lsp",
         "flake8",
+        "shfmt",
       })
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    "williamboman/mason-lspconfig.nvim",
     opts = {
+      ensure_installed = {
+        "bashls",
+        "cssls",
+        "cssmodules_ls",
+        "tailwindcss",
+        "eslint",
+        "ts_ls",
+        "html",
+        "gradle_ls",
+        "lua_ls",
+        "jdtls",
+        "jsonls",
+        "lemminx",
+        "marksman",
+        "quick_lint_js",
+        "yamlls",
+        "rust_analyzer",
+      },
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      { "williamboman/mason.nvim" },
+      { "williamboman/mason-lspconfig.nvim" },
+      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+      { "j-hui/fidget.nvim", opts = {} },
+      { "folke/neodev.nvim", opts = {} },
+    },
+    opts = {
+      inlay_hints = { enabled = false },
       servers = {
         eslint = {},
         cssls = {},
         stylelint_lsp = {
-          filetypes = { "css", "scss", "less" },
+          cmd = { "stylelint-lsp", "--stdio" },
+          filetypes = { "css", "scss", "less", "sass" },
           settings = {
             stylelintplus = {
               autoFixOnSave = true,
@@ -109,7 +143,6 @@ return {
               },
               diagnostics = {
                 disable = { "incomplete-signature-doc", "trailing-space" },
-                -- enable = false,
                 groupSeverity = {
                   strong = "Warning",
                   strict = "Warning",
@@ -143,6 +176,9 @@ return {
         },
       },
       setup = {
+        stylelint_lsp = function(_, opts)
+          opts.filetypes = { "css", "scss", "less", "sass" }
+        end,
         eslint_lsp = function()
           require("lazyvim.util").lsp.on_attach(function(client)
             client.server_capabilities.document_formatting = false

@@ -1,10 +1,7 @@
 return {
   { "nvim-treesitter/playground", cmd = "TSPlaygroundToggle" },
-
   {
     "nvim-treesitter/nvim-treesitter",
-    -- errors starting 5fca7ae4960c415af0b038e89a2d84ef6e16d28d
-    -- commit = "59a295f76aa9341a6ba42c680b9af99f2ae18edc",
     opts = {
       ensure_installed = {
         "astro",
@@ -22,24 +19,19 @@ return {
         "scss",
         "sql",
         "svelte",
+        "lua",
+        "comment",
       },
-
-      -- matchup = {
-      -- 	enable = true,
-      -- },
-
-      -- https://github.com/nvim-treesitter/playground#query-linter
       query_linter = {
         enable = true,
         use_virtual_text = true,
         lint_events = { "BufWrite", "CursorHold" },
       },
-
       playground = {
         enable = true,
         disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = true, -- Whether the query persists across vim sessions
+        updatetime = 25,
+        persist_queries = true,
         keybindings = {
           toggle_query_editor = "o",
           toggle_hl_groups = "i",
@@ -56,8 +48,6 @@ return {
     },
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
-
-      -- MDX
       vim.filetype.add({
         extension = {
           mdx = "mdx",

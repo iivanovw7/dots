@@ -1,7 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
@@ -98,6 +94,10 @@ vim.keymap.set("n", "<C-n>", function()
   vim.diagnostic.goto_next()
 end, opts)
 
+vim.keymap.set("n", "<C-p>", function()
+  vim.diagnostic.goto_prev()
+end, opts)
+
 vim.keymap.set("n", "<leader>r", function()
   require("tool.utils").replaceHexWithHSL()
 end)
@@ -133,7 +133,6 @@ vim.keymap.set(
 )
 
 vim.keymap.set("n", "<leader>nca", ":ConvertAll<CR>", { noremap = true, desc = "Convert all of a specific unit" })
-
 vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
 
 vim.keymap.set("n", "<leader>ngd", ":DiffviewOpen", { noremap = true, desc = "DiffView open" })

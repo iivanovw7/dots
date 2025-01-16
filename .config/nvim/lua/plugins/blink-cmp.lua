@@ -5,6 +5,9 @@ return {
     enabled = true,
     dependencies = { "tzachar/cmp-tabnine", "saghen/blink.compat" },
     opts = {
+      snippets = {
+        preset = "luasnip",
+      },
       sources = {
         compat = { "cmp_tabnine" },
         providers = {
@@ -21,7 +24,7 @@ return {
               suggestion_color = { gui = "#4C5259", cterm = 244 },
               run_on_every_keystroke = true,
               exclude_filetypes = { "TelescopePrompt", "NvimTree" },
-              log_file_path = nil, -- absolute path to Tabnine log file
+              log_file_path = nil,
             },
           },
         },
