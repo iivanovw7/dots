@@ -116,20 +116,25 @@ function fish_greeting
     colorscript --random
 end
 
+function fish_prompt
+    check_nvm
+end
+
 # NVM
-function __check_rvm --on-variable PWD --description 'Do nvm stuff'
+function check_nvm --on-variable PWD --description 'Do nvm stuff'
     status --is-command-substitution; and return
 
     if test -f .nvmrc; and test -r .nvmrc
         nvm use
     else if test -f package.json; and test -r package.json
         set -l NODE $(jq -r '.engines.node | select(.!=null)' package.json )
-
         set -l OPERATOR (string match -r "^[><=]*" $NODE)
         set -l VERSION (string match -r "[0-9]+(\.[0-9]+)*(\.[0-9]+)*" $NODE)
 
         # Check if we have a valid version number
-        if test -n "$VERSION"
+        if string match -q -r '^[0-9]+\.[0-9]+\.[0-9]+$' $NODE
+            nvm install $NODE
+        else if test -n "$VERSION"
             # Install the matching Node.js version based on the operator
             switch $OPERATOR
                 case ">="
