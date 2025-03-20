@@ -16,8 +16,6 @@ Auto-refresh dired on file change
 #+end_src
 
 * BEACON
-Never lose your cursor.  When you scroll, your cursor will shine!  This is a global minor-mode. Turn it on everywhere with:
-
 #+begin_src emacs-lisp
 (beacon-mode 1)
 #+end_src
@@ -29,7 +27,6 @@ Never lose your cursor.  When you scroll, your cursor will shine!  This is a glo
 #+end_src
 
 * MENU BAR
-Menu bar
 #+begin_src emacs-lisp
 (menu-bar-mode 1)
 #+end_src
@@ -229,11 +226,7 @@ Menu bar
 #+RESULTS:
 
 * BOOKMARKS AND BUFFERS
-Doom Emacs uses 'SPC b' for keybindings related to bookmarks and buffers.
-
 ** Bookmarks
-Bookmarks are somewhat like registers in that they record positions you can jump to.  Unlike registers, they have long names, and they persist automatically from one Emacs session to the next. The prototypical use of bookmarks is to record where you were reading in various files.
-
 #+BEGIN_SRC emacs-lisp
 (map! :leader
       (:prefix ("b". "buffer")
@@ -242,8 +235,6 @@ Bookmarks are somewhat like registers in that they record positions you can jump
 #+END_SRC
 
 ** Buffers
-Regarding /buffers/, the text you are editing in Emacs resides in an object called a /buffer/. Each time you visit a file, a buffer is used to hold the file’s text. Each time you invoke Dired, a buffer is used to hold the directory listing.  /Ibuffer/ is a program that lists all of your Emacs /buffers/, allowing you to navigate between them and filter them.
-
 | COMMAND         | DESCRIPTION          | KEYBINDING |
 |-----------------+----------------------+------------|
 | ibuffer         | Launch ibuffer       | SPC b i    |
@@ -253,14 +244,11 @@ Regarding /buffers/, the text you are editing in Emacs resides in an object call
 | save-buffer     | Save current buffer  | SPC b s    |
 
 ** Global Auto Revert
-A buffer can get out of sync with respect to its visited file on disk if that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with 'global-auto-revert-mode'.  I have also turned on Global Auto Revert on non-file buffers, which is especially useful for 'dired' buffers.
-
 #+begin_src emacs-lisp
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
-** Keybindings within ibuffer mode
 | COMMAND                           | DESCRIPTION                            | KEYBINDING |
 |-----------------------------------+----------------------------------------+------------|
 | ibuffer-mark-forward              | Mark the buffer                        | m          |
@@ -288,11 +276,6 @@ A buffer can get out of sync with respect to its visited file on disk if that fi
 #+end_src
 
 * CALENDAR
-Let's make a 12-month calendar available so we can have a calendar app that, when we click on time/date in xmobar, we get a nice 12-month calendar to view.
-
-This is a modification of: http://homepage3.nifty.com/oatu/emacs/calendar.html
-See also: https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
-
 #+begin_src emacs-lisp
 ;; https://stackoverflow.com/questions/9547912/emacs-calendar-show-more-than-3-months
 (defun dt/year-calendar (&optional year)
@@ -361,8 +344,6 @@ Let's also play around with calfw.
 #+end_src
 
 * CENTAUR-TABS
-To use tabs in Doom Emacs, be sure to uncomment "tabs" in Doom's init.el.  Displays tabs at the top of the window similar to tabbed web browsers such as Firefox.  I don't actually use tabs in Emacs.  I placed this in my config to help others who may want tabs.  In the default configuration of Doom Emacs, 'SPC t' is used for "toggle" keybindings, so I choose 'SPC t c' to toggle centaur-tabs.  The "g" prefix for keybindings is used for a bunch of evil keybindings in Doom, but "g" plus the arrow keys were not used, so I thought I would bind those for tab navigation.  But I did leave the default "g t" and "g T" intact if you prefer to use those for centaur-tabs-forward/backward.
-
 | COMMAND                     | DESCRIPTION               | KEYBINDING       |
 |-----------------------------+---------------------------+------------------|
 | centaur-tabs-mode           | /Toggle tabs globally/      | SPC t c          |
@@ -413,8 +394,6 @@ To use tabs in Doom Emacs, be sure to uncomment "tabs" in Doom's init.el.  Displ
 #+END_SRC
 
 * CLIPPY
-Gives us a popup box with "Clippy, the paper clip". You can make him say various things by calling 'clippy-say' function.  But the more useful functions of clippy are the two describe functions provided: 'clippy-describe-function' and 'clippy-describe-variable'.  Hit the appropriate keybinding while the point is over a function/variable to call it.  A popup with helpful clippy will appear, telling you about the function/variable (using describe-function and describe-variable respectively).
-
 | COMMAND                  | DESCRIPTION                           | KEYBINDING |
 |--------------------------+---------------------------------------+------------|
 | clippy-describe-function | /Clippy describes function under point/ | SPC c h f  |
@@ -429,8 +408,6 @@ Gives us a popup box with "Clippy, the paper clip". You can make him say various
 #+end_src
 
 * DASHBOARD
-Emacs Dashboard is an extensible startup screen showing you recent files, bookmarks, agenda items and an Emacs banner.
-
 ** Configuring Dashboard
 #+begin_src emacs-lisp
 (use-package dashboard
@@ -465,8 +442,6 @@ This setting ensures that emacsclient always opens on *dashboard* rather than *s
 #+end_src
 
 * DIRED
-Dired is the file manager within Emacs.  Below, I setup keybindings for image previews (peep-dired).  Doom Emacs does not use 'SPC d' for any of its keybindings, so I've chosen the format of 'SPC d' plus 'key'.
-
 ** Keybindings To Open Dired
 
 | COMMAND    | DESCRIPTION                        | KEYBINDING |
@@ -476,7 +451,6 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 
 ** Keybindings Within Dired
 *** Basic dired commands
-
 | COMMAND                 | DESCRIPTION                                 | KEYBINDING |
 |-------------------------+---------------------------------------------+------------|
 | dired-view-file         | /View file in dired/                          | SPC d v    |
@@ -495,7 +469,6 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 | dired-subtree-toggle    | Toggle viewing subtree at point             | TAB        |
 
 *** Dired commands using regex
-
 | COMMAND                 | DESCRIPTION                | KEYBINDING |
 |-------------------------+----------------------------+------------|
 | dired-mark-files-regexp | Mark files using regex     | % m        |
@@ -504,7 +477,6 @@ Dired is the file manager within Emacs.  Below, I setup keybindings for image pr
 | dired-mark-files-regexp | Mark all files using regex | * %        |
 
 *** File permissions and ownership
-
 | COMMAND         | DESCRIPTION                      | KEYBINDING |
 |-----------------+----------------------------------+------------|
 | dired-do-chgrp  | Change the group of marked files | g G        |
@@ -580,8 +552,6 @@ If peep-dired is enabled, you will get image previews as you go up/down with 'j'
 #+end_src
 
 * DOOM THEME
-Setting the theme to doom-one.  To try out new themes, I set a keybinding for counsel-load-theme with 'SPC h t'.
-
 #+BEGIN_SRC emacs-lisp
 (setq doom-theme 'doom-dracula)
 (map! :leader
@@ -602,8 +572,6 @@ Setting the theme to doom-one.  To try out new themes, I set a keybinding for co
 #+end_src
 
 * EMOJIS
-Emojify is an Emacs extension to display emojis. It can display github style emojis like :smile: or plain ascii ones like :).
-
 #+begin_src emacs-lisp
 (use-package emojify
   :hook (after-init . global-emojify-mode))
@@ -613,7 +581,6 @@ Emojify is an Emacs extension to display emojis. It can display github style emo
 | doom-init-fonts-h | doom-init-theme-h | global-emojify-mode | #[0 \300 \207 [dashboard-insert-startupify-lists] 1] | org-persist-load-all | x-wm-set-size-hint | doom-init-local-var-hooks-h | doom--reset-inhibited-vars-h | tramp-register-archive-file-name-handler | magit-maybe-define-global-key-bindings | table--make-cell-map |
 
 * NEOTREE
-Neotree is a file tree viewer.  When you open neotree, it jumps to the current file thanks to neo-smart-open.  The neo-window-fixed-size setting makes the neotree width be adjustable.  Doom Emacs had no keybindings set for neotree.  Since Doom Emacs uses 'SPC t' for 'toggle' keybindings, I used 'SPC t n' for toggle-neotree.
 
 | COMMAND        | DESCRIPTION               | KEYBINDING |
 |----------------+---------------------------+------------|
@@ -635,15 +602,11 @@ Neotree is a file tree viewer.  When you open neotree, it jumps to the current f
 : neotree-dir
 
 * MOUSE SUPPORT
-Adding mouse support in the terminal version of Emacs.
-
 #+begin_src emacs-lisp
 (xterm-mouse-mode 1)
 #+end_src
 
 * ANSI-TERM
-Adds ansi-term shell related modifications.
-
 #+begin_src emacs-lisp
 
 (defun oleh-term-exec-hook ()
