@@ -20,6 +20,7 @@ alias l. "eza -a | egrep '^\.'"
 
 # Shortcuts
 alias g git
+alias v="vim ."
 alias lg lazygit
 alias h navi
 alias rr ranger
@@ -30,7 +31,6 @@ alias grep rg
 alias tt "gio trash"
 alias history "history | nl"
 alias htop bpytop
-alias cat bat
 alias neofetch "fastfetch | lolcat"
 
 # Colorize grep output (good for log files)
@@ -61,8 +61,8 @@ alias jctl "journalctl -p 5 -xb"
 alias killws "kill -9 $(pgrep -f storm)"
 alias killidea "kill -9 $(ps aux | grep intellij | awk '{print $2}')"
 alias toolbox "~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
-alias cat="bat"
-alias v="vim ."
+
+# Fzf
 alias dir="_fzf_search_directory"
 alias var="_fzf_search_variables"
 alias gl="_fzf_search_git_log"
@@ -93,23 +93,15 @@ set -gx PATH node_modules/.bin $PATH
 set -g GOPATH $HOME/go
 set -gx PATH $GOPATH/bin $PATH
 
-# Cutom lazygit config PATH
+# Custom lazygit config PATH
 set -Ux XDG_CONFIG_HOME $HOME/.config
 
-cd
-check_directory_for_new_repository
+# Api key for Gemini
+set -gx GEMINI_API_KEY KEY
 
 function cd -w='cd'
     builtin cd $argv || return
     check_directory_for_new_repository
-end
-
-function check_directory_for_new_repository
-    set current_repository (git rev-parse --show-toplevel 2> /dev/null)
-    if [ "$current_repository" ] && [ "$current_repository" != "$last_repository" ]
-        onefetch
-    end
-    set -gx last_repository $current_repository
 end
 
 function fish_greeting
@@ -167,6 +159,7 @@ function check_nvm --on-variable PWD --description 'Do nvm stuff'
 end
 
 set LOCAL_CONFIG (dirname (status --current-filename))/config-local.fish
+
 if test -f $LOCAL_CONFIG
     source $LOCAL_CONFIG
 end

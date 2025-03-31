@@ -28,27 +28,27 @@ vim.keymap.set("n", "<leader>a", mark.add_file)
 vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
 
 vim.keymap.set("n", "<leader>1", function()
-  ui.nav_file(1)
+	ui.nav_file(1)
 end)
 
 vim.keymap.set("n", "<leader>2", function()
-  ui.nav_file(2)
+	ui.nav_file(2)
 end)
 
 vim.keymap.set("n", "<leader>3", function()
-  ui.nav_file(3)
+	ui.nav_file(3)
 end)
 
 vim.keymap.set("n", "<leader>4", function()
-  ui.nav_file(4)
+	ui.nav_file(4)
 end)
 
 vim.keymap.set("n", "<leader>5", function()
-  ui.nav_file(5)
+	ui.nav_file(5)
 end)
 
 vim.keymap.set("n", "<leader>6", function()
-  ui.nav_file(6)
+	ui.nav_file(6)
 end)
 
 vim.keymap.set("n", "<leader>5", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left>]])
@@ -91,15 +91,15 @@ vim.keymap.set("n", "<C-w><down>", "<C-w>-")
 
 -- Diagnostics
 vim.keymap.set("n", "<C-n>", function()
-  vim.diagnostic.goto_next()
+	vim.diagnostic.goto_next()
 end, opts)
 
 vim.keymap.set("n", "<C-p>", function()
-  vim.diagnostic.goto_prev()
+	vim.diagnostic.goto_prev()
 end, opts)
 
 vim.keymap.set("n", "<leader>r", function()
-  require("tool.utils").replaceHexWithHSL()
+	require("tool.utils").replaceHexWithHSL()
 end)
 
 -- show documentation for what is under cursor
@@ -110,26 +110,19 @@ vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
 
 -- neogen generate
 vim.keymap.set(
-  "n",
-  "<Leader>nf",
-  ":lua require('neogen').generate()<CR>",
-  { noremap = true, silent = true, desc = "Neogen generate" }
+	"n",
+	"<Leader>nf",
+	":lua require('neogen').generate()<CR>",
+	{ noremap = true, silent = true, desc = "Neogen generate" }
 )
 
-vim.keymap.set(
-  "n",
-  "<leader>nq",
-  "",
-  { noremap = true, callback = require("tabnine.chat").open, desc = "Tabnine chat" }
-)
-
-vim.keymap.set("n", "<leader>ncn", ":ConvertFindNext<CR>", { noremap = true, desc = "Find next convertable unit" })
+vim.keymap.set("n", "<leader>ncn", ":ConvertFindNext<CR>", { noremap = true, desc = "Find next convertible unit" })
 
 vim.keymap.set(
-  "n",
-  "<leader>ncc",
-  ":ConvertFindCurrent<CR>",
-  { noremap = true, desc = "Find convertable unit in current line" }
+	"n",
+	"<leader>ncc",
+	":ConvertFindCurrent<CR>",
+	{ noremap = true, desc = "Find convertible unit in current line" }
 )
 
 vim.keymap.set("n", "<leader>nca", ":ConvertAll<CR>", { noremap = true, desc = "Convert all of a specific unit" })
