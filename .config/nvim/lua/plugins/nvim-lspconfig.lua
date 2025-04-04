@@ -15,6 +15,10 @@ return {
 				"css-lsp",
 				"flake8",
 				"js-debug-adapter",
+				"java-debug-adapter",
+				"java-test",
+				"ktlint",
+				"biome",
 			})
 		end,
 	},

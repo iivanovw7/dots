@@ -21,3 +21,4 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 vim.g.snacks_animate = false
 vim.g.lazyvim_blink_main = true
+vim.g.lazyvim_prettier_needs_config = true
