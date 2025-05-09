@@ -125,6 +125,21 @@ vim.keymap.set(
 	{ noremap = true, desc = "Find convertible unit in current line" }
 )
 
+vim.keymap.set("n", "<leader>nac", ":CodeCompanionChat<CR>", {
+	desc = "Chat with AI",
+	silent = true,
+})
+
+vim.keymap.set("n", "<leader>nai", ":CodeCompanion", {
+	desc = "Inline AI Assist",
+	silent = true,
+})
+
+vim.keymap.set("n", "<leader>naa", ":CodeCompanionActions<CR>", {
+	desc = "Inline AI Actions",
+	silent = true,
+})
+
 vim.keymap.set("n", "<leader>nca", ":ConvertAll<CR>", { noremap = true, desc = "Convert all of a specific unit" })
 vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
 
