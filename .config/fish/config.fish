@@ -22,6 +22,7 @@ alias l. "eza -a | egrep '^\.'"
 alias g git
 alias v="vim ."
 alias lg lazygit
+alias cl clear
 alias h navi
 alias rr ranger
 alias df duf
