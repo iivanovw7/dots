@@ -24,9 +24,16 @@ return {
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"saghen/blink.cmp",
+		version = "1.*",
 		optional = true,
 		enabled = true,
-		dependencies = { "milanglacier/minuet-ai.nvim", "saghen/blink.compat" },
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"milanglacier/minuet-ai.nvim",
+			"saghen/blink.compat",
+		},
 		opts = {
 			snippets = {
 				preset = "luasnip",
