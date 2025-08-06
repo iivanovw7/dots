@@ -134,8 +134,11 @@ myStartupHook = do
   -- spawnOnce "xfce4-pulseaudio-plugin"
   -- spawnOnce "light-locker"
 
-  spawn "setxkbmap -layout us,ru -option 'grp:win_space_toggle'"
-  -- spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
+  spawn "xdg-desktop-portal"
+  spawn "xdg-desktop-portal-gtk"
+
+  spawn "setxkbmap -layout us,ru -option 'grp:alt_shift_toggle'"
+  spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
   -- spawn "polybar-xmonad"
   spawn "$HOME/.config/polybar/launch.sh"
   spawn "$HOME/.config/conky/widgets-startup.sh"
@@ -242,6 +245,7 @@ gsWork =
   , ("Brave Nightly", "brave-browser-nightly")
   , ("Chromium", "chromium")
   , ("Slack", "slack")
+  , ("Zen", "zen-browser")
   , ("Thunderbird", "thunderbird")
   , ("Postman", "postman")
   , ("Discord", "discord")
@@ -258,6 +262,7 @@ gsInternet =
   , ("Telegram", "telegram-desktop")
   , ("Element", "element-desktop")
   , ("Firefox", "firefox")
+  , ("Zen", "zen-browser")
   , ("LBRY App", "lbry")
   , ("Mailspring", "mailspring")
   , ("Nextcloud", "nextcloud")
@@ -490,6 +495,7 @@ myManageHook = composeAll
   , className  =? "error"                               --> doFloat
   , className  =? "Gimp"                                --> doFloat
   , title      =? "Peek"                                --> doFloat
+  , title      =? "Kooha"                               --> doFloat
   , className  =? "notification"                        --> doFloat
   , className  =? "pinentry-gtk-2"                      --> doFloat
   , className  =? "splash"                              --> doFloat
@@ -507,6 +513,8 @@ myManageHook = composeAll
   , title      =? "audacious"                           --> doShift ( myWorkspaces !! 8 )
   , className  =? "Slack"                               --> doShift ( myWorkspaces !! 0 )
   , title      =? "Mozilla Firefox Developer Edition"   --> doShift ( myWorkspaces !! 6 )
+  , title      =? "Zen Browser"                         --> doShift ( myWorkspaces !! 6 )
+  , className  =? "zen-browser"                         --> doShift ( myWorkspaces !! 6 )
   , title      =? "Mozilla Firefox"                     --> doShift ( myWorkspaces !! 8 )
   , className  =? "Emacs"                               --> doShift ( myWorkspaces !! 1 )
   , className  =? "Brave-browser-nightly"               --> doShift ( myWorkspaces !! 5 )
@@ -721,8 +729,8 @@ myKeys c =
   , ("<XF86Mail>", addName "Email client"             $ runOrRaise "thunderbird" (resource =? "thunderbird"))
   , ("<XF86Calculator>", addName "Calculator"         $ runOrRaise "qalculate-gtk" (resource =? "qalculate-gtk"))
   , ("<XF86Eject>", addName "Eject /dev/cdrom"        $ spawn "eject /dev/cdrom")
-  , ("<Print>", addName "Take screenshot (dmscripts)" $ spawn "dm-maim")
-  ]
+  , ("<Print>", addName "Take screenshot (dmscripts)" $ spawn "dm-maim")]
+
   -- The following lines are needed for named scratchpads.
     where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
           nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
