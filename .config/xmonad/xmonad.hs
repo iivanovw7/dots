@@ -487,43 +487,45 @@ myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
-  [ className  =? "confirm"                             --> doFloat
-  , className  =? "mpv"                                 --> doRectFloat (W.RationalRect (1 % 4) (1 % 4) (1 % 2) (1 % 2))
-  , className  =? "file_progress"                       --> doFloat
-  , className  =? "dialog"                              --> doFloat
-  , className  =? "download"                            --> doFloat
-  , className  =? "error"                               --> doFloat
-  , className  =? "Gimp"                                --> doFloat
-  , title      =? "Peek"                                --> doFloat
-  , title      =? "Kooha"                               --> doFloat
-  , className  =? "notification"                        --> doFloat
-  , className  =? "pinentry-gtk-2"                      --> doFloat
-  , className  =? "splash"                              --> doFloat
-  , className  =? "toolbar"                             --> doFloat
-  , className  =? "Yad"                                 --> doCenterFloat
-  , title      =? "Oracle VM VirtualBox Manager"        --> doFloat
-  , title      =? "Order Chain - Market Snapshots"      --> doFloat
-  , className  =? "Slack Desktop"                       --> doShift ( myWorkspaces !! 0 )
-  , className  =? "Chromium"                            --> doShift ( myWorkspaces !! 5 )
-  , className  =? "steam"                               --> doShift ( myWorkspaces !! 4 )
-  , title      =? "steam"                               --> doShift ( myWorkspaces !! 4 )
-  , title      =? "discord"                             --> doShift ( myWorkspaces !! 9 )
-  , className  =? "Discord"                             --> doShift ( myWorkspaces !! 9 )
-  , className  =? "Audacious"                           --> doShift ( myWorkspaces !! 8 )
-  , title      =? "audacious"                           --> doShift ( myWorkspaces !! 8 )
-  , className  =? "Slack"                               --> doShift ( myWorkspaces !! 0 )
-  , title      =? "Mozilla Firefox Developer Edition"   --> doShift ( myWorkspaces !! 6 )
-  , title      =? "Zen Browser"                         --> doShift ( myWorkspaces !! 6 )
-  , className  =? "zen-browser"                         --> doShift ( myWorkspaces !! 6 )
-  , title      =? "Mozilla Firefox"                     --> doShift ( myWorkspaces !! 8 )
-  , className  =? "Emacs"                               --> doShift ( myWorkspaces !! 1 )
-  , className  =? "Brave-browser-nightly"               --> doShift ( myWorkspaces !! 5 )
-  , className  =? "mpv"                                 --> doShift ( myWorkspaces !! 7 )
-  , className  =? "Gimp"                                --> doShift ( myWorkspaces !! 8 )
-  , className  =? "VirtualBox Manager"                  --> doShift ( myWorkspaces !! 4 )
-  , (className =? "firefox" <&&> resource =? "Dialog")  --> doFloat  -- Float Firefox Dialog
-  , (className =? "firefox" <&&> resource =? "Toolkit") --> doFloat -- firefox pip
-  , isFullscreen                                        --> doFullFloat
+  [ className  =? "confirm"                                 --> doFloat
+  , className  =? "mpv"                                     --> doRectFloat (W.RationalRect (1 % 4) (1 % 4) (1 % 2) (1 % 2))
+  , className  =? "file_progress"                           --> doFloat
+  , className  =? "dialog"                                  --> doFloat
+  , className  =? "download"                                --> doFloat
+  , className  =? "error"                                   --> doFloat
+  , className  =? "Gimp"                                    --> doFloat
+  , title      =? "Peek"                                    --> doFloat
+  , title      =? "Kooha"                                   --> doFloat
+  , className  =? "notification"                            --> doFloat
+  , className  =? "pinentry-gtk-2"                          --> doFloat
+  , className  =? "splash"                                  --> doFloat
+  , className  =? "toolbar"                                 --> doFloat
+  , className  =? "Yad"                                     --> doCenterFloat
+  , title      =? "Oracle VM VirtualBox Manager"            --> doFloat
+  , title      =? "Order Chain - Market Snapshots"          --> doFloat
+  , className  =? "Slack Desktop"                           --> doShift ( myWorkspaces !! 0 )
+  , className  =? "Chromium"                                --> doShift ( myWorkspaces !! 5 )
+  , className  =? "steam"                                   --> doShift ( myWorkspaces !! 4 )
+  , title      =? "steam"                                   --> doShift ( myWorkspaces !! 4 )
+  , title      =? "discord"                                 --> doShift ( myWorkspaces !! 9 )
+  , className  =? "Discord"                                 --> doShift ( myWorkspaces !! 9 )
+  , className  =? "Audacious"                               --> doShift ( myWorkspaces !! 8 )
+  , title      =? "audacious"                               --> doShift ( myWorkspaces !! 8 )
+  , className  =? "Slack"                                   --> doShift ( myWorkspaces !! 0 )
+  , title      =? "Mozilla Firefox Developer Edition"       --> doShift ( myWorkspaces !! 6 )
+  , title      =? "Zen Browser"                             --> doShift ( myWorkspaces !! 6 )
+  , className  =? "zen"                                     --> doShift ( myWorkspaces !! 6 )
+  , title      =? "Mozilla Firefox"                         --> doShift ( myWorkspaces !! 8 )
+  , className  =? "Emacs"                                   --> doShift ( myWorkspaces !! 1 )
+  , className  =? "Brave-browser-nightly"                   --> doShift ( myWorkspaces !! 5 )
+  , className  =? "mpv"                                     --> doShift ( myWorkspaces !! 7 )
+  , className  =? "Gimp"                                    --> doShift ( myWorkspaces !! 8 )
+  , className  =? "VirtualBox Manager"                      --> doShift ( myWorkspaces !! 4 )
+  , (className =? "firefox" <&&> resource =? "Dialog")      --> doFloat  -- Float Firefox Dialog
+  , (className =? "firefox" <&&> resource =? "Toolkit")     --> doFloat -- firefox pip
+  , (className =? "zen" <&&> resource =? "Dialog")          --> doFloat  -- Float Firefox Dialog
+  , (className =? "zen" <&&> resource =? "Toolkit")         --> doFloat -- firefox pip
+  , isFullscreen                                            --> doFullFloat
   ] <+> namedScratchpadManageHook myScratchPads
 
 subtitle' ::  String -> ((KeyMask, KeySym), NamedAction)
