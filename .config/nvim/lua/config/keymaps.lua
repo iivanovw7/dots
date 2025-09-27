@@ -145,3 +145,12 @@ vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" 
 
 vim.keymap.set("n", "<leader>ngd", ":DiffviewOpen", { noremap = true, desc = "DiffView open" })
 vim.keymap.set("n", "<leader>ngD", ":DiffviewClose", { noremap = true, desc = "DiffView close" })
+
+vim.keymap.set("n", "<leader>nra", function()
+	local attr = vim.fn.input("Remove attribute: ")
+	if attr ~= "" then
+		vim.cmd("%s/\\s*" .. attr .. '="[^"]*"//g')
+	end
+end, {
+	desc = "Remove chosen HTML attribute",
+})
