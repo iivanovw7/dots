@@ -2,9 +2,6 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
-local lspconfig = require("lspconfig")
-local actions = require("diffview.actions")
-
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
@@ -33,8 +30,6 @@ require("neogen").setup({
 		javascriptreact = require("neogen.configurations.javascript"),
 	},
 })
-
-require("luasnip.loaders.from_vscode").lazy_load()
 
 require("guess-indent").setup({
 	auto_cmd = true,

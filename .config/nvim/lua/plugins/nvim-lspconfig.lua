@@ -1,6 +1,6 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		opts_extend = {
 			"ensure_installed",
 		},
@@ -10,26 +10,26 @@ return {
 				"selene",
 				"luacheck",
 				"shellcheck",
-				"shfmt",
 				"typescript-language-server",
 				"css-lsp",
+				"stylelint-lsp",
 				"flake8",
-				"js-debug-adapter",
-				"java-debug-adapter",
-				"java-test",
-				"ktlint",
+				"shfmt",
+				"codelldb",
 				"biome",
 			})
+			if diagnostics == "bacon-ls" then
+				vim.list_extend(opts.ensure_installed, { "bacon" })
+			end
 		end,
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		opts = {
 			ensure_installed = {
 				"bashls",
 				"cssls",
 				"cssmodules_ls",
-				"css_variables",
 				"tailwindcss",
 				"eslint",
 				"ts_ls",
@@ -43,14 +43,80 @@ return {
 				"quick_lint_js",
 				"yamlls",
 				"rust_analyzer",
+				"stylelint_lsp",
+			},
+			handlers = {
+				stylelint_lsp = {
+					cmd = { "stylelint-lsp", "--stdio" },
+					filetypes = { "css", "scss", "less", "sass", "postcss" },
+					settings = {
+						stylelintplus = {
+							autoFixOnSave = true,
+							autoFixOnFormat = true,
+							runOnType = true,
+						},
+					},
+					on_attach = function(client, bufnr)
+						vim.diagnostic.config({
+							virtual_text = { prefix = "", spacing = 2 },
+							signs = true,
+							underline = true,
+							update_in_insert = true,
+						})
+
+						if client.server_capabilities.documentFormattingProvider then
+							vim.api.nvim_clear_autocmds({ group = "StylelintFormat", buffer = bufnr })
+							vim.api.nvim_create_autocmd("BufWritePre", {
+								group = vim.api.nvim_create_augroup("StylelintFormat", { clear = true }),
+								buffer = bufnr,
+								callback = function()
+									vim.lsp.buf.format({
+										async = false,
+										filter = function(c)
+											return c.name == "stylelint_lsp"
+										end,
+									})
+								end,
+							})
+						end
+					end,
+					root_dir = function(fname)
+						local util = require("lspconfig.util")
+
+						local root = util.root_pattern(
+							".stylelintrc",
+							".stylelintrc.json",
+							".stylelintrc.yaml",
+							".stylelintrc.yml",
+							".stylelintrc.js",
+							".stylelintrc.cjs",
+							".stylelintrc.mjs",
+							"stylelint.config.js",
+							"stylelint.config.cjs",
+							"stylelint.config.mjs",
+							"package.json"
+						)(fname)
+
+						if root then
+							return root
+						end
+
+						local git_dir = vim.fs.find(".git", { path = fname, upward = true })[1]
+						if git_dir then
+							return vim.fs.dirname(git_dir)
+						end
+
+						return vim.fs.dirname(fname)
+					end,
+				},
 			},
 		},
 	},
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{ "williamboman/mason.nvim" },
-			{ "williamboman/mason-lspconfig.nvim" },
+			{ "mason-org/mason.nvim" },
+			{ "mason-org/mason-lspconfig.nvim" },
 			{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 			{ "j-hui/fidget.nvim", opts = {} },
 			{ "folke/neodev.nvim", opts = {} },
@@ -58,55 +124,24 @@ return {
 		opts = {
 			inlay_hints = { enabled = false },
 			servers = {
+				bacon_ls = {
+					enabled = diagnostics == "bacon_ls",
+				},
+				rust_analyzer = {
+					enabled = true,
+				},
 				eslint = {},
-				cssls = {},
-				stylelint_lsp = {
-					cmd = { "stylelint-lsp", "--stdio" },
-					filetypes = { "css", "scss", "less", "sass" },
+				cssls = {
 					settings = {
-						stylelintplus = {
-							autoFixOnSave = true,
-							autoFixOnFormat = true,
-						},
+						css = { lint = { unknownAtRules = "ignore" } },
+						scss = { lint = { unknownAtRules = "ignore", operatorNoUnspaced = "ignore" } },
+						less = { lint = { unknownAtRules = "ignore" } },
 					},
-					root_dir = function(...)
-						return require("lspconfig.util").root_pattern(".stylelintrc", "package.json")(...)
-					end,
 				},
 				tailwindcss = {
 					root_dir = function(...)
 						return require("lspconfig.util").root_pattern(".git")(...)
 					end,
-				},
-				tsserver = {
-					root_dir = function(...)
-						return require("lspconfig.util").root_pattern(".git")(...)
-					end,
-					single_file_support = false,
-					settings = {
-						typescript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "literal",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = false,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-						javascript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "all",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = true,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-					},
 				},
 				html = {},
 				yamlls = {
@@ -117,7 +152,6 @@ return {
 					},
 				},
 				lua_ls = {
-					-- enabled = false,
 					single_file_support = true,
 					settings = {
 						Lua = {
@@ -127,11 +161,6 @@ return {
 							completion = {
 								workspaceWord = true,
 								callSnippet = "Both",
-							},
-							misc = {
-								parameters = {
-									-- "--log-level=trace",
-								},
 							},
 							hint = {
 								enable = true,
@@ -183,11 +212,17 @@ return {
 			},
 			setup = {
 				stylelint_lsp = function(_, opts)
-					opts.filetypes = { "css", "scss", "less", "sass" }
-				end,
-				eslint_lsp = function()
+					opts.filetypes = { "css", "scss", "less", "sass", "postcss" }
+
 					require("lazyvim.util").lsp.on_attach(function(client)
-						client.server_capabilities.document_formatting = false
+						if client.name == "stylelint_lsp" then
+							client.server_capabilities.diagnosticProvider = {
+								interFileDependencies = false,
+								workspaceDiagnostics = false,
+							}
+
+							client.server_capabilities.documentFormattingProvider = true
+						end
 					end)
 				end,
 				eslint = function()
