@@ -20,7 +20,29 @@
     "prefix": "umm",
     "body": ["useMemo(() => {", "  $1", "}, [$2]);"]
   },
-
+  "React Focus Logger Hook": {
+    "prefix": "ufl",
+    "body": [
+      "useEffect(() => {",
+      "  const handleFocus = () => {",
+      "    const el = document.activeElement;",
+      "    console.log('%c Focus Shifted 🔍', 'background: #222; color: #bada55; padding: 2px 5px; border-radius: 3px;', {",
+      "      tag: el?.tagName,",
+      "      id: el?.id || 'no-id',",
+      "      class: el?.className || 'no-class',",
+      "      label: el?.getAttribute('aria-label'),",
+      "      // @ts-ignore",
+      "      tabIndex: el?.tabIndex,",
+      "      element: el",
+      "    });",
+      "  };",
+      "",
+      "  window.addEventListener('focusin', handleFocus);",
+      "  return () => window.removeEventListener('focusin', handleFocus);",
+      "}, []);"
+    ],
+    "description": "Logs the currently focused element to the console whenever it changes."
+  },
   "React Function Component": {
     "key": "reactArrowFunctionExportComponent",
     "prefix": "rafce",

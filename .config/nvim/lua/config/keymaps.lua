@@ -154,3 +154,7 @@ vim.keymap.set("n", "<leader>nra", function()
 end, {
 	desc = "Remove chosen HTML attribute",
 })
+
+vim.keymap.set("n", "<leader>nsn", function()
+	require("telescope").extensions.luasnip.luasnip({})
+end, { desc = "Search Snippets" })
