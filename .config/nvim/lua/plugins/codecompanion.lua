@@ -12,18 +12,16 @@ return {
 		config = function()
 			require("codecompanion").setup({
 				strategies = {
-					chat = {
-						adapter = "gemini",
-					},
-					inline = {
-						adapter = "gemini",
-					},
+					chat = { adapter = "gemini" },
+					inline = { adapter = "gemini" },
 				},
 				adapters = {
-					anthropic = function()
+					gemini = function()
 						return require("codecompanion.adapters").extend("gemini", {
 							env = {
+								model = "gemini-2.5-flash",
 								api_key = "GEMINI_API_KEY",
+								stream = true,
 							},
 						})
 					end,

@@ -16,17 +16,24 @@ return {
 				},
 				provider = "gemini",
 				provider_options = {
-					api_key = "GEMINI_API_KEY",
+					gemini = {
+						model = "gemini-2.5-flash",
+						api_key = "GEMINI_API_KEY",
+						end_point = "https://generativelanguage.googleapis.com/v1beta/models",
+						stream = true,
+					},
 				},
+				throttle = 2000,
+				debounce = 400,
 			})
 		end,
 	},
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"saghen/blink.cmp",
-		version = "1.*",
 		optional = true,
 		enabled = true,
+		version = "1.*",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-lua/plenary.nvim",
@@ -34,6 +41,8 @@ return {
 			"milanglacier/minuet-ai.nvim",
 			"saghen/blink.compat",
 		},
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
 		opts = {
 			snippets = {
 				preset = "luasnip",
