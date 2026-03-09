@@ -9,7 +9,7 @@ vim.opt.expandtab = true
 -- vim.opt.softtabstop = 4
 
 vim.opt.number = true
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
 vim.opt.fixeol = false
 
 -- Disable mouse
