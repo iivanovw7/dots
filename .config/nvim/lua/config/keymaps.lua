@@ -140,6 +140,15 @@ vim.keymap.set("n", "<leader>naa", ":CodeCompanionActions<CR>", {
 	silent = true,
 })
 
+vim.keymap.set({ "n", "v", "i" }, "<leader>nag", function()
+	local ok, agentic = pcall(require, "agentic")
+	if ok then
+		agentic.toggle()
+	else
+		vim.notify("Agentic plugin not found!", vim.log.levels.ERROR)
+	end
+end, { desc = "Toggle Agentic Chat" })
+
 vim.keymap.set("n", "<leader>nca", ":ConvertAll<CR>", { noremap = true, desc = "Convert all of a specific unit" })
 vim.keymap.set("n", "<leader>no", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
 
