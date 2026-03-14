@@ -1,0 +1,78 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": [],
+    "modules-right": ["custom/kernel", "cpu", "memory", "disk", "custom/uptime", "custom/pacman", "pulseaudio", "clock", "tray"],
+    
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+    
+    "hyprland/window": {
+        "max-length": 50,
+        "format": "*  {}  *"
+    },
+
+    "custom/kernel": {
+        "exec": "uname -r",
+        "interval": "once",
+        "format": "🤖 {}",
+        "tooltip": false
+    },
+
+    "cpu": {
+        "interval": 1,
+        "format": "💻 Cpu {usage}%",
+        "tooltip": false
+    },
+
+    "memory": {
+        "interval": 1,
+        "format": "💾 Mem {}%",
+        "tooltip": false
+    },
+
+    "disk": {
+        "interval": 30,
+        "format": "hdd: {free} free",
+        "path": "/"
+    },
+
+    "custom/uptime": {
+        "exec": "uptime | awk -F, '{sub(\".*up \",x,$1);print $1}'",
+        "interval": 60,
+        "format": "💻 Uptime : {}",
+        "tooltip": false
+    },
+
+    "custom/pacman": {
+        "format": "🗘 Repo: {}",
+        "interval": 3600,
+        "exec": "checkupdates | wc -l",
+        "exec-if": "exit 0",
+        "on-click": "alacritty -e sudo pacman -Syu",
+        "signal": 8
+    },
+
+    "pulseaudio": {
+        "format": "🔊 {volume}%",
+        "format-muted": "🔊 muted",
+        "on-click": "pavucontrol",
+        "tooltip": false
+    },
+
+    "clock": {
+        "interval": 5,
+        "format": "📅 {:%a %b %d, %Y %I:%M%p}",
+        "tooltip": false
+    },
+
+    "tray": {
+        "icon-size": 20,
+        "spacing": 2
+    }
+}

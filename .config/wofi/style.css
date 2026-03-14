@@ -1,0 +1,46 @@
+window {
+    margin: 0px;
+    border: 3px solid #bd93f9;
+    background-color: #282a36;
+    border-radius: 0px;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: #f8f8f2;
+    background-color: #44475a;
+    padding: 10px;
+    border-radius: 0px;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #282a36;
+    border-radius: 0px;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: #282a36;
+    border-radius: 0px;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: #f8f8f2;
+}
+
+#entry:selected {
+    background-color: #44475a;
+    border-radius: 0px;
+    border: none;
+}

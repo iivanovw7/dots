@@ -1,0 +1,86 @@
+/* Waybar style based on Dracula polybar theme */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Ubuntu", "UbuntuMono Nerd Font", "Font Awesome 6 Free";
+    font-size: 14px;
+    font-weight: bold;
+}
+
+window#waybar {
+    background-color: #282a36; /* Dracula background */
+    color: #f8f8f2;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #f8f8f2;
+    border-bottom: 2px solid transparent;
+}
+
+#workspaces button.active {
+    border-bottom: 2px solid #ff79c6; /* Dracula color5 */
+}
+
+#workspaces button.urgent {
+    background-color: #ff5555; /* Dracula alert */
+}
+
+#window {
+    color: #5af78e; /* Dracula color10 */
+    margin: 0 4px;
+}
+
+#custom-kernel {
+    color: #50fa7b; /* color2 */
+    border-bottom: 2px solid #50fa7b;
+    margin: 0 4px;
+}
+
+#cpu {
+    color: #bd93f9; /* color4 */
+    border-bottom: 2px solid #bd93f9;
+    margin: 0 4px;
+}
+
+#memory {
+    color: #f4f99d; /* color11 */
+    border-bottom: 2px solid #f4f99d;
+    margin: 0 4px;
+}
+
+#disk {
+    color: #ff5555; /* color1 */
+    border-bottom: 2px solid #ff5555;
+    margin: 0 4px;
+}
+
+#custom-uptime {
+    color: #ff92d0; /* color13 */
+    border-bottom: 2px solid #ff92d0;
+    margin: 0 4px;
+}
+
+#custom-pacman {
+    color: #50fa7b; /* color2 */
+    border-bottom: 2px solid #50fa7b;
+    margin: 0 4px;
+}
+
+#pulseaudio {
+    color: #ff79c6; /* color5 */
+    border-bottom: 2px solid #ff79c6;
+    margin: 0 4px;
+}
+
+#clock {
+    color: #bd93f9; /* color4 */
+    border-bottom: 2px solid #bd93f9;
+    margin: 0 4px;
+}
+
+#tray {
+    margin: 0 4px;
+}

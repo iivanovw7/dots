@@ -1,0 +1,68 @@
+(defpoll time :interval "1s" "date '+%I:%M %p'")
+(defpoll date :interval "1h" "date '+%b %d, %Y'")
+(defpoll ip :interval "60s" "ip -o -4 addr list wlp3s0 | awk '{print $4}' | cut -d/ -f1 || echo 'Offline'")
+(defpoll uptime :interval "60s" "uptime -p | sed 's/up //'")
+(defpoll cpu :interval "2s" "top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\\([0-9.]*\\)%* id.*/\\1/' | awk '{print 100 - $1}'")
+(defpoll ram_used :interval "5s" "free -h | awk '/^Mem:/ {print $3}'")
+(defpoll ram_total :interval "5s" "free -h | awk '/^Mem:/ {print $2}'")
+(defpoll ram_perc :interval "5s" "free | awk '/^Mem:/ {printf \"%.0f\", $3/$2 * 100}'")
+(defpoll disk_root_used :interval "60s" "df -h / | awk 'NR==2 {print $3}'")
+(defpoll disk_root_total :interval "60s" "df -h / | awk 'NR==2 {print $2}'")
+(defpoll disk_root_perc :interval "60s" "df -h / | awk 'NR==2 {print $5}' | tr -d '%'")
+(defpoll disk_home_used :interval "60s" "df -h /home | awk 'NR==2 {print $3}'")
+(defpoll disk_home_total :interval "60s" "df -h /home | awk 'NR==2 {print $2}'")
+(defpoll disk_home_perc :interval "60s" "df -h /home | awk 'NR==2 {print $5}' | tr -d '%'")
+
+(defwindow main_conky
+  :monitor 0
+  :geometry (geometry :x "-50px"
+                      :y "80px"
+                      :width "300px"
+                      :height "600px"
+                      :anchor "top right")
+  :stacking "bg"
+  :windowtype "desktop"
+  :exclusive false
+  (conky_layout))
+
+(defwidget conky_layout []
+  (box :orientation "v" :space-evenly false :class "main-container"
+    (box :orientation "v" :space-evenly false :halign "center" :class "time-box"
+      (label :text time :class "time")
+      (label :text date :class "date"))
+    
+    (box :orientation "v" :space-evenly false :class "section"
+      (info_row :label "IP" :value ip)
+      (info_row :label "HOST" :value "ArchLinux")
+      (info_row :label "UPTIME" :value uptime))
+
+    (box :orientation "v" :space-evenly false :class "section"
+      (label :text "STORAGE" :class "section-title" :halign "end")
+      (disk_row :label "Root" :used disk_root_used :total disk_root_total :perc disk_root_perc)
+      (disk_row :label "Home" :used disk_home_used :total disk_home_total :perc disk_home_perc))
+
+    (box :orientation "v" :space-evenly false :class "section"
+      (label :text "CPU" :class "section-title" :halign "end")
+      (box :orientation "h" :space-evenly false
+        (scale :value cpu :max 100 :active false :class "progress-bar")))
+
+    (box :orientation "v" :space-evenly false :class "section"
+      (label :text "RAM" :class "section-title" :halign "end")
+      (box :orientation "h" :space-evenly true
+        (label :text "${ram_used} / ${ram_total}" :halign "center" :class "value")
+        (label :text "${ram_perc}%" :halign "end" :class "perc"))
+      (box :orientation "h" :space-evenly false
+        (scale :value ram_perc :max 100 :active false :class "progress-bar")))))
+
+(defwidget info_row [label value]
+  (box :orientation "h" :space-evenly true
+    (label :text label :halign "start" :class "label")
+    (label :text value :halign "end" :class "value")))
+
+(defwidget disk_row [label used total perc]
+  (box :orientation "v" :space-evenly false
+    (box :orientation "h" :space-evenly true
+      (label :text label :halign "start" :class "label")
+      (label :text "${used} / ${total}" :halign "center" :class "value")
+      (label :text "${perc}%" :halign "end" :class "perc"))
+    (scale :value perc :max 100 :active false :class "progress-bar")))

@@ -1,0 +1,63 @@
+* {
+  all: unset;
+}
+
+.main-container {
+  background-color: rgba(40, 42, 54, 0.8); /* Dracula background */
+  color: #f8f8f2; /* Dracula foreground */
+  padding: 20px;
+  border-radius: 10px;
+  font-family: "JetBrains Mono", "Ubuntu", sans-serif;
+  font-size: 12px;
+}
+
+.time-box {
+  margin-bottom: 20px;
+}
+
+.time {
+  font-family: "Raleway";
+  font-size: 30px;
+  font-weight: bold;
+  color: #bd93f9; /* Dracula color0 (Purple) */
+}
+
+.date {
+  font-family: "Ubuntu";
+  font-size: 14px;
+  color: #bd93f9;
+}
+
+.section {
+  margin-bottom: 15px;
+}
+
+.section-title {
+  color: #50fa7b; /* Dracula color3 (Green) */
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.label {
+  color: #f8f8f2; /* Dracula color1 (White) */
+}
+
+.value {
+  color: #8be9fd; /* Dracula color2 (Cyan) */
+}
+
+.perc {
+  color: #50fa7b; /* Dracula color3 (Green) */
+}
+
+.progress-bar trough {
+  background-color: #44475a;
+  border-radius: 5px;
+  min-height: 8px;
+  margin-top: 5px;
+}
+
+.progress-bar highlight {
+  background-color: #8be9fd;
+  border-radius: 5px;
+}
