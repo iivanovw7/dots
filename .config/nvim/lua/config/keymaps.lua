@@ -167,3 +167,11 @@ end, {
 vim.keymap.set("n", "<leader>nsn", function()
 	require("telescope").extensions.luasnip.luasnip({})
 end, { desc = "Search Snippets" })
+
+vim.keymap.set("n", "<leader>nak", ":CursorAgent open_cwd<CR>", {
+	desc = "Toggle Cursor Agent (file directory)",
+})
+
+vim.keymap.set("n", "<leader>nal", ":CursorAgent open_root<CR>", {
+	desc = "Toggle Cursor Agent (project directory)",
+})

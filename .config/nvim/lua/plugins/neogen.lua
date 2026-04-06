@@ -1,4 +1,9 @@
 return {
-  "danymat/neogen",
-  config = true,
+	"danymat/neogen",
+	opts = {
+		languages = {
+			typescriptreact = require("neogen.configurations.typescript"),
+			javascriptreact = require("neogen.configurations.javascript"),
+		},
+	},
 }

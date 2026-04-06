@@ -23,14 +23,6 @@ require("diffview").setup({
 	watch_index = true, -- Update views and index buffers when the git index changes.
 })
 
-require("neogen").setup({
-	enabled = true,
-	languages = {
-		typescriptreact = require("neogen.configurations.typescript"),
-		javascriptreact = require("neogen.configurations.javascript"),
-	},
-})
-
 require("guess-indent").setup({
 	auto_cmd = true,
 	override_editorconfig = false,
@@ -54,8 +46,6 @@ require("convert").setup({
 		submit = { "<CR>", "<Space>" },
 	},
 })
-
-require("grammar-guard").init()
 
 vim.api.nvim_create_autocmd("InsertEnter", {
 	callback = function()

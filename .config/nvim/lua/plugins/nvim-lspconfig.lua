@@ -44,6 +44,7 @@ return {
 				"yamlls",
 				"rust_analyzer",
 				"stylelint_lsp",
+				"ltex",
 			},
 			handlers = {
 				stylelint_lsp = {
@@ -148,6 +149,32 @@ return {
 					settings = {
 						yaml = {
 							keyOrdering = false,
+						},
+					},
+				},
+				typos_lsp = {
+					cmd_env = { RUST_LOG = "error" },
+					init_options = {
+						diagnosticSeverity = "Information",
+					},
+				},
+				ltex = {
+					settings = {
+						ltex = {
+							enabled = { "latex", "tex", "bib", "markdown", "text", "gitcommit" },
+							language = "en-US",
+							diagnosticSeverity = "info",
+							checkFrequency = "save",
+							sentenceCacheSize = 2000,
+							additionalRules = {
+								enablePickyRules = false,
+							},
+							trace = {
+								server = "verbose",
+							},
+							disabledRules = {
+								["en-GB"] = { "MORFOLOGIK_RULE_EN_GB" },
+							},
 						},
 					},
 				},
