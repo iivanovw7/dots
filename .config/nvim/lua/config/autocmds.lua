@@ -58,3 +58,23 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 		vim.opt.relativenumber = true
 	end,
 })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "monokai-pro",
+	callback = function()
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#19181a" })
+		vim.api.nvim_set_hl(0, "FloatBorder", { link = "Comment" })
+		vim.api.nvim_set_hl(0, "Directory", { fg = "#a9dc76", bold = true })
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "snacks_explorer", "neo-tree", "NvimTree" },
+	callback = function()
+		vim.api.nvim_set_hl(0, "SnacksExplorerNormal", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "SnacksExplorerBorder", { link = "FloatBorder" })
+		vim.api.nvim_set_hl(0, "Directory", { fg = "#a9dc76", bold = true })
+		vim.api.nvim_set_hl(0, "SnacksExplorerDirectory", { link = "Directory" })
+		vim.api.nvim_set_hl(0, "SnacksExplorerIndent", { link = "Comment" })
+	end,
+})
