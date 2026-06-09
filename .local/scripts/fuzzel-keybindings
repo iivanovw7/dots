@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+grep -E '^bind[a-z]*' ~/.config/hypr/hyprland.conf |
+    sed -E 's/\$mainMod/SUPER/g' |
+    sed -E 's/^bind[a-z]*\s*=\s*([^#]+)#\s*(.*)/\2  ->  \1/' |
+    sed -E 's/^bind[a-z]*\s*=\s*(.*)/\1/' |
+    fuzzel --dmenu --prompt="󰌌 Keybinds: " --width=100 --lines=15

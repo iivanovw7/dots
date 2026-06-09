@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+sources=($(pactl list short sources | grep -v ".monitor" | awk '{print $2}'))
+
+current_source=$(pactl get-default-source)
+
+next_source=""
+
+for i in "${!sources[@]}"; do
+    if [[ "${sources[$i]}" == "${current_source}" ]]; then
+        next_index=$(((i + 1) % ${#sources[@]}))
+        next_source="${sources[$next_index]}"
+        break
+    fi
+done
+
+pactl set-default-source "$next_source"
+
+device_desc=$(pactl list sources | grep -A 50 "Name: $next_source" | grep "Description:" | cut -d: -f2- | xargs)
+
+notify-send -h string:x-canonical-private-synchronous:mic-switch \
+    -u low \
+    -i audio-input-microphone \
+    "Microphone Switched" \
+    "$device_desc"

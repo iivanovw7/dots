@@ -1,0 +1,344 @@
+{
+	"custom/openbracket": {
+		"format": "[",
+		"tooltip": false
+	},
+	"custom/closebracket": {
+		"format": "]",
+		"tooltip": false
+	},
+	"custom/split": {
+		"format": "|",
+		"tooltip": false
+	},
+	"custom/power": {
+		"format": "⏻",
+		"on-click": "~/.local/bin/fuzzel-powermenu",
+		"tooltip": false
+	},
+	"custom/monitors": {
+		"format": "󰹑",
+		"on-click": "ghostty --title='hyprmoncfg-float' -e hyprmoncfg",
+		"tooltip-format": "Monitor & Display Settings"
+	},
+	"custom/arch": {
+		"format": "󰣇 {}",
+		"tooltip": false,
+		"on-click": "fuzzel",
+		"exec": "uname -r | sed 's/-arch/-lts/'",
+		"interval": "once"
+	},
+	"group/taskbar": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"wlr/taskbar",
+			"custom/closebracket"
+		]
+	},
+	"network": {
+		"tooltip": true,
+		"format-wifi": "{icon}  {essid}",
+		"format-ethernet": "󰈀 {ifname}",
+		"format-linked": "󰈀 {ifname} (No IP)",
+		"format-disconnected": "󰖪 Disconnected",
+		"tooltip-format": "Signal: {signalStrength}%\nIP: {ipaddr}\nGateway: {gwaddr}",
+		"format-icons": [
+			"󰤯",
+			"󰤟",
+			"󰤢",
+			"󰤥",
+			"󰤨"
+		],
+		"on-click": "nm-connection-editor"
+	},
+	"custom/updates": {
+		"format": "󰚰 {}",
+		"escape": true,
+		"return-type": "json",
+		"exec": "~/.config/waybar/scripts/updates.sh",
+		"interval": 1800,
+		"on-click": "ghostty -e sh -c 'sudo pacman -Syu && yay -Sua; pkill -RTMIN+8 waybar'",
+		"signal": 8,
+		"tooltip": true
+	},
+	"group/tray": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"tray",
+			"custom/closebracket"
+		]
+	},
+	"group/arch": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"custom/arch",
+			"custom/split",
+			"custom/updates",
+			"custom/closebracket"
+		]
+	},
+	"group/utilities": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"wireplumber#input",
+			"wireplumber#output",
+			"custom/split",
+			"bluetooth",
+			"custom/split",
+			"network",
+			"custom/split",
+			"battery",
+			"custom/split",
+			"backlight",
+			"custom/split",
+			"hyprland/language",
+			"custom/split",
+			"tray",
+			"custom/closebracket"
+		]
+	},
+	"group/clock": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"clock#time",
+			"custom/split",
+			"clock#date",
+			"custom/split",
+			"clock#moscow",
+			"custom/closebracket"
+		]
+	},
+	"group/workspaces": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"hyprland/workspaces",
+			"custom/closebracket"
+		]
+	},
+	"group/windows": {
+		"orientation": "horizontal",
+		"modules": [
+			"hyprland/window"
+		]
+	},
+	"hyprland/window": {
+		"format": "{title}",
+		"max-length": 60,
+		"all-outputs": true,
+		"separate-outputs": true,
+		"rewrite": {
+			"^$": "",
+			"^.*Zen Browser.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ffd866'>󰈹</span> Zen Browser <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Mozilla Firefox.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ffd866'>󰈹</span> Firefox <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Chromium.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ffd866'>󰈗</span> Chromium <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*nvim.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#a9dc76'></span> Neovim <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*fish.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ab9df2'>󰈺</span> Fish Shell <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*ghostty.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ab9df2'>󰞷</span> Ghostty <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Visual Studio Code.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#a9dc76'>󰨞</span> VS Code <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Slack.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ab9df2'>󰒱</span> Slack <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Discord.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ab9df2'>󰙯</span> Discord <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Telegram.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ab9df2'>󰔁</span> Telegram <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Steam.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰓓</span> Steam <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*mpv.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#a9dc76'>󰝚</span> MPV <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*imv.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#a9dc76'>󰉏</span> Image Viewer <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Spotify.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#a9dc76'>󰓇</span> Spotify <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Thunar.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰉋</span> Thunar <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*flameshot.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰄀</span> Flameshot <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*Volume Control.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰕾</span> Audio <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*pavucontrol.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰕾</span> Audio <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*btop.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰻠</span> System <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*nwg-look.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰉼</span> Appearance <span color='#b0b0b0' weight='bold'>]</span>",
+			"^.*qt6ct.*$": "<span color='#b0b0b0' weight='bold'>[</span> <span foreground='#ff6188'>󰉼</span> QT Settings <span color='#b0b0b0' weight='bold'>]</span>",
+			"(.+)": "<span color='#b0b0b0' weight='bold'>[</span> 󱂬 $1 <span color='#b0b0b0' weight='bold'>]</span>"
+		}
+	},
+	"niri/window": {
+		"format": "{title}",
+		"max-length": 60,
+		"min-length": 0,
+		"all-outputs": true
+	},
+	"group/cpuram": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"cpu",
+			"custom/split",
+			"memory",
+			"custom/split",
+			"temperature",
+			"custom/closebracket"
+		]
+	},
+	"group/power": {
+		"orientation": "horizontal",
+		"modules": [
+			"custom/openbracket",
+			"custom/monitors",
+			"custom/split",
+			"idle_inhibitor",
+			"custom/split",
+			"custom/power",
+			"custom/closebracket"
+		]
+	},
+	"cpu": {
+		"format": "CPU:{usage}%",
+		"tooltip": false,
+		"interval": 2,
+		"on-click": "ghostty --title='btop-float' -e bpytop"
+	},
+	"memory": {
+		"format": "RAM:{}%",
+		"tooltip": false,
+		"interval": 2,
+		"on-click": "ghostty --title='btop-float' -e bpytop"
+	},
+	"temperature": {
+		"interval": 10,
+		"thermal-zone": 0,
+		"hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+		"critical-threshold": 80,
+		"format-critical": "󰈸 {temperatureC}°C",
+		"format": "󰔏 {temperatureC}°C",
+		"tooltip": false
+	},
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "",
+			"deactivated": ""
+		}
+	},
+	"backlight": {
+		"device": "amdgpu_bl1",
+		"format": "{icon} {percent}%",
+		"format-icons": [
+			"󰃞",
+			"󰃟",
+			"󰃠"
+		],
+		"scroll-step": 5,
+		"smooth-scrolling-threshold": 1
+	},
+	"wireplumber#output": {
+		"format": "{icon} {volume}%",
+		"format-muted": "󰝟",
+		"format-bluetooth": "󰂯 {icon} {volume}%",
+		"format-bluetooth-muted": "󰂯 󰝟",
+		"format-icons": {
+			"headphone": "󰋋",
+			"headset": "󰋋",
+			"default": [
+				"󰕿",
+				"󰖀",
+				"󰕾"
+			]
+		},
+		"on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+		"on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+		"on-click-middle": "~/.local/scripts/output-switch",
+		"on-click-right": "ghostty --title='wiremix-float' -e wiremix",
+		"tooltip": false
+	},
+	"wireplumber#input": {
+		"node-type": "Audio/Source",
+		"format": "󰍬 {volume}%",
+		"format-muted": "󰍭",
+		"on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 1%+",
+		"on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 1%-",
+		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+		"on-click-middle": "~/.local/scripts/input-switch",
+		"on-click-right": "ghostty --title='wiremix-float' -e wiremix",
+		"tooltip-format": "Mic Sensitivity: {volume}%"
+	},
+	"wireplumber#audio-switch": {
+		"format": "󰕑",
+		"on-click": "ghostty --title='wiremix-float' -e wiremix",
+		"on-click-right": "~/.local/scripts/audio-switch",
+		"tooltip-format": "Left: Mixer | Right: Switch Output"
+	},
+	"battery": {
+		"states": {
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{icon} {capacity}%",
+		"format-charging": "󱐋 {capacity}%",
+		"format-plugged": " {capacity}%",
+		"format-icons": [
+			"󰁺",
+			"󰁻",
+			"󰁼",
+			"󰁽",
+			"󰁾",
+			"󰁿",
+			"󰂀",
+			"󰂁",
+			"󰂂",
+			"󰁹"
+		]
+	},
+	"bluetooth": {
+		"format": "󰂯 {status}",
+		"format-disabled": "󰂲 Off",
+		"format-off": "󰂲 Off",
+		"format-connected": "󰂱 {device_alias}",
+		"format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
+		"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+		"on-click": "rfkill toggle bluetooth",
+		"on-click-right": "blueman-manager"
+	},
+	"clock#time": {
+		"interval": 1,
+		"format": "{:%I:%M:%S %p %z}",
+		"tooltip": false
+	},
+	"clock#date": {
+		"interval": 60,
+		"format": "{:%Y-%m-%d}",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"calendar": {
+			"mode": "month",
+			"on-scroll": 1,
+			"format": {
+				"months": "<span color='#ffead3'><b>{}</b></span>",
+				"days": "<span color='#ecc6d9'><b>{}</b></span>",
+				"weeks": "<span color='#99ff99'><b>W{}</b></span>",
+				"weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+				"today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+		}
+	},
+	"clock#moscow": {
+		"timezone": "Europe/Moscow",
+		"format": " 󰭰 {:%H:%M MSK}",
+		"tooltip-format": "<big>Moscow, Russia</big>\n<tt><small>{calendar}</small></tt>",
+		"calendar": {
+			"mode": "month",
+			"on-scroll": 1,
+			"format": {
+				"months": "<span color='#ffead3'><b>{}</b></span>",
+				"days": "<span color='#ecc6d9'><b>{}</b></span>",
+				"weeks": "<span color='#99ff99'><b>W{}</b></span>",
+				"weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+				"today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+		}
+	},
+	"hyprland/language": {
+		"format": "󰌌 {short}",
+		"on-click": "hyprctl switchxkblayout all next",
+		"tooltip-format": "Layout: {long}"
+	}
+}

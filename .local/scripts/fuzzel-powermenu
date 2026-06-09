@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Monokai Spectrum Palette
+BG="2d2a2ef2"       # Charcoal with 95% opacity
+TEXT="fcfcfaff"     # Off-white
+PROMPT="ffd866ff"   # Yellow
+MATCH="ff6188ff"    # Pink
+SEL="403e41ff"      # Lighter Charcoal
+SEL_TEXT="a9dc76ff" # Green
+BORDER="ffd866ff"   # Yellow
+
+# Options
+lock='󰌾  Lock'
+suspend='󰤄  Suspend'
+logout='󰗽  Logout'
+reboot='󰜉  Reboot'
+shutdown='󰐥  Shutdown'
+
+content="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
+
+chosen=$(echo -e "$content" | fuzzel --dmenu \
+  --prompt="󰐥 Power: " \
+  --width=20 \
+  --lines=5 \
+  --font="JetBrainsMono Nerd Font:size=14" \
+  --background=$BG \
+  --text=$TEXT \
+  --match-color=$MATCH \
+  --selection-color=$SEL \
+  --selection-text-color=$SEL_TEXT \
+  --border-color=$BORDER)
+
+case "$chosen" in
+"$lock") hyprlock ;;
+"$suspend") systemctl suspend ;;
+"$logout") hyprctl dispatch exit ;;
+"$reboot") systemctl reboot ;;
+"$shutdown") hyprctl dispatch exit && systemctl poweroff ;;
+esac

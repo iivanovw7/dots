@@ -1,0 +1,93 @@
+{
+  "name": "laptop",
+  "created_at": "2026-04-21T21:19:45.232861068Z",
+  "updated_at": "2026-04-21T21:22:33.952190086Z",
+  "outputs": [
+    {
+      "key": "au optronics|0x9b95",
+      "match_key": "au optronics|0x9b95",
+      "name": "eDP-1",
+      "make": "AU Optronics",
+      "model": "0x9B95",
+      "enabled": true,
+      "mode": "1920x1080@60.31Hz",
+      "width": 1920,
+      "height": 1080,
+      "refresh": 60.31,
+      "x": 653,
+      "y": 1080,
+      "scale": 1,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": false,
+    "strategy": "sequential",
+    "max_workspaces": 10,
+    "group_size": 3,
+    "monitor_order": [
+      "au optronics|0x9b95"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "DVI-I-1",
+        "output_name": "DVI-I-1",
+        "default": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "DVI-I-1",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "3",
+        "output_key": "DVI-I-1",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "DVI-I-1",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "DVI-I-1",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "DVI-I-2",
+        "output_name": "DVI-I-2",
+        "default": true
+      },
+      {
+        "workspace": "7",
+        "output_key": "DVI-I-2",
+        "output_name": "DVI-I-2"
+      },
+      {
+        "workspace": "8",
+        "output_key": "DVI-I-2",
+        "output_name": "DVI-I-2"
+      },
+      {
+        "workspace": "9",
+        "output_key": "DVI-I-2",
+        "output_name": "DVI-I-2"
+      },
+      {
+        "workspace": "10",
+        "output_key": "DVI-I-2",
+        "output_name": "DVI-I-2"
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+[general]
+fullscreen = true
+early-exit = true
+corner-roundness = 12
+initial-tool = "arrow"

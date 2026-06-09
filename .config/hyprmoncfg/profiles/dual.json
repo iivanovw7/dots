@@ -1,0 +1,144 @@
+{
+  "name": "dual",
+  "created_at": "2026-04-21T22:18:16.98150503Z",
+  "updated_at": "2026-06-09T08:44:46.978772461Z",
+  "outputs": [
+    {
+      "key": "lg electronics|lg fhd|0x01010101",
+      "match_key": "lg electronics|lg fhd|0x01010101",
+      "name": "DVI-I-2",
+      "make": "LG Electronics",
+      "model": "LG FHD",
+      "serial": "0x01010101",
+      "enabled": true,
+      "mode": "1920x1080@74.97Hz",
+      "width": 1920,
+      "height": 1080,
+      "refresh": 74.97,
+      "x": 5133,
+      "y": 0,
+      "scale": 1,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "lg electronics|lg ultrafine|309mapnghr92",
+      "match_key": "lg electronics|lg ultrafine|309mapnghr92",
+      "name": "DVI-I-1",
+      "make": "LG Electronics",
+      "model": "LG ULTRAFINE",
+      "serial": "309MAPNGHR92",
+      "enabled": true,
+      "mode": "2560x1440@60.00Hz",
+      "width": 2560,
+      "height": 1440,
+      "refresh": 60,
+      "x": 2573,
+      "y": 0,
+      "scale": 1,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    },
+    {
+      "key": "au optronics|0x9b95",
+      "match_key": "au optronics|0x9b95",
+      "name": "eDP-1",
+      "make": "AU Optronics",
+      "model": "0x9B95",
+      "enabled": false,
+      "mode": "1920x1080@60.31Hz",
+      "width": 1920,
+      "height": 1080,
+      "refresh": 60.31,
+      "x": 653,
+      "y": 1080,
+      "scale": 1,
+      "transform": 0,
+      "bitdepth": 8,
+      "cm": "srgb",
+      "sdr_brightness": 1,
+      "sdr_saturation": 1,
+      "sdr_min_luminance": 0.2,
+      "sdr_max_luminance": 80,
+      "min_luminance": 0
+    }
+  ],
+  "workspaces": {
+    "enabled": true,
+    "strategy": "manual",
+    "max_workspaces": 9,
+    "group_size": 3,
+    "monitor_order": [
+      "au optronics|0x9b95",
+      "lg electronics|lg ultrafine|309mapnghr92",
+      "lg electronics|lg fhd|0x01010101"
+    ],
+    "rules": [
+      {
+        "workspace": "1",
+        "output_key": "lg electronics|lg ultrafine|309mapnghr92",
+        "output_name": "DVI-I-1",
+        "default": true
+      },
+      {
+        "workspace": "2",
+        "output_key": "lg electronics|lg ultrafine|309mapnghr92",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "3",
+        "output_key": "lg electronics|lg ultrafine|309mapnghr92",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "4",
+        "output_key": "lg electronics|lg ultrafine|309mapnghr92",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "5",
+        "output_key": "lg electronics|lg ultrafine|309mapnghr92",
+        "output_name": "DVI-I-1"
+      },
+      {
+        "workspace": "6",
+        "output_key": "lg electronics|lg fhd|0x01010101",
+        "output_name": "DVI-I-2",
+        "default": true
+      },
+      {
+        "workspace": "7",
+        "output_key": "lg electronics|lg fhd|0x01010101",
+        "output_name": "DVI-I-2"
+      },
+      {
+        "workspace": "8",
+        "output_key": "lg electronics|lg fhd|0x01010101",
+        "output_name": "DVI-I-2"
+      },
+      {
+        "workspace": "9",
+        "output_key": "lg electronics|lg fhd|0x01010101",
+        "output_name": "DVI-I-2"
+      },
+      {
+        "workspace": "10",
+        "output_key": "lg electronics|lg fhd|0x01010101",
+        "output_name": "DVI-I-2"
+      }
+    ]
+  },
+  "exec": ""
+}

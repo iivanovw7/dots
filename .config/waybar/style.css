@@ -1,86 +1,255 @@
-/* Waybar style based on Dracula polybar theme */
+@define-color background #2D2A2E;
+/* Machine Dark */
+@define-color second-background #b0b0b0;
+/* Selection Gray */
+@define-color text #FCFCFA;
+/* Off-white */
+@define-color borders #5B595C;
+/* Subtle gray border */
+@define-color focused #FFD866;
+/* Monokai Yellow */
+@define-color focused2 #A9DC76;
+/* Monokai Green */
+@define-color color1 #78DCE8;
+/* Monokai Cyan */
+@define-color color2 #AB9DF2;
+/* Monokai Purple */
+@define-color color3 #FF6188;
+/* Monokai Pink (Red) */
+@define-color color4 #FC9867;
+/* Monokai Orange */
+@define-color urgent #FF6188;
+/* Monokai Pink */
 
 * {
-    border: none;
-    border-radius: 0;
-    font-family: "Ubuntu", "UbuntuMono Nerd Font", "Font Awesome 6 Free";
-    font-size: 14px;
+    font-family: "JetBrainsMono Nerd Font", "Iosevka Nerd Font", "monospace";
     font-weight: bold;
+    font-size: 14px;
+}
+
+#custom-openbracket,
+#custom-closebracket,
+#custom-split {
+    margin: 0 2px;
+    color: @borders;
+}
+
+#custom-closebracket {
+    margin-left: 4px;
 }
 
 window#waybar {
-    background-color: #282a36; /* Dracula background */
-    color: #f8f8f2;
+    background-color: transparent;
+    color: @text;
 }
 
+window#waybar.empty #window {
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* --- MODULE ISLANDS (The 3 sections) --- */
+.modules-left,
+.modules-right {
+    margin-top: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 2px 4px;
+    background-color: @background;
+    border: 1px solid @borders;
+}
+
+.modules-center {
+    background: transparent;
+    border: none;
+    margin-top: 0;
+}
+
+#window,
+#taskbar {
+    background-color: @background;
+    border: 1px solid @borders;
+    padding: 2px 8px;
+    color: @text;
+}
+
+/* Hide when truly empty */
+#window.empty,
+#taskbar.empty {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+/* --- WORKSPACES --- */
 #workspaces button {
-    padding: 0 5px;
-    background-color: transparent;
-    color: #f8f8f2;
-    border-bottom: 2px solid transparent;
+    padding: 0;
+    margin: 0 6px;
+    color: @text;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border: none;
+    min-height: 20px;
 }
 
 #workspaces button.active {
-    border-bottom: 2px solid #ff79c6; /* Dracula color5 */
+    color: @focused;
+}
+
+#workspaces button:hover:not(.active) {
+    color: @focused;
 }
 
 #workspaces button.urgent {
-    background-color: #ff5555; /* Dracula alert */
+    color: @urgent;
 }
 
-#window {
-    color: #5af78e; /* Dracula color10 */
-    margin: 0 4px;
+#workspaces button.empty {
+    color: @second-background;
 }
 
-#custom-kernel {
-    color: #50fa7b; /* color2 */
-    border-bottom: 2px solid #50fa7b;
-    margin: 0 4px;
+#workspaces button.active {
+    color: @focused;
+}
+
+#workspaces button.urgent {
+    color: @urgent;
+}
+
+#workspaces button label {
+    color: inherit;
+}
+
+#custom-openbracket,
+#custom-closebracket {
+    color: @second-background;
+    font-weight: bold;
+}
+
+#bluetooth,
+#custom-updates,
+#custom-arch,
+#clock.date,
+#clock.time,
+#network,
+#battery,
+#custom-power,
+#custom-monitors,
+#language,
+#cpu,
+#memory,
+#custom-audio-switcher,
+#idle_inhibitor,
+#backlight,
+#wireplumber {
+    margin: 0 6px;
+    color: @text;
+}
+
+
+#custom-monitors,
+#custom-power,
+#idle_inhibitor {
+    margin-right: 12px;
+}
+
+#network:hover,
+#bluetooth:hover,
+#custom-updates:hover,
+#custom-arch:hover,
+#custom-power:hover,
+#custom-monitors:hover,
+#custom-audio-switcher:hover,
+#clock.date:hover,
+#cpu:hover,
+#memory:hover,
+#wireplumber:hover,
+#idle_inhibitor:hover {
+    color: @color1;
 }
 
 #cpu {
-    color: #bd93f9; /* color4 */
-    border-bottom: 2px solid #bd93f9;
-    margin: 0 4px;
+    color: @focused2;
 }
 
 #memory {
-    color: #f4f99d; /* color11 */
-    border-bottom: 2px solid #f4f99d;
-    margin: 0 4px;
+    color: @color2;
 }
 
-#disk {
-    color: #ff5555; /* color1 */
-    border-bottom: 2px solid #ff5555;
-    margin: 0 4px;
+#temperature {
+    color: @color4;
+    padding: 0 5px;
 }
 
-#custom-uptime {
-    color: #ff92d0; /* color13 */
-    border-bottom: 2px solid #ff92d0;
-    margin: 0 4px;
+#temperature.critical {
+    color: @color3;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
-#custom-pacman {
-    color: #50fa7b; /* color2 */
-    border-bottom: 2px solid #50fa7b;
-    margin: 0 4px;
+#battery.charging,
+#battery.plugged {
+    color: @focused2;
 }
 
-#pulseaudio {
-    color: #ff79c6; /* color5 */
-    border-bottom: 2px solid #ff79c6;
-    margin: 0 4px;
+#battery.critical:not(.charging) {
+    color: @urgent;
+    animation: blink 0.5s steps(12) infinite alternate;
 }
 
-#clock {
-    color: #bd93f9; /* color4 */
-    border-bottom: 2px solid #bd93f9;
-    margin: 0 4px;
+@keyframes blink {
+    to {
+        background-color: @urgent;
+        color: @background;
+    }
+}
+
+#taskbar {
+    min-height: 24px;
+    padding: 0 4px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background-color: @background;
+    border: 1px solid @borders;
+}
+
+#taskbar button {
+    min-height: 20px;
+    min-width: 20px;
+    padding: 0 2px 0 6px;
+    margin: 2px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 #tray {
-    margin: 0 4px;
+    padding: 0 2px 0 4px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+}
+
+#tray image {
+    min-width: 8px;
+    min-height: 8px;
+    margin: 0 2px;
+}
+
+.tray-item {
+    min-height: 12px;
+    min-width: 12px;
+    padding: 0;
+    margin: 0 2px;
+    border: none;
+    border-radius: 0;
 }

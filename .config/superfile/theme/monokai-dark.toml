@@ -1,0 +1,30 @@
+# Monokai Dark Theme for Superfile
+[theme]
+# Background and default text
+background = "#272822"
+foreground = "#f8f8f2"
+
+# Border colors for panels
+border_active = "#a6e22e"   # Monokai Green
+border_inactive = "#75715e" # Monokai Grey
+
+# Sidebar and Metadata panels
+sidebar_bg = "#1e1f1c"
+metadata_bg = "#1e1f1c"
+
+# File colors (The classic Monokai accents)
+directory = "#66d9ef"       # Monokai Blue
+file = "#f8f8f2"            # Standard White/Grey
+executable = "#a6e22e"      # Monokai Green
+compressed = "#ae81ff"      # Monokai Purple
+image = "#f92672"           # Monokai Pink
+video = "#fd971f"           # Monokai Orange
+
+# Cursor and Selection
+cursor_bg = "#49483e"
+cursor_fg = "#f8f8f2"
+selection_bg = "#3e3d32"
+
+# Progress bars and Header
+gauge_active = "#a6e22e"
+gauge_inactive = "#75715e"

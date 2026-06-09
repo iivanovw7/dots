@@ -1,23 +1,34 @@
-# Dracula colors
-background-color=#282a36
-text-color=#f8f8f2
-border-color=#bd93f9
-
-font=Ubuntu 11
-width=300
-height=100
-margin=10
-padding=15
+font=Sans 12
+background-color=#2d2a2e
+text-color=#fcfcfa
+border-color=#ffd866
 border-size=2
 border-radius=0
 default-timeout=5000
+padding=15
+margin=20
 
 [urgency=low]
-border-color=#6272a4
-
-[urgency=normal]
-border-color=#bd93f9
+border-color=#a9dc76
+default-timeout=2000
 
 [urgency=high]
-border-color=#ff5555
+border-color=#ff6188
+text-color=#ff6188
 default-timeout=0
+
+[category=ws-notify]
+anchor=center
+background-color=#2d2a2e
+text-color=#a9dc76
+border-color=#a9dc76
+border-size=4
+width=150
+height=100
+font=Sans Bold 50
+text-alignment=center
+default-timeout=800
+
+[category=audio-switch]
+border-color=#ffd866
+background-color=#1d1e19
