@@ -54,7 +54,7 @@ window#waybar.empty #window {
 /* --- MODULE ISLANDS (The 3 sections) --- */
 .modules-left,
 .modules-right {
-    margin-top: 0;
+    margin-top: 5px;
     margin-left: 5px;
     margin-right: 5px;
     padding: 2px 4px;
@@ -65,7 +65,7 @@ window#waybar.empty #window {
 .modules-center {
     background: transparent;
     border: none;
-    margin-top: 0;
+    margin-top: 5px;
 }
 
 #window,
