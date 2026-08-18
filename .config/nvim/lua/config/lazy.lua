@@ -50,6 +50,8 @@ require("lazy").setup({
 		{ import = "lazyvim.plugins.extras.editor.dial" },
 		{ import = "lazyvim.plugins.extras.editor.fzf" },
 		{ import = "lazyvim.plugins.extras.editor.outline" },
+		{ import = "lazyvim.plugins.extras.editor.inc-rename" },
+		{ import = "lazyvim.plugins.extras.editor.snacks_picker" },
 		-- { import = "lazyvim.plugins.extras.ai.tabnine" },
 		-- { import = "lazyvim.plugins.extras.ui.mini-animate" },
 		-- import/override with your plugins
