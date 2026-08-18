@@ -40,6 +40,17 @@ return {
 				updatetime = 25,
 				persist_queries = true,
 			},
+			config = function(_, opts)
+				local TS = require("nvim-treesitter")
+				TS.setup(opts)
+
+				vim.filetype.add({
+					extension = {
+						mdx = "mdx",
+					},
+				})
+				vim.treesitter.language.register("markdown", "mdx")
+			end,
 		},
 	},
 }
