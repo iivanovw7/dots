@@ -51,7 +51,7 @@ return {
 				sources = {
 					explorer = {
 						hidden = false,
-						ignored = false,
+						ignored = true,
 						exclude = {
 							".git",
 						},
@@ -76,6 +76,20 @@ return {
 			statuscolumn = { enabled = true },
 			-- words = { enabled = true },
 		},
+		config = function(_, opts)
+			require("snacks").setup(opts)
+
+			Snacks.util.set_hl({
+				PickerPathIgnored = {
+					fg = "#C5C9D1",
+				},
+				PickerPathHidden = {
+					fg = "#C5C9D1",
+				},
+			}, {
+				prefix = "Snacks",
+			})
+		end,
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
