@@ -50,7 +50,8 @@
 			"󰤥",
 			"󰤨"
 		],
-		"on-click": "nm-connection-editor"
+		"on-click": "nm-connection-editor",
+		"on-click-right": "ghostty --title='nmtui-float' -e  nmtui"
 	},
 	"custom/updates": {
 		"format": "󰚰 {}",
