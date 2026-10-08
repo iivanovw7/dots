@@ -1,7 +1,56 @@
 #!/usr/bin/env bash
 
-grep -E '^bind[a-z]*' ~/.config/hypr/hyprland.conf |
-    sed -E 's/\$mainMod/SUPER/g' |
-    sed -E 's/^bind[a-z]*\s*=\s*([^#]+)#\s*(.*)/\2  ->  \1/' |
-    sed -E 's/^bind[a-z]*\s*=\s*(.*)/\1/' |
-    fuzzel --dmenu --prompt="󰌌 Keybinds: " --width=100 --lines=15
+config="$HOME/.config/hypr/hyprland.conf"
+
+declare -a labels=()
+declare -a commands=()
+
+while IFS= read -r line; do
+    [[ "$line" =~ ^bind[a-z]*[[:space:]]*= ]] || continue
+
+    display=$(printf '%s\n' "$line" |
+        sed -E 's/$mainMod/SUPER/g' |
+        sed -E 's/^bind[a-z]*\s*=\s*([^#]+)#\s*(.*)/\2  ->  \1/' |
+        sed -E 's/^bind[a-z]*\s*=\s*(.*)/\1/')
+
+    labels+=("$display")
+
+    raw="${line%%#*}"
+    raw="${raw#*=}"
+
+    IFS=',' read -r mods key dispatcher command <<<"$raw"
+
+    dispatcher="${dispatcher//[[:space:]]/}"
+    command="${command#"${command%%[![:space:]]*}"}"
+    command="${command%"${command##*[![:space:]]}"}"
+
+    command="${command//\$terminal/ghostty}"
+    command="${command//\$fileManager/thunar}"
+    command="${command//\$menu/hyprlauncher}"
+
+    if [[ "$dispatcher" == "exec" ]]; then
+        commands+=("$command")
+    else
+        commands+=("")
+    fi
+done <"$config"
+
+((${#labels[@]})) || exit 0
+
+selected=$(
+    printf '%s\n' "${labels[@]}" |
+        fuzzel --dmenu \
+            --index \
+            --prompt="󰌌 Keybinds: " \
+            --width=100 \
+            --lines=15
+)
+
+[[ "$selected" =~ ^[0-9]+$ ]] || exit 0
+(("$selected" < ${#commands[@]})) || exit 0
+
+command="${commands[$selected]}"
+
+if [[ -n "$command" ]]; then
+    hyprctl dispatch exec "$command"
+fi
