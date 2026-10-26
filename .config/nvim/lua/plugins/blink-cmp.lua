@@ -17,7 +17,7 @@ return {
 				provider = "gemini",
 				provider_options = {
 					gemini = {
-						model = "gemini-2.5-flash",
+						model = "gemini-3.1-flash-lite",
 						api_key = "GEMINI_API_KEY",
 						end_point = "https://generativelanguage.googleapis.com/v1beta/models",
 						stream = true,

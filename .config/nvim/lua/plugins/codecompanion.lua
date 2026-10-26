@@ -19,7 +19,7 @@ return {
 					gemini = function()
 						return require("codecompanion.adapters").extend("gemini", {
 							env = {
-								model = "gemini-2.5-flash",
+								model = "gemini-3.1-flash-lite",
 								api_key = "GEMINI_API_KEY",
 								stream = true,
 							},
