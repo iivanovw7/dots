@@ -1,0 +1,162 @@
+[
+	{
+		"name": "top_bar",
+		"height": 28,
+		"margin": 2,
+		"spacing": 0,
+		"layer": "top",
+		"position": "top",
+		"include": [
+			"~/.config/waybar/modules.json"
+		],
+		"output": [
+			"DVI-I-2",
+			"eDP-1"
+		],
+		"modules-left": [
+			"group/workspaces"
+		],
+		"modules-center": [
+			"group/windows"
+		],
+		"modules-right": [
+			"group/clock",
+			"group/power"
+		],
+		"hyprland/workspaces": {
+			"active-only": false,
+			"all-outputs": true,
+			"disable-scroll": true,
+			"on-click": "activate",
+			"sort-by-number": true,
+			"format": "{icon}",
+			"format-icons": {
+				"1": "",
+				"2": "󰒱",
+				"3": "",
+				"4": "",
+				"5": "",
+				"6": "󰊯",
+				"7": "󰈹",
+				"8": "",
+				"9": "",
+				"10": "󰭹",
+				"urgent": "",
+				"default": ""
+			},
+			"persistent-workspaces": {
+				"*": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				]
+			}
+		}
+	},
+	{
+		"name": "bottom_bar",
+		"layer": "top",
+		"position": "bottom",
+		"output": [
+			"DVI-I-2",
+			"eDP-1"
+		],
+		"height": 28,
+		"margin": 2,
+		"spacing": 0,
+		"include": [
+			"~/.config/waybar/modules.json"
+		],
+		"modules-left": [
+			"group/arch",
+			"group/cpuram"
+		],
+		"modules-center": [
+			"wlr/taskbar"
+		],
+		"modules-right": [
+			"group/utilities"
+		],
+		"wlr/taskbar": {
+			"format": "{icon}",
+			"icon-size": 16,
+			"icon-theme": "Gruvbox-Plus-Dark",
+			"tooltip-format": "{title}",
+			"on-click": "activate",
+			"on-click-middle": "close",
+			"ignore-list": [
+				"ghostty"
+			],
+			"rewrite": {
+				"Firefox Web Browser": "Firefox",
+				"Foot Server": "Terminal"
+			}
+		},
+		"custom/launcher": {
+			"format": "  ",
+			"on-click": "hyprlauncher"
+		}
+	},
+	{
+		"name": "secondary_top",
+		"layer": "top",
+		"margin": 2,
+		"position": "top",
+		"output": [
+			"DVI-I-1"
+		],
+		"include": [
+			"~/.config/waybar/modules.json"
+		],
+		"height": 28,
+		"spacing": 0,
+		"modules-left": [
+			"group/workspaces"
+		],
+		"modules-center": [
+			"group/windows"
+		],
+		"modules-right": [
+			"group/clock",
+			"group/power"
+		],
+		"hyprland/workspaces": {
+			"active-only": false,
+			"all-outputs": false,
+			"disable-scroll": true,
+			"on-click": "activate",
+			"sort-by-number": true,
+			"format": "{icon}",
+			"format-icons": {
+				"1": "",
+				"2": "󰒱",
+				"3": "",
+				"4": "",
+				"5": "",
+				"6": "󰊯",
+				"7": "󰈹",
+				"8": "",
+				"9": "",
+				"10": "󰭹",
+				"urgent": "",
+				"default": ""
+			},
+			"persistent-workspaces": {
+				"DVI-I-1": [
+					6,
+					7,
+					8,
+					9,
+					10
+				]
+			}
+		}
+	}
+]

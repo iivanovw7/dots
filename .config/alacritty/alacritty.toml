@@ -1,0 +1,62 @@
+[window]
+dynamic_padding = false
+# startup_mode = 'Maximized'
+# decorations = 'transparent'
+opacity = 0.9
+
+[window.padding]
+x = 10
+y = 25
+
+[font]
+size = 13
+
+[env]
+WINIT_X11_SCALE_FACTOR = "1.1"
+
+[font.normal]
+family = "SauceCodePro Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "SauceCodePro Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "SauceCodePro Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "SauceCodePro Nerd Font"
+style = "Bold Italic"
+
+[colors.primary]
+background = '#222222'
+foreground = '#f7f1ff'
+
+# Normal colors
+[colors.normal]
+black = '#131313'
+red = '#f4005f'
+green = '#7bd88f'
+yellow = '#fd9353'
+blue = '#948ae3'
+magenta = '#f4005f'
+cyan = '#5ad4e6'
+white = '#c4c5b5'
+
+# Bright colors
+[colors.bright]
+black = '#625e4c'
+red = '#f4005f'
+green = '#98e024'
+yellow = '#e0d561'
+blue = '#9d65ff'
+magenta = '#f4005f'
+cyan = '#58d1eb'
+white = '#f6f6ef'
+
+[terminal]
+
+[terminal.shell]
+program = '/usr/bin/fish'

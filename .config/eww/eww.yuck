@@ -1,0 +1,51 @@
+;; Variables (Polls every 2-5 seconds)
+(defpoll disk_used :interval "1m" "df -h / | awk 'NR==2 {print $3}'")
+(defpoll disk_total :interval "1m" "df -h / | awk 'NR==2 {print $2}'")
+(defpoll date :interval "1s" "date '+%H:%M:%S'")
+(defpoll day :interval "1h" "date '+%A, %d %B'")
+
+;; Dashboard Window
+(defwindow dashboard
+  :monitor 1
+  :geometry (geometry :x "20px" :y "20px" :width "400px" :height "600px" :anchor "top right")
+  :stacking "fg"
+  (dashboard_layout))
+
+;; Reusable Metric Widget (C;; New Variable for Top Processes
+(defpoll top_procs :interval "5s" "ps axch -o cmd:15,%cpu --sort=-%cpu | head -n 5 | awk '{print $1 \" \" $2 \"%\"}'")
+
+;; Updated Dashboard Layout
+(defwidget dashboard_layout []
+  (box :orientation "vertical" :class "main-box" :spacing 15 :space-evenly false
+    ;; Header: Time & Date
+    (box :class "header" :orientation "vertical"
+      (label :class "time" :text date)
+      (label :class "date" :text day))
+
+    ;; System Resources (CPU/RAM)
+    (box :class "stats-box" :spacing 10 :orientation "vertical"
+      (metric :label "󰻠 CPU" :value {EWW_CPU.avg} :onchange "")
+      (metric :label " RAM" :value {EWW_RAM.used_mem_perc} :onchange ""))
+
+    ;; Top Processes Section
+    (box :class "proc-box" :orientation "vertical" :spacing 5
+      (label :class "section-title" :text "󰆼 Top Processes" :halign "start")
+      (label :class "proc-text" :text top_procs :justify "left" :halign "start"))
+
+    ;; Disk Space
+    (box :class "disk-box" :orientation "horizontal" :space-evenly true
+      (label :text "󰋊 Disk: ${disk_used} / ${disk_total}"))
+
+    ;; Quick Folders
+    (box :class "folders" :spacing 10 :space-evenly true
+      (button :onclick "thunar ~ &" "󱂵 Home")
+      (button :onclick "thunar ~/Downloads &" " Downloads")
+      (button :onclick "thunar ~/Pictures &" "󰉏 Pixels"))
+
+    ;; Calendar (Fixed: Removed the undefined variables)
+    (calendar :class "cal")))
+
+(defwidget metric [label value onchange]
+  (box :orientation "horizontal" :class "metric" :space-evenly false
+    (box :class "label" label)
+    (scale :min 0 :max 101 :active {onchange != ""} :value value :onchange onchange)))

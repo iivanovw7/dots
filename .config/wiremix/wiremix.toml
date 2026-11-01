@@ -1,0 +1,9 @@
+mouse = true
+peaks = "auto"
+char_set = "default"
+theme = "default"
+tab = "playback"
+tabs = [ "playback", "recording", "output", "input", "configuration" ]
+max_volume_percent = 150.0
+enforce_max_volume = false
+lazy_capture = false

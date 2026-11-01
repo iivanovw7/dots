@@ -1,0 +1,29 @@
+return {
+  "mrcjkb/rustaceanvim",
+  version = "^5",
+  lazy = false,
+  opts = {
+    server = {
+      on_attach = function(client, bufnr)
+      end,
+      settings = {
+        ["rust-analyzer"] = {
+          checkOnSave = {
+            enable = false,
+          },
+          diagnostics = {
+            enable = true,
+            disabled = {
+              "unresolved-proc-macro",
+              "unresolved-macro-call",
+              "E0308",
+            },
+          },
+          procMacro = {
+            enable = true,
+          },
+        },
+      },
+    },
+  },
+}

@@ -1,0 +1,43 @@
+* {
+    background-image: none;
+    box-shadow: none;
+}
+
+window {
+    background-color: rgba(45, 42, 46, 0.85); /* Monokai Charcoal Transparent */
+}
+
+button {
+    border-radius: 20px;
+    border: 3px solid #403e41;
+    background-color: #343136;
+    color: #fcfcfa; /* Off-white icons */
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 80px;
+    margin: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover Effects */
+button#lock:hover {
+    border-color: #ffd866; /* Yellow */
+    color: #ffd866;
+}
+
+button#logout:hover {
+    border-color: #ab9df2; /* Lavender */
+    color: #ab9df2;
+}
+
+button#shutdown:hover {
+    border-color: #ff6188; /* Pink */
+    color: #ff6188;
+}
+
+button#reboot:hover {
+    border-color: #a9dc76; /* Green */
+    color: #a9dc76;
+}
+
+/* Add a small label under the icon using font-size tricks if needed, 
+   but for a clean modern look, the big icons usually suffice. */

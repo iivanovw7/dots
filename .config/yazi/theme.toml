@@ -1,0 +1,22 @@
+[flavor]
+dark = "monokai"
+
+[manager]
+border_symbol = "│" 
+border_style  = { fg = "#75715e" } # Monokai muted grey
+
+[border]
+type  = "plain"
+style = { fg = "#75715e" }
+
+[input]
+border = { type = "plain", style = { fg = "#a6e22e" } } # Monokai Green accent
+
+[select]
+border = { type = "plain", style = { fg = "#ae81ff" } } # Monokai Purple accent
+
+[confirm]
+border = { type = "plain", style = { fg = "#f92672" } } # Monokai Pink accent
+
+[help]
+border = { type = "plain", style = { fg = "#66d9ef" } } # Monokai Blue accent

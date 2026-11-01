@@ -1,0 +1,82 @@
+$bg: #2d2a2e;
+$fg: #fcfcfa;
+$purple: #ab9df2;
+$green: #a9dc76;
+$yellow: #ffd866;
+
+.section-title {
+  font-weight: bold;
+  color: $purple;
+  margin-bottom: 5px;
+  border-bottom: 1px solid lighten($bg, 15%);
+}
+
+.proc-text {
+  font-family: "JetBrains Mono Nerd Font";
+  font-size: 0.9rem;
+  color: $fg;
+}
+
+.disk-box {
+  background-color: lighten($bg, 5%);
+  padding: 8px;
+  border-left: 4px solid $yellow;
+}
+
+.main-box {
+  background-color: $bg;
+  color: $fg;
+  padding: 20px;
+  border: 3px solid $purple;
+  border-radius: 0px;
+}
+
+.time {
+  font-size: 3rem;
+  font-weight: bold;
+  color: $purple;
+}
+
+.date {
+  font-size: 1.2rem;
+  color: $yellow;
+}
+
+.metric scale trough {
+  background-color: lighten($bg, 10%);
+  min-height: 10px;
+  min-width: 150px;
+  border-radius: 0px;
+}
+
+.metric scale highlight {
+  background-color: $green;
+  border-radius: 0px;
+}
+
+button {
+  background-color: lighten($bg, 5%);
+  color: $fg;
+  padding: 10px;
+  border-bottom: 2px solid $yellow;
+
+  &:hover {
+    background-color: $purple;
+    color: $bg;
+  }
+}
+
+.cal {
+  background-color: lighten($bg, 2%);
+  color: $fg;
+  padding: 10px;
+
+  &.header {
+    color: $purple;
+  }
+
+  &:selected {
+    background-color: $green;
+    color: $bg;
+  }
+}

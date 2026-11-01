@@ -1,0 +1,16 @@
+{
+  "au optronics 0x9b95": {
+    "step": 0,
+    "reason": "",
+    "saved": "",
+    "since": "2026-09-30T20:33:15.769644643+01:00",
+    "gentle_wake": true
+  },
+  "lg electronics lg ultrafine 309mapnghr92": {
+    "step": 0,
+    "reason": "",
+    "saved": "",
+    "since": "2026-10-04T18:49:58.410619845+01:00",
+    "gentle_wake": true
+  }
+}
