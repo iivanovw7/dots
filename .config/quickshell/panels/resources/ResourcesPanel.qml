@@ -1,4 +1,3 @@
-
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -304,7 +303,7 @@ PanelWindow {
                         }
 
                         Text {
-                            text: "LIVE HARDWARE STATUS"
+                            text: "HARDWARE STATUS"
                             color: root.muted
                             font.family: "monospace"
                             font.pixelSize: 9
@@ -314,14 +313,6 @@ PanelWindow {
 
                 Item {
                     Layout.fillWidth: true
-                }
-
-                Text {
-                    text: "● LIVE"
-                    color: root.green
-                    font.family: "monospace"
-                    font.pixelSize: 9
-                    Layout.alignment: Qt.AlignVCenter
                 }
             }
 

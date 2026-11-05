@@ -78,7 +78,7 @@ hl.config({
 		groupbar = {
 			enabled = true,
 			font_size = 12,
-			font_family = "sans-serif",
+			font_family = "JetBrainsMono Nerd Font",
 			height = 22,
 			gradients = false,
 			render_titles = true,
@@ -434,6 +434,15 @@ end)
 -- Load optional generated monitor rules last.
 do
 	local path = HOME .. "/.config/hypr/hyprmoncfg-monitors.lua"
+	local file = io.open(path, "r")
+	if file then
+		file:close()
+		dofile(path)
+	end
+end
+
+do
+	local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"
 	local file = io.open(path, "r")
 	if file then
 		file:close()

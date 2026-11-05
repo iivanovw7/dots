@@ -31,8 +31,11 @@ config config --local status.showUntrackedFiles no
 config status
 # Add a configuration file
 config add ~/.config/example
+config add -A
+config add -u
 # See changes
 config diff
+config diff --short
 # Commit
 config commit -m "Add example config"
 # Push
