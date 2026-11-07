@@ -64,8 +64,8 @@ alias killidea "kill -9 $(ps aux | grep intellij | awk '{print $2}')"
 alias toolbox "~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
 
 alias config='/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME'
-alias config:leaks="gitleaks git --redact --verbose '$HOME/.dots'"
-alias config:leaks-staged="gitleaks git --staged --redact --verbose '$HOME/.dots'"
+alias config:leaks='gitleaks git --redact --verbose "$HOME/.dots"'
+alias config:leaks-staged='gitleaks git --staged --redact --verbose "$HOME/.dots"'
 
 # Fzf
 alias dir="_fzf_search_directory"

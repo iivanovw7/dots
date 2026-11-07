@@ -13,9 +13,9 @@ git init --bare $HOME/.dots
 Fish aliases (`~/.config/fish/config.fish`):
 
 ```fish
-alias config '/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME'
-alias config:leaks "gitleaks git --redact --verbose $HOME/.dots"
-alias config:leaks-staged "gitleaks git --staged --redact --verbose $HOME/.dots"
+alias config='/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME'
+alias config:leaks='gitleaks git --redact --verbose "$HOME/.dots"'
+alias config:leaks-staged='gitleaks git --staged --redact --verbose "$HOME/.dots"'
 ```
 
 Git configuration:
