@@ -29,13 +29,14 @@ config config --local status.showUntrackedFiles no
 ```bash
 # Check status
 config status
+config status --short
 # Add a configuration file
 config add ~/.config/example
 config add -A
 config add -u
 # See changes
-config diff
-config diff --short
+config diff master
+config diff master --names-only
 # Commit
 config commit -m "Add example config"
 # Push
