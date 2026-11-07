@@ -14,8 +14,14 @@ Fish aliases (`~/.config/fish/config.fish`):
 
 ```fish
 alias config='/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME'
+alias config:update='config add -u'
+alias config:status='config status --short'
+alias config:diff='config diff master'
+alias config:diff:short='config diff master --name-only'
+alias config:commit='config commit -m'
+alias config:push='config push -u origin master'
 alias config:leaks='gitleaks git --redact --verbose "$HOME/.dots"'
-alias config:leaks-staged='gitleaks git --staged --redact --verbose "$HOME/.dots"'
+alias config:leaks:staged='gitleaks git --staged --redact --verbose "$HOME/.dots"'
 ```
 
 Git configuration:
