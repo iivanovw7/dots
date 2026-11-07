@@ -66,7 +66,6 @@ alias toolbox "~/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
 alias config='/usr/bin/git --git-dir=$HOME/.dots/ --work-tree=$HOME'
 alias config:update='config add -u'
 alias config:status='config status --short'
-alias config:untrack='config rm -r --cached'
 alias config:diff='config diff master'
 alias config:diff:short='config diff master --name-only'
 alias config:commit='config commit -m'
