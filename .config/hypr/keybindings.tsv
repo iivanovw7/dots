@@ -1,0 +1,89 @@
+SUPER+RETURN -- Open terminal	ghostty
+SUPER+E -- Open file manager	thunar
+SUPER+V -- Toggle floating window	
+SUPER+R -- Reload Waybar	pkill -SIGUSR2 waybar
+SUPER+P -- Toggle pseudo-tiling	
+SUPER+TAB -- Toggle split layout	
+SUPER+F -- Toggle fullscreen	
+SUPER+G -- Toggle window group	
+SUPER+ALT+H -- Add window to group on the left	
+SUPER+ALT+L -- Add window to group on the right	
+SUPER+ALT+K -- Add window to group above	
+SUPER+ALT+J -- Add window to group below	
+SUPER+ALT+G -- Remove window from group	
+SUPER+CONTROL+TAB -- Next window in group	
+SUPER+CONTROL+SHIFT+TAB -- Previous window in group	
+SUPER+SHIFT+CONTROL+H -- Move group tab backward	
+SUPER+SHIFT+CONTROL+L -- Move group tab forward	
+SUPER+SHIFT+M -- Exit Hyprland	command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit
+SUPER+SHIFT+R -- Reload Hyprland and Waybar	hyprctl reload; pkill waybar; waybar >/dev/null 2>&1 &
+SUPER+SHIFT+C -- Close active window	
+SUPER+SHIFT+RETURN -- Open application launcher	fuzzel
+SUPER+SHIFT+Q -- Open power menu	/home/iivanovw7/.local/scripts/fuzzel-powermenu
+SUPER+SHIFT+I -- Switch input device	/home/iivanovw7/.local/scripts/input-switch
+SUPER+SHIFT+O -- Switch audio output	/home/iivanovw7/.local/scripts/output-switch
+SUPER+SHIFT+X -- title='hyprmoncfg-float' -e hyprmoncfg") -- Open monitor configuration	ghostty --title='hyprmoncfg-float' -e hyprmoncfg
+SUPER+SHIFT+A -- Toggle AI workspace	
+SUPER+A -- title='wiremix-float' -e wiremix") -- Open WireMix audio mixer	ghostty --title='wiremix-float' -e wiremix
+SUPER+ESCAPE -- title='btop-float' -e bpytop") -- Open system monitor	ghostty --title='btop-float' -e bpytop
+SUPER+Y -- dmenu | cliphist decode | wl-copy") -- Open clipboard history	cliphist list | fuzzel --dmenu | cliphist decode | wl-copy
+SUPER+B -- Toggle Waybar	pkill waybar || waybar
+SUPER+T -- Show keyboard shortcuts	/home/iivanovw7/.local/scripts/fuzzel-keybindings
+SUPER+CONTROL+S -- copy-command wl-copy'") -- Take selected-area screenshot	bash -c 'grim -g "$(slurp)" - | satty -f - --copy-command wl-copy'
+SUPER+CONTROL+A -- filename - --copy-command wl-copy'") -- Take full-screen screenshot	bash -c 'grim -t png - | satty --filename - --copy-command wl-copy'
+SUPER+LEFT -- Focus window left	
+SUPER+RIGHT -- Focus window right	
+SUPER+UP -- Focus window above	
+SUPER+DOWN -- Focus window below	
+SUPER+H -- Focus window left	
+SUPER+L -- Focus window right	
+SUPER+K -- Focus window above	
+SUPER+J -- Focus window below	
+SUPER+SHIFT+H -- Move window left	
+SUPER+SHIFT+L -- Move window right	
+SUPER+SHIFT+K -- Move window up	
+SUPER+SHIFT+J -- Move window down	
+SUPER+SHIFT+CONTROL+H -- Move group tab backward	
+SUPER+SHIFT+CONTROL+L -- Move group tab forward	
+SUPER+CONTROL+H -- Resize window left	
+SUPER+CONTROL+L -- Resize window right	
+SUPER+CONTROL+K -- Resize window up	
+SUPER+CONTROL+J -- Resize window down	
+SUPER+1 -- Switch to workspace	
+SUPER+SHIFT+1 -- Move window to workspace	
+SUPER+2 -- Switch to workspace	
+SUPER+SHIFT+2 -- Move window to workspace	
+SUPER+3 -- Switch to workspace	
+SUPER+SHIFT+3 -- Move window to workspace	
+SUPER+4 -- Switch to workspace	
+SUPER+SHIFT+4 -- Move window to workspace	
+SUPER+5 -- Switch to workspace	
+SUPER+SHIFT+5 -- Move window to workspace	
+SUPER+6 -- Switch to workspace	
+SUPER+SHIFT+6 -- Move window to workspace	
+SUPER+7 -- Switch to workspace	
+SUPER+SHIFT+7 -- Move window to workspace	
+SUPER+8 -- Switch to workspace	
+SUPER+SHIFT+8 -- Move window to workspace	
+SUPER+9 -- Switch to workspace	
+SUPER+SHIFT+9 -- Move window to workspace	
+SUPER+0 -- Switch to workspace 10	
+SUPER+SHIFT+0 -- Move window to workspace 10	
+SUPER+S -- Toggle special workspace	
+SUPER+SHIFT+S -- Move window to special workspace	
+SUPER+PERIOD -- Focus next monitor	
+SUPER+COMMA -- Focus previous monitor	
+SUPER + mouse:272 -- Drag window with mouse	
+SUPER + mouse:273 -- Resize window with mouse	
+switch:off:Lid Switch -- Enable laptop display when lid opens	hyprctl keyword monitor 'eDP-1, preferred, auto, 1'
+switch:on:Lid Switch -- Disable laptop display when lid closes	hyprctl keyword monitor 'eDP-1, disable'
+XF86AudioRaiseVolume -- Increase volume	wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+XF86AudioLowerVolume -- Decrease volume	wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+XF86AudioMute -- Toggle audio mute	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+XF86AudioMicMute -- Toggle microphone mute	wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+XF86MonBrightnessUp -- Increase screen brightness	brightnessctl -e4 -n2 set 5%+
+XF86MonBrightnessDown -- Decrease screen brightness	brightnessctl -e4 -n2 set 5%-
+XF86AudioNext -- Play next track	playerctl next
+XF86AudioPause -- Pause media playback	playerctl play-pause
+XF86AudioPlay -- Toggle media playback	playerctl play-pause
+XF86AudioPrev -- Play previous track	playerctl previous

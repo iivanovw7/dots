@@ -292,7 +292,23 @@ bind = $mainMod, P, pseudo # Toggle pseudotile mode
 bind = $mainMod, TAB, layoutmsg, togglesplit # Togglesplit, toggle window split
 bind = $mainMod, F, togglefloating # Toggle window float
 bind = $mainMod, F, fullscreen, 0 # Toggle fullscreen
+
+# GROUP MANAGEMENT
+
 bind = $mainMod, G, togglegroup # Toggle group
+
+bind = $mainMod SHIFT, LEFT, movewindoworgroup, l # Join group to the left
+bind = $mainMod SHIFT, RIGHT, movewindoworgroup, r # Join group to the right
+bind = $mainMod SHIFT, UP, movewindoworgroup, u # Join group above
+bind = $mainMod SHIFT, DOWN, movewindoworgroup, d # Join group below
+
+bind = $mainMod SHIFT, G, moveoutofgroup # Leave group
+
+bind = $mainMod SHIFT CONTROL, H, changegroupactive, f # Next group tab
+bind = $mainMod SHIFT CONTROL, L, changegroupactive, b # Previous group tab
+
+bind = $mainMod SHIFT, PAGE_UP, movegroupwindow, b # Move tab backward
+bind = $mainMod SHIFT, PAGE_DOWN, movegroupwindow, f # Move tab forward
 
 binde = ALT, h, moveactive, -40 0 # Move active window left
 binde = ALT, l, moveactive, 40 0 # Move active window right
@@ -334,13 +350,10 @@ bind = $mainMod SHIFT, l, movewindow, r # Move window right
 bind = $mainMod SHIFT, k, movewindow, u # Move window up
 bind = $mainMod SHIFT, j, movewindow, d # Move window down
 
-bind = $mainMod SHIFT CONTROL, h, changegroupactive, f
-bind = $mainMod SHIFT CONTROL, l, changegroupactive, b
-
-binde = $mainMod CONTROL, h, resizeactive, -30 0 # Resize window left
-binde = $mainMod CONTROL, l, resizeactive, 30 0 # Resize window right
-binde = $mainMod CONTROL, k, resizeactive, 0 -30 # Resize window up
-binde = $mainMod CONTROL, j, resizeactive, 0 30 # Resize window down
+hl.bind("SUPER + CTRL + H", hl.dsp.window.resize({ x = -30, y = 0, relative = true }), { repeating = true })
+hl.bind("SUPER + CTRL + L", hl.dsp.window.resize({ x = 30, y = 0, relative = true }), { repeating = true })
+hl.bind("SUPER + CTRL + K", hl.dsp.window.resize({ x = 0, y = -30, relative = true }), { repeating = true })
+hl.bind("SUPER + CTRL + J", hl.dsp.window.resize({ x = 0, y = 30, relative = true }), { repeating = true })
 
 # Switch workspaces with mainMod + [0-9]
 bind = $mainMod, 1, workspace, 1 # Workspace 1

@@ -1,39 +1,23 @@
 #!/usr/bin/env bash
 
-config="$HOME/.config/hypr/hyprland.conf"
+config="$HOME/.config/hypr/hyprland.lua"
+index="$HOME/.config/hypr/keybindings.tsv"
+
+# Reload the index if it does not exist.
+if [[ ! -f "$index" ]]; then
+    hyprctl reload
+fi
+
+[[ -f "$index" ]] || exit 1
 
 declare -a labels=()
 declare -a commands=()
 
-while IFS= read -r line; do
-    [[ "$line" =~ ^bind[a-z]*[[:space:]]*= ]] || continue
-
-    display=$(printf '%s\n' "$line" |
-        sed -E 's/$mainMod/SUPER/g' |
-        sed -E 's/^bind[a-z]*\s*=\s*([^#]+)#\s*(.*)/\2  ->  \1/' |
-        sed -E 's/^bind[a-z]*\s*=\s*(.*)/\1/')
-
-    labels+=("$display")
-
-    raw="${line%%#*}"
-    raw="${raw#*=}"
-
-    IFS=',' read -r mods key dispatcher command <<<"$raw"
-
-    dispatcher="${dispatcher//[[:space:]]/}"
-
-    command="${command#"${command%%[![:space:]]*}"}"
-    command="${command%"${command##*[![:space:]]}"}"
-    command="${command//\$terminal/ghostty}"
-    command="${command//\$fileManager/thunar}"
-    command="${command//\$menu/hyprlauncher}"
-
-    if [[ "$dispatcher" == "exec" ]]; then
-        commands+=("$command")
-    else
-        commands+=("")
-    fi
-done <"$config"
+while IFS=$'\t' read -r label command; do
+    [[ -n "$label" ]] || continue
+    labels+=("$label")
+    commands+=("$command")
+done <"$index"
 
 ((${#labels[@]})) || exit 0
 
@@ -41,9 +25,9 @@ selected=$(
     printf '%s\n' "${labels[@]}" |
         fuzzel --dmenu \
             --index \
-            --prompt="󰌌 Keybinds: " \
+            --prompt="󰌌 Keybindings: " \
             --width=100 \
-            --lines=15
+            --lines=20
 )
 
 [[ "$selected" =~ ^[0-9]+$ ]] || exit 0
@@ -52,5 +36,5 @@ selected=$(
 command="${commands[$selected]}"
 
 if [[ -n "$command" ]]; then
-    hyprctl dispatch exec "$command"
+    bash -lc "$command"
 fi

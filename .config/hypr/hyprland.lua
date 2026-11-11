@@ -199,97 +199,116 @@ hl.device({
 })
 
 -- Keybindings
-local function bind(key, dispatcher, opts)
-	hl.bind(key, dispatcher, opts)
-end
+local keybinds = dofile(HOME .. "/.config/hypr/scripts/keybindings.lua")
 
-local function exec(key, command, opts)
-	bind(key, hl.dsp.exec_cmd(command), opts)
-end
+local bind = keybinds.bind
+local exec = keybinds.exec
 
-exec("SUPER+RETURN", terminal)
-exec("SUPER+E", fileManager)
-bind("SUPER+V", hl.dsp.window.float({ action = "toggle" }))
-exec("SUPER+R", "pkill -SIGUSR2 waybar")
-bind("SUPER+P", hl.dsp.window.pseudo())
-bind("SUPER+TAB", hl.dsp.layout("togglesplit"))
-bind("SUPER+F", hl.dsp.window.fullscreen({ action = "toggle" }))
-bind("SUPER+G", hl.dsp.group.toggle())
+exec("SUPER+RETURN", terminal) -- Open terminal
+exec("SUPER+E", fileManager) -- Open file manager
+bind("SUPER+V", hl.dsp.window.float({ action = "toggle" })) -- Toggle floating window
+exec("SUPER+R", "pkill -SIGUSR2 waybar") -- Reload Waybar
+bind("SUPER+P", hl.dsp.window.pseudo()) -- Toggle pseudo-tiling
+bind("SUPER+TAB", hl.dsp.layout("togglesplit")) -- Toggle split layout
+bind("SUPER+F", hl.dsp.window.fullscreen({ action = "toggle" })) -- Toggle fullscreen
+
+-- Group manipulation
+bind("SUPER+G", hl.dsp.group.toggle()) -- Toggle window group
+
+-- Add window to an existing group, or create one in that direction
+bind("SUPER+ALT+H", hl.dsp.window.move({ into_or_create_group = "left" })) -- Add window to group on the left
+bind("SUPER+ALT+L", hl.dsp.window.move({ into_or_create_group = "right" })) -- Add window to group on the right
+bind("SUPER+ALT+K", hl.dsp.window.move({ into_or_create_group = "up" })) -- Add window to group above
+bind("SUPER+ALT+J", hl.dsp.window.move({ into_or_create_group = "down" })) -- Add window to group below
+
+-- Remove active window from its group
+bind("SUPER+ALT+G", hl.dsp.window.move({ out_of_group = true })) -- Remove window from group
+
+-- Switch between windows inside the group
+bind("SUPER+CONTROL+TAB", hl.dsp.group.next()) -- Next window in group
+bind("SUPER+CONTROL+SHIFT+TAB", hl.dsp.group.prev()) -- Previous window in group
+
+-- Reorder windows inside the group
+bind("SUPER+SHIFT+CONTROL+H", hl.dsp.group.move_window({ forward = false })) -- Move group tab backward
+bind("SUPER+SHIFT+CONTROL+L", hl.dsp.group.move_window({ forward = true })) -- Move group tab forward
 
 -- Session / application commands
-exec("SUPER+SHIFT+M", "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit")
-exec("SUPER+SHIFT+R", "hyprctl reload; pkill waybar; waybar >/dev/null 2>&1 &")
-bind("SUPER+SHIFT+C", hl.dsp.window.close())
-exec("SUPER+SHIFT+RETURN", "fuzzel")
-exec("SUPER+SHIFT+Q", HOME .. "/.local/scripts/fuzzel-powermenu")
-exec("SUPER+SHIFT+I", HOME .. "/.local/scripts/input-switch")
-exec("SUPER+SHIFT+O", HOME .. "/.local/scripts/output-switch")
-exec("SUPER+SHIFT+X", terminal .. " --title='hyprmoncfg-float' -e hyprmoncfg")
-bind("SUPER+SHIFT+A", hl.dsp.workspace.toggle_special("ai-watcher"))
-exec("SUPER+A", terminal .. " --title='wiremix-float' -e wiremix")
-exec("SUPER+ESCAPE", terminal .. " --title='btop-float' -e bpytop")
-exec("SUPER+Y", "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy")
-exec("SUPER+B", "pkill waybar || waybar")
-exec("SUPER+T", HOME .. "/.local/scripts/fuzzel-keybindings")
-exec("SUPER+CONTROL+S", "bash -c 'grim -g \"$(slurp)\" - | satty -f - --copy-command wl-copy'")
-exec("SUPER+CONTROL+A", "bash -c 'grim -t png - | satty --filename - --copy-command wl-copy'")
+exec("SUPER+SHIFT+M", "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit") -- Exit Hyprland
+exec("SUPER+SHIFT+R", "hyprctl reload; pkill waybar; waybar >/dev/null 2>&1 &") -- Reload Hyprland and Waybar
+bind("SUPER+SHIFT+C", hl.dsp.window.close()) -- Close active window
+exec("SUPER+SHIFT+RETURN", "fuzzel") -- Open application launcher
+exec("SUPER+SHIFT+Q", HOME .. "/.local/scripts/fuzzel-powermenu") -- Open power menu
+exec("SUPER+SHIFT+I", HOME .. "/.local/scripts/input-switch") -- Switch input device
+exec("SUPER+SHIFT+O", HOME .. "/.local/scripts/output-switch") -- Switch audio output
+exec("SUPER+SHIFT+X", terminal .. " --title='hyprmoncfg-float' -e hyprmoncfg") -- Open monitor configuration
+bind("SUPER+SHIFT+A", hl.dsp.workspace.toggle_special("ai-watcher")) -- Toggle AI workspace
+exec("SUPER+A", terminal .. " --title='wiremix-float' -e wiremix") -- Open WireMix audio mixer
+exec("SUPER+ESCAPE", terminal .. " --title='btop-float' -e bpytop") -- Open system monitor
+exec("SUPER+Y", "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy") -- Open clipboard history
+exec("SUPER+B", "pkill waybar || waybar") -- Toggle Waybar
+exec("SUPER+T", HOME .. "/.local/scripts/fuzzel-keybindings") -- Show keyboard shortcuts
+exec("SUPER+CONTROL+S", "bash -c 'grim -g \"$(slurp)\" - | satty -f - --copy-command wl-copy'") -- Take selected-area screenshot
+exec("SUPER+CONTROL+A", "bash -c 'grim -t png - | satty --filename - --copy-command wl-copy'") -- Take full-screen screenshot
 
 -- Focus
-bind("SUPER+LEFT", hl.dsp.focus({ direction = "left" }))
-bind("SUPER+RIGHT", hl.dsp.focus({ direction = "right" }))
-bind("SUPER+UP", hl.dsp.focus({ direction = "up" }))
-bind("SUPER+DOWN", hl.dsp.focus({ direction = "down" }))
-bind("SUPER+H", hl.dsp.focus({ direction = "left" }))
-bind("SUPER+L", hl.dsp.focus({ direction = "right" }))
-bind("SUPER+K", hl.dsp.focus({ direction = "up" }))
-bind("SUPER+J", hl.dsp.focus({ direction = "down" }))
+bind("SUPER+LEFT", hl.dsp.focus({ direction = "left" })) -- Focus window left
+bind("SUPER+RIGHT", hl.dsp.focus({ direction = "right" })) -- Focus window right
+bind("SUPER+UP", hl.dsp.focus({ direction = "up" })) -- Focus window above
+bind("SUPER+DOWN", hl.dsp.focus({ direction = "down" })) -- Focus window below
+bind("SUPER+H", hl.dsp.focus({ direction = "left" })) -- Focus window left
+bind("SUPER+L", hl.dsp.focus({ direction = "right" })) -- Focus window right
+bind("SUPER+K", hl.dsp.focus({ direction = "up" })) -- Focus window above
+bind("SUPER+J", hl.dsp.focus({ direction = "down" })) -- Focus window below
 
 -- Move windows
-bind("SUPER+SHIFT+H", hl.dsp.window.move({ direction = "left" }))
-bind("SUPER+SHIFT+L", hl.dsp.window.move({ direction = "right" }))
-bind("SUPER+SHIFT+K", hl.dsp.window.move({ direction = "up" }))
-bind("SUPER+SHIFT+J", hl.dsp.window.move({ direction = "down" }))
-bind("SUPER+SHIFT+CONTROL+H", hl.dsp.group.move_window({ forward = false }))
-bind("SUPER+SHIFT+CONTROL+L", hl.dsp.group.move_window({ forward = true }))
+bind("SUPER+SHIFT+H", hl.dsp.window.move({ direction = "left" })) -- Move window left
+bind("SUPER+SHIFT+L", hl.dsp.window.move({ direction = "right" })) -- Move window right
+bind("SUPER+SHIFT+K", hl.dsp.window.move({ direction = "up" })) -- Move window up
+bind("SUPER+SHIFT+J", hl.dsp.window.move({ direction = "down" })) -- Move window down
+bind("SUPER+SHIFT+CONTROL+H", hl.dsp.group.move_window({ forward = false })) -- Move group tab backward
+bind("SUPER+SHIFT+CONTROL+L", hl.dsp.group.move_window({ forward = true })) -- Move group tab forward
 
 -- Resize windows
-bind("SUPER+CONTROL+H", hl.dsp.window.resize({ x = -30, y = 0 }), { repeating = true })
-bind("SUPER+CONTROL+L", hl.dsp.window.resize({ x = 30, y = 0 }), { repeating = true })
-bind("SUPER+CONTROL+K", hl.dsp.window.resize({ x = 0, y = -30 }), { repeating = true })
-bind("SUPER+CONTROL+J", hl.dsp.window.resize({ x = 0, y = 30 }), { repeating = true })
+bind("SUPER+CONTROL+H", hl.dsp.window.resize({ x = -30, y = 0, relative = true }), { repeating = true }) -- Resize window left
+bind("SUPER+CONTROL+L", hl.dsp.window.resize({ x = 30, y = 0, relative = true }), { repeating = true }) -- Resize window right
+bind("SUPER+CONTROL+K", hl.dsp.window.resize({ x = 0, y = -30, relative = true }), { repeating = true }) -- Resize window up
+bind("SUPER+CONTROL+J", hl.dsp.window.resize({ x = 0, y = 30, relative = true }), { repeating = true }) -- Resize window down
 
--- Workspaces 1-10
+-- Workspaces 1-9
 for i = 1, 9 do
-	bind("SUPER+" .. tostring(i), hl.dsp.focus({ workspace = tostring(i) }))
-	bind("SUPER+SHIFT+" .. tostring(i), hl.dsp.window.move({ workspace = tostring(i) }))
+	bind("SUPER+" .. tostring(i), hl.dsp.focus({ workspace = tostring(i) })) -- Switch to workspace
+	bind("SUPER+SHIFT+" .. tostring(i), hl.dsp.window.move({ workspace = tostring(i) })) -- Move window to workspace
 end
 
-bind("SUPER+0", hl.dsp.focus({ workspace = "10" }))
-bind("SUPER+SHIFT+0", hl.dsp.window.move({ workspace = "10" }))
-bind("SUPER+S", hl.dsp.workspace.toggle_special("magic"))
-bind("SUPER+SHIFT+S", hl.dsp.window.move({ workspace = "special:magic" }))
-bind("SUPER+PERIOD", hl.dsp.focus({ monitor = "+" }))
-bind("SUPER+COMMA", hl.dsp.focus({ monitor = "-" }))
+-- Workspace 10 and special workspace
+bind("SUPER+0", hl.dsp.focus({ workspace = "10" })) -- Switch to workspace 10
+bind("SUPER+SHIFT+0", hl.dsp.window.move({ workspace = "10" })) -- Move window to workspace 10
+bind("SUPER+S", hl.dsp.workspace.toggle_special("magic")) -- Toggle special workspace
+bind("SUPER+SHIFT+S", hl.dsp.window.move({ workspace = "special:magic" })) -- Move window to special workspace
+
+-- Monitor focus
+bind("SUPER+PERIOD", hl.dsp.focus({ monitor = "+" })) -- Focus next monitor
+bind("SUPER+COMMA", hl.dsp.focus({ monitor = "-" })) -- Focus previous monitor
 
 -- Mouse controls
-bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
-bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
+bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true }) -- Drag window with mouse
+bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true }) -- Resize window with mouse
 
 -- Laptop lid switch
-exec("switch:off:Lid Switch", "hyprctl keyword monitor 'eDP-1, preferred, auto, 1'", { locked = true })
-exec("switch:on:Lid Switch", "hyprctl keyword monitor 'eDP-1, disable'", { locked = true })
+exec("switch:off:Lid Switch", "hyprctl keyword monitor 'eDP-1, preferred, auto, 1'", { locked = true }) -- Enable laptop display when lid opens
+exec("switch:on:Lid Switch", "hyprctl keyword monitor 'eDP-1, disable'", { locked = true }) -- Disable laptop display when lid closes
 
 -- Multimedia keys
-exec("XF86AudioRaiseVolume", "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+", { repeating = true, locked = true })
-exec("XF86AudioLowerVolume", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-", { repeating = true, locked = true })
-exec("XF86AudioMute", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle", { locked = true })
-exec("XF86AudioMicMute", "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle", { locked = true })
-exec("XF86MonBrightnessUp", "brightnessctl -e4 -n2 set 5%+", { repeating = true, locked = true })
-exec("XF86MonBrightnessDown", "brightnessctl -e4 -n2 set 5%-", { repeating = true, locked = true })
-exec("XF86AudioNext", "playerctl next", { locked = true })
-exec("XF86AudioPause", "playerctl play-pause", { locked = true })
-exec("XF86AudioPlay", "playerctl play-pause", { locked = true })
-exec("XF86AudioPrev", "playerctl previous", { locked = true })
+exec("XF86AudioRaiseVolume", "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+", { repeating = true, locked = true }) -- Increase volume
+exec("XF86AudioLowerVolume", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-", { repeating = true, locked = true }) -- Decrease volume
+exec("XF86AudioMute", "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle", { locked = true }) -- Toggle audio mute
+exec("XF86AudioMicMute", "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle", { locked = true }) -- Toggle microphone mute
+exec("XF86MonBrightnessUp", "brightnessctl -e4 -n2 set 5%+", { repeating = true, locked = true }) -- Increase screen brightness
+exec("XF86MonBrightnessDown", "brightnessctl -e4 -n2 set 5%-", { repeating = true, locked = true }) -- Decrease screen brightness
+exec("XF86AudioNext", "playerctl next", { locked = true }) -- Play next track
+exec("XF86AudioPause", "playerctl play-pause", { locked = true }) -- Pause media playback
+exec("XF86AudioPlay", "playerctl play-pause", { locked = true }) -- Toggle media playback
+exec("XF86AudioPrev", "playerctl previous", { locked = true }) -- Play previous track
 
 -- Window rules
 hl.window_rule({
@@ -450,5 +469,21 @@ do
 	end
 end
 
+do
+	local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"
+	local file = io.open(path, "r")
+	if file then
+		file:close()
+		dofile(path)
+	end
+end
+
 -- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
-do local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end
+do
+	local path = os.getenv("HOME") .. "/.config/hypr/hyprmoncfg-monitors.lua"
+	local file = io.open(path, "r")
+	if file then
+		file:close()
+		dofile(path)
+	end
+end
